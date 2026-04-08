@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JustOSINT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="dark">
+  <div class="bg-layer"></div>
+  <main class="app-shell">
+    <header class="topbar panel">
+      <div class="brand">
+        <p class="kicker">Open Source Intelligence Workbench</p>
+        <h1>JustOSINT Navigator</h1>
+      </div>
+
+      <label class="search-wrap" for="searchInput">
+        <span>Find nodes, tools, tags</span>
+        <input id="searchInput" type="search" placeholder="public records, geolocation, dns, username..." autocomplete="off" />
+      </label>
+
+      <div class="top-actions">
+        <button id="homeBtn" class="rail-btn" type="button">Home</button>
+        <button id="knowledgeBtn" class="rail-btn active" type="button">Knowledge</button>
+        <button id="flowBtn" class="rail-btn" type="button">Flow</button>
+        <button id="statsBtn" class="rail-btn" type="button">Stats</button>
+        <button id="themeToggle" class="rail-btn" type="button">Theme</button>
+      </div>
+    </header>
+
+    <aside class="left-rail panel">
+      <div class="segment-wrap">
+        <div class="segmented">
+          <button id="foldersModeBtn" class="seg-btn active" type="button">Folders</button>
+          <button id="tagsModeBtn" class="seg-btn" type="button">Tags</button>
+        </div>
+      </div>
+
+      <div class="stack tree-panel">
+        <div class="tree-head">
+          <h2>Knowledge Tree</h2>
+          <span class="tree-badge">12</span>
+        </div>
+        <nav id="categoryNav" class="category-nav" aria-label="OSINT categories"></nav>
+      </div>
+    </aside>
+
+    <section class="board panel">
+      <header class="board-top">
+        <h2 id="boardTitle">Interactive OSINT Tree</h2>
+        <div class="board-actions">
+          <button id="expandAllBtn" class="btn ghost" type="button">Expand All</button>
+          <button id="collapseAllBtn" class="btn ghost" type="button">Collapse All</button>
+          <button id="zoomOutBtn" class="btn ghost" type="button">-</button>
+          <button id="zoomInBtn" class="btn ghost" type="button">+</button>
+          <span id="zoomLabel" class="mode-pill">100%</span>
+        </div>
+      </header>
+
+      <div id="treeStage" class="tree-stage">
+        <div id="treeViewport" class="tree-viewport">
+          <svg id="graphSvg" class="graph-svg" aria-hidden="true"></svg>
+          <div id="interactiveTree" class="interactive-tree" role="tree" aria-label="Interactive OSINT tree"></div>
+        </div>
+      </div>
+
+      <div id="resultsMeta" class="results-meta">Showing all resources</div>
+      <div id="actionStatus" class="results-meta">Ready.</div>
+      <div id="cardsRoot" class="cards-root hidden" aria-live="polite"></div>
+    </section>
+
+    <aside class="right-rail panel">
+      <div class="stack rating-panel">
+        <h2>Community Rating</h2>
+        <div class="stars" aria-label="community rating">★★★★★</div>
+        <p class="rating-value">0 / 5.0 (demo)</p>
+        <button id="submitScoreBtn" class="btn" type="button">Submit Score</button>
+      </div>
+
+      <div class="stack issue-panel">
+        <h2>Report An Issue</h2>
+        <div class="checks">
+          <label><input type="checkbox" id="issueDead" aria-label="Dead link" /> Dead link</label>
+          <label><input type="checkbox" id="issuePaywalled" aria-label="Paywalled" /> Paywalled</label>
+          <label><input type="checkbox" id="issueIncorrect" aria-label="Incorrect info" /> Incorrect info</label>
+        </div>
+        <button id="sendFeedbackBtn" class="btn ghost" type="button">Send Feedback</button>
+      </div>
+
+      <p class="credits">Made by Influence</p>
+    </aside>
+  </main>
+
+  <template id="categoryTemplate">
+    <article class="category-card" data-category="">
+      <header>
+        <h3></h3>
+        <span class="count-pill"></span>
+      </header>
+      <div class="tool-list"></div>
+    </article>
+  </template>
+
+  <template id="toolTemplate">
+    <a class="tool-item" href="#" target="_blank" rel="noreferrer noopener">
+      <span class="tool-name">Tool</span>
+      <span class="tool-tag"></span>
+    </a>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>
