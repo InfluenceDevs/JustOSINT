@@ -197,6 +197,142 @@ const osintData = [
       { name: "Perma.cc", url: "https://perma.cc/", tag: "legal archive" },
       { name: "ArchiveBox", url: "https://archivebox.io/", tag: "self hosted" }
     ]
+  },
+  {
+    category: "Relatives & Family Lookup",
+    tools: [
+      { name: "FamilySearch", url: "https://www.familysearch.org/", tag: "genealogy" },
+      { name: "Find A Grave", url: "https://www.findagrave.com/", tag: "memorial" },
+      { name: "TruePeopleSearch", url: "https://www.truepeoplesearch.com/", tag: "people search" },
+      { name: "Whitepages", url: "https://www.whitepages.com/", tag: "directory" },
+      { name: "Spokeo", url: "https://www.spokeo.com/", tag: "aggregator" },
+      { name: "FastPeopleSearch", url: "https://www.fastpeoplesearch.com/", tag: "people search" },
+      { name: "Thatsthem", url: "https://thatsthem.com/", tag: "identity" },
+      { name: "AnyWho", url: "https://www.anywho.com/", tag: "directory" },
+      { name: "ClustrMaps", url: "https://clustrmaps.com/", tag: "address links" },
+      { name: "USSearch", url: "https://www.ussearch.com/", tag: "records" },
+      { name: "FamilyTreeNow", url: "https://www.familytreenow.com/", tag: "family graph" },
+      { name: "PeopleFinders", url: "https://www.peoplefinders.com/", tag: "people search" }
+    ]
+  },
+  {
+    category: "Dating & Relationships",
+    tools: [
+      { name: "Bumble", url: "https://bumble.com/", tag: "dating profile" },
+      { name: "Tinder", url: "https://tinder.com/", tag: "dating profile" },
+      { name: "Hinge", url: "https://hinge.co/", tag: "dating profile" },
+      { name: "OkCupid", url: "https://www.okcupid.com/", tag: "dating profile" },
+      { name: "Match", url: "https://www.match.com/", tag: "dating profile" },
+      { name: "Plenty of Fish", url: "https://www.pof.com/", tag: "dating profile" },
+      { name: "eHarmony", url: "https://www.eharmony.com/", tag: "dating profile" },
+      { name: "Badoo", url: "https://badoo.com/", tag: "dating profile" },
+      { name: "Coffee Meets Bagel", url: "https://coffeemeetsbagel.com/", tag: "dating profile" },
+      { name: "BLK", url: "https://blk-app.com/", tag: "dating profile" },
+      { name: "Feeld", url: "https://feeld.co/", tag: "dating profile" },
+      { name: "Boo", url: "https://boo.world/", tag: "dating profile" }
+    ]
+  },
+  {
+    category: "People Search & Identity",
+    tools: [
+      { name: "Pipl", url: "https://pipl.com/", tag: "identity" },
+      { name: "PeekYou", url: "https://www.peekyou.com/", tag: "username" },
+      { name: "Radaris", url: "https://radaris.com/", tag: "people search" },
+      { name: "Nuwber", url: "https://nuwber.com/", tag: "people search" },
+      { name: "BeenVerified", url: "https://www.beenverified.com/", tag: "background" },
+      { name: "Intelius", url: "https://www.intelius.com/", tag: "background" },
+      { name: "TruthFinder", url: "https://www.truthfinder.com/", tag: "background" },
+      { name: "PeopleLooker", url: "https://www.peoplelooker.com/", tag: "background" },
+      { name: "ZabaSearch", url: "https://www.zabasearch.com/", tag: "directory" },
+      { name: "AddressSearch", url: "https://addresssearch.com/", tag: "address" },
+      { name: "NeighborWho", url: "https://www.neighborwho.com/", tag: "property" },
+      { name: "LocatePeople", url: "https://www.locatepeople.org/", tag: "people search" }
+    ]
+  },
+  {
+    category: "Property & Address Records",
+    tools: [
+      { name: "Zillow", url: "https://www.zillow.com/", tag: "property" },
+      { name: "Realtor", url: "https://www.realtor.com/", tag: "property" },
+      { name: "Redfin", url: "https://www.redfin.com/", tag: "property" },
+      { name: "Trulia", url: "https://www.trulia.com/", tag: "property" },
+      { name: "County Office", url: "https://www.countyoffice.org/", tag: "public records" },
+      { name: "PropertyShark", url: "https://www.propertyshark.com/", tag: "records" },
+      { name: "OnXmaps", url: "https://www.onxmaps.com/", tag: "parcel maps" },
+      { name: "Landgrid", url: "https://landgrid.com/", tag: "parcel maps" },
+      { name: "Regrid", url: "https://regrid.com/", tag: "parcel maps" },
+      { name: "BatchGeo", url: "https://batchgeo.com/", tag: "mapping" },
+      { name: "OpenAddresses", url: "https://openaddresses.io/", tag: "open data" },
+      { name: "Assessor Parcel Search", url: "https://www.nass.org/business-services/business-resource-center", tag: "county assessor" }
+    ]
+  },
+  {
+    category: "Court, Marriage & Divorce",
+    tools: [
+      { name: "RECAP Archive", url: "https://www.courtlistener.com/recap/", tag: "court dockets" },
+      { name: "JudyRecords", url: "https://www.judyrecords.com/", tag: "court records" },
+      { name: "UniCourt", url: "https://unicourt.com/", tag: "court records" },
+      { name: "Trellis", url: "https://trellis.law/", tag: "state courts" },
+      { name: "VitalChek", url: "https://www.vitalchek.com/", tag: "vital records" },
+      { name: "CDC Vital Records", url: "https://www.cdc.gov/nchs/w2w/index.htm", tag: "vital records" },
+      { name: "State Courts Directory", url: "https://www.ncsc.org/information-and-resources/state-court-websites", tag: "court links" },
+      { name: "Justia Dockets", url: "https://dockets.justia.com/", tag: "court dockets" },
+      { name: "Law360", url: "https://www.law360.com/", tag: "legal news" },
+      { name: "State Marriage Indexes", url: "https://www.familysearch.org/search/collection/list", tag: "marriage" },
+      { name: "State Divorce Indexes", url: "https://www.familysearch.org/search/collection/list", tag: "divorce" },
+      { name: "PublicData Check", url: "https://publicdatacheck.com/", tag: "background" }
+    ]
+  },
+  {
+    category: "Messaging & Community Signals",
+    tools: [
+      { name: "Telegram", url: "https://telegram.org/", tag: "messaging" },
+      { name: "Discord", url: "https://discord.com/", tag: "community" },
+      { name: "Reddit", url: "https://www.reddit.com/", tag: "community" },
+      { name: "4chan Archive", url: "https://archive.4plebs.org/", tag: "forum archive" },
+      { name: "Lemmy Explorer", url: "https://join-lemmy.org/instances", tag: "fediverse" },
+      { name: "Discord.me", url: "https://discord.me/", tag: "server discovery" },
+      { name: "TelegramDB", url: "https://telegramdb.org/", tag: "channel discovery" },
+      { name: "Disboard", url: "https://disboard.org/", tag: "server discovery" },
+      { name: "Top.gg", url: "https://top.gg/servers", tag: "server discovery" },
+      { name: "Kbin Instances", url: "https://kbin.pub/en", tag: "fediverse" },
+      { name: "Usenet CSE", url: "https://cse.google.com/cse?cx=010582677517954599991:2x8jzj7y6gc", tag: "archives" },
+      { name: "BoardReader", url: "https://boardreader.com/", tag: "forum search" }
+    ]
+  },
+  {
+    category: "Genealogy & Historical People",
+    tools: [
+      { name: "Ancestry", url: "https://www.ancestry.com/", tag: "genealogy" },
+      { name: "MyHeritage", url: "https://www.myheritage.com/", tag: "genealogy" },
+      { name: "Geni", url: "https://www.geni.com/", tag: "family tree" },
+      { name: "WikiTree", url: "https://www.wikitree.com/", tag: "family tree" },
+      { name: "Cyndi's List", url: "https://www.cyndislist.com/", tag: "genealogy links" },
+      { name: "NARA Genealogy", url: "https://www.archives.gov/research/genealogy", tag: "us archives" },
+      { name: "Ellis Island Records", url: "https://heritage.statueofliberty.org/", tag: "immigration" },
+      { name: "JewishGen", url: "https://www.jewishgen.org/", tag: "genealogy" },
+      { name: "Findmypast", url: "https://www.findmypast.com/", tag: "records" },
+      { name: "BillionGraves", url: "https://billiongraves.com/", tag: "cemetery" },
+      { name: "The National Archives UK", url: "https://www.nationalarchives.gov.uk/", tag: "archives" },
+      { name: "ArchiveGrid", url: "https://researchworks.oclc.org/archivegrid/", tag: "archive search" }
+    ]
+  },
+  {
+    category: "Employment & Professional",
+    tools: [
+      { name: "LinkedIn", url: "https://www.linkedin.com/", tag: "professional" },
+      { name: "Xing", url: "https://www.xing.com/", tag: "professional" },
+      { name: "RocketReach", url: "https://rocketreach.co/", tag: "contacts" },
+      { name: "Apollo", url: "https://www.apollo.io/", tag: "contacts" },
+      { name: "ZoomInfo", url: "https://www.zoominfo.com/", tag: "company intel" },
+      { name: "Crunchbase", url: "https://www.crunchbase.com/", tag: "companies" },
+      { name: "BuiltIn", url: "https://builtin.com/", tag: "company profiles" },
+      { name: "Wellfound", url: "https://wellfound.com/", tag: "startup people" },
+      { name: "Indeed Company Pages", url: "https://www.indeed.com/companies", tag: "company profiles" },
+      { name: "Glassdoor", url: "https://www.glassdoor.com/", tag: "employment" },
+      { name: "OpenSecrets", url: "https://www.opensecrets.org/", tag: "influence" },
+      { name: "LittleSis", url: "https://littlesis.org/", tag: "network mapping" }
+    ]
   }
 ];
 
@@ -219,12 +355,20 @@ const homeBtn = document.getElementById("homeBtn");
 const knowledgeBtn = document.getElementById("knowledgeBtn");
 const flowBtn = document.getElementById("flowBtn");
 const statsBtn = document.getElementById("statsBtn");
+const workspaceBtn = document.getElementById("workspaceBtn");
 const foldersModeBtn = document.getElementById("foldersModeBtn");
 const tagsModeBtn = document.getElementById("tagsModeBtn");
 const expandAllBtn = document.getElementById("expandAllBtn");
 const collapseAllBtn = document.getElementById("collapseAllBtn");
 const zoomOutBtn = document.getElementById("zoomOutBtn");
 const zoomInBtn = document.getElementById("zoomInBtn");
+const boardActions = document.querySelector(".board-actions");
+const workspacePanel = document.getElementById("workspacePanel");
+const clearWorkspaceBtn = document.getElementById("clearWorkspaceBtn");
+const cardForm = document.getElementById("cardForm");
+const pasteForm = document.getElementById("pasteForm");
+const cardList = document.getElementById("cardList");
+const pasteList = document.getElementById("pasteList");
 const submitScoreBtn = document.getElementById("submitScoreBtn");
 const sendFeedbackBtn = document.getElementById("sendFeedbackBtn");
 const issueDead = document.getElementById("issueDead");
@@ -236,6 +380,11 @@ let query = "";
 let navMode = "folders";
 let treeZoom = 1;
 let boardMode = "tree";
+const workspaceStorageKey = "justOsintWorkspaceV1";
+const workspaceState = {
+  cards: [],
+  pastes: []
+};
 const expandedCategories = new Set(["Public Records", "Search Engines", "Domain Name"]);
 const expandedFlowNodes = new Set(["root", "cat:Public Records", "cat:Search Engines", "cat:Domain Name"]);
 
@@ -266,8 +415,97 @@ function setStatus(text) {
   actionStatus.textContent = text;
 }
 
+function loadWorkspaceState() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(workspaceStorageKey) || "{}");
+    workspaceState.cards = Array.isArray(parsed.cards) ? parsed.cards : [];
+    workspaceState.pastes = Array.isArray(parsed.pastes) ? parsed.pastes : [];
+  } catch (_error) {
+    workspaceState.cards = [];
+    workspaceState.pastes = [];
+  }
+}
+
+function saveWorkspaceState() {
+  localStorage.setItem(workspaceStorageKey, JSON.stringify(workspaceState));
+}
+
+function workspaceSummaryText() {
+  return `Workspace: ${workspaceState.cards.length} card(s), ${workspaceState.pastes.length} paste(s).`;
+}
+
+function formatTimestamp(timestamp) {
+  return new Date(timestamp).toLocaleString();
+}
+
+function escapeHtml(value) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function renderWorkspaceLists() {
+  cardList.innerHTML = "";
+  pasteList.innerHTML = "";
+
+  if (!workspaceState.cards.length) {
+    cardList.innerHTML = '<p class="workspace-empty">No cards yet. Create your first case card.</p>';
+  } else {
+    workspaceState.cards
+      .slice()
+      .sort((a, b) => b.createdAt - a.createdAt)
+      .forEach((card) => {
+        const item = document.createElement("article");
+        item.className = "workspace-item";
+        const category = card.category ? `#${escapeHtml(card.category)}` : "#general";
+        item.innerHTML = `
+          <h4>${escapeHtml(card.title)}</h4>
+          <span class="workspace-meta">${category} • ${formatTimestamp(card.createdAt)}</span>
+          <p>${escapeHtml(card.body)}</p>
+          <div class="workspace-item-actions">
+            <button class="workspace-mini-btn" type="button" data-action="delete-card" data-id="${card.id}">Delete</button>
+          </div>
+        `;
+        cardList.appendChild(item);
+      });
+  }
+
+  if (!workspaceState.pastes.length) {
+    pasteList.innerHTML = '<p class="workspace-empty">No pastes yet. Save raw output here.</p>';
+  } else {
+    workspaceState.pastes
+      .slice()
+      .sort((a, b) => b.createdAt - a.createdAt)
+      .forEach((paste) => {
+        const item = document.createElement("article");
+        item.className = "workspace-item";
+        item.innerHTML = `
+          <h4>${escapeHtml(paste.title || "Untitled paste")}</h4>
+          <span class="workspace-meta">${formatTimestamp(paste.createdAt)}</span>
+          <p>${escapeHtml(paste.content)}</p>
+          <div class="workspace-item-actions">
+            <button class="workspace-mini-btn" type="button" data-action="copy-paste" data-id="${paste.id}">Copy</button>
+            <button class="workspace-mini-btn" type="button" data-action="delete-paste" data-id="${paste.id}">Delete</button>
+          </div>
+        `;
+        pasteList.appendChild(item);
+      });
+  }
+
+  resultsMeta.textContent = workspaceSummaryText();
+}
+
+function toggleWorkspaceView(active) {
+  treeStage.classList.toggle("hidden", active);
+  workspacePanel.classList.toggle("hidden", !active);
+  boardActions.classList.toggle("hidden", active);
+}
+
 function setActiveRail(button) {
-  [homeBtn, knowledgeBtn, flowBtn, statsBtn].forEach((btn) => btn.classList.remove("active"));
+  [homeBtn, knowledgeBtn, flowBtn, statsBtn, workspaceBtn].forEach((btn) => btn.classList.remove("active"));
   button.classList.add("active");
 }
 
@@ -720,7 +958,15 @@ function renderStatsMode() {
   interactiveTree.appendChild(summary);
 }
 
+function renderWorkspaceMode() {
+  renderWorkspaceLists();
+}
+
 function renderInteractiveTree() {
+  if (boardMode === "workspace") {
+    renderWorkspaceMode();
+    return;
+  }
   if (boardMode === "graph") {
     renderGraphMode();
     return;
@@ -734,10 +980,13 @@ function renderInteractiveTree() {
 
 function setBoardMode(mode) {
   boardMode = mode;
+  toggleWorkspaceView(mode === "workspace");
   if (mode === "tree") {
     boardTitle.textContent = "Knowledge Tree";
   } else if (mode === "graph") {
     boardTitle.textContent = "Graph View";
+  } else if (mode === "workspace") {
+    boardTitle.textContent = "Workspace";
   } else {
     boardTitle.textContent = "Tree + Stats";
   }
@@ -782,7 +1031,11 @@ function renderAll() {
   const groups = filterData();
   renderSidebar();
   renderInteractiveTree();
-  renderMeta(groups);
+  if (boardMode === "workspace") {
+    resultsMeta.textContent = workspaceSummaryText();
+  } else {
+    renderMeta(groups);
+  }
 }
 
 searchInput.addEventListener("input", (event) => {
@@ -806,10 +1059,10 @@ homeBtn.addEventListener("click", () => {
   query = "";
   searchInput.value = "";
   activeCategory = "all";
-  boardMode = "tree";
   expandedFlowNodes.clear();
   expandedFlowNodes.add("root");
   setActiveRail(homeBtn);
+  setBoardMode("tree");
   boardTitle.textContent = "Interactive OSINT Tree";
   setStatus("Reset view to home state.");
   setZoom(1);
@@ -834,6 +1087,12 @@ statsBtn.addEventListener("click", () => {
   const tags = uniqueTags(osintData);
   setStatus(`Stats: ${osintData.length} categories, ${totalTools} tools, ${tags} tags.`);
   setBoardMode("stats");
+});
+
+workspaceBtn.addEventListener("click", () => {
+  setActiveRail(workspaceBtn);
+  setStatus("Workspace mode active. Create cards or save pastes.");
+  setBoardMode("workspace");
 });
 
 themeToggle.addEventListener("click", () => {
@@ -888,6 +1147,104 @@ submitScoreBtn.addEventListener("click", () => {
 sendFeedbackBtn.addEventListener("click", () => {
   const selected = [issueDead, issuePaywalled, issueIncorrect].filter((item) => item.checked).length;
   setStatus(selected ? `Feedback queued with ${selected} issue flag(s).` : "Select at least one issue flag first.");
+});
+
+cardForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const form = new FormData(cardForm);
+  const title = String(form.get("cardTitle") || "").trim();
+  const category = String(form.get("cardCategory") || "").trim();
+  const bodyText = String(form.get("cardBody") || "").trim();
+
+  if (!title || !bodyText) {
+    setStatus("Card title and details are required.");
+    return;
+  }
+
+  workspaceState.cards.push({
+    id: crypto.randomUUID(),
+    title,
+    category,
+    body: bodyText,
+    createdAt: Date.now()
+  });
+
+  saveWorkspaceState();
+  renderWorkspaceLists();
+  cardForm.reset();
+  setStatus("Workspace card created.");
+});
+
+pasteForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const form = new FormData(pasteForm);
+  const title = String(form.get("pasteTitle") || "").trim();
+  const content = String(form.get("pasteContent") || "").trim();
+
+  if (!content) {
+    setStatus("Paste content cannot be empty.");
+    return;
+  }
+
+  workspaceState.pastes.push({
+    id: crypto.randomUUID(),
+    title,
+    content,
+    createdAt: Date.now()
+  });
+
+  saveWorkspaceState();
+  renderWorkspaceLists();
+  pasteForm.reset();
+  setStatus("Paste saved to workspace.");
+});
+
+clearWorkspaceBtn.addEventListener("click", () => {
+  if (!confirm("Clear all cards and pastes from local workspace?")) {
+    return;
+  }
+  workspaceState.cards = [];
+  workspaceState.pastes = [];
+  saveWorkspaceState();
+  renderWorkspaceLists();
+  setStatus("Workspace cleared.");
+});
+
+cardList.addEventListener("click", (event) => {
+  const button = event.target.closest("button[data-action='delete-card']");
+  if (!button) return;
+  const id = button.dataset.id;
+  workspaceState.cards = workspaceState.cards.filter((card) => card.id !== id);
+  saveWorkspaceState();
+  renderWorkspaceLists();
+  setStatus("Card removed.");
+});
+
+pasteList.addEventListener("click", async (event) => {
+  const button = event.target.closest("button[data-action]");
+  if (!button) return;
+
+  const id = button.dataset.id;
+  const action = button.dataset.action;
+  const paste = workspaceState.pastes.find((entry) => entry.id === id);
+  if (!paste) return;
+
+  if (action === "delete-paste") {
+    workspaceState.pastes = workspaceState.pastes.filter((entry) => entry.id !== id);
+    saveWorkspaceState();
+    renderWorkspaceLists();
+    setStatus("Paste removed.");
+    return;
+  }
+
+  if (action === "copy-paste") {
+    try {
+      await navigator.clipboard.writeText(paste.content);
+      setStatus("Paste copied to clipboard.");
+    } catch (_error) {
+      setStatus("Clipboard copy blocked by browser permissions.");
+    }
+  }
 });
 
 (function enableDragPan() {
@@ -968,6 +1325,7 @@ sendFeedbackBtn.addEventListener("click", () => {
 })();
 
 setZoom(1);
+loadWorkspaceState();
 updateTreeBadge();
 renderAll();
 setStatus("Ready. Drag the canvas to pan, zoom controls to scale, and Flow for graph mode.");

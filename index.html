@@ -28,6 +28,7 @@
         <button id="knowledgeBtn" class="rail-btn active" type="button">Knowledge</button>
         <button id="flowBtn" class="rail-btn" type="button">Flow</button>
         <button id="statsBtn" class="rail-btn" type="button">Stats</button>
+        <button id="workspaceBtn" class="rail-btn" type="button">Workspace</button>
         <button id="themeToggle" class="rail-btn" type="button">Theme</button>
       </div>
     </header>
@@ -67,6 +68,41 @@
           <div id="interactiveTree" class="interactive-tree" role="tree" aria-label="Interactive OSINT tree"></div>
         </div>
       </div>
+
+      <section id="workspacePanel" class="workspace-panel hidden" aria-label="Investigation workspace">
+        <div class="workspace-toolbar">
+          <p>Build quick case notes using cards and raw text pastes. Data is saved locally in your browser.</p>
+          <button id="clearWorkspaceBtn" class="btn ghost" type="button">Clear Workspace</button>
+        </div>
+
+        <div class="workspace-grid">
+          <article class="workspace-column">
+            <h3>Cards</h3>
+            <form id="cardForm" class="workspace-form">
+              <label for="cardTitle">Title</label>
+              <input id="cardTitle" name="cardTitle" type="text" placeholder="Lead summary" maxlength="120" required />
+              <label for="cardCategory">Category</label>
+              <input id="cardCategory" name="cardCategory" type="text" placeholder="person, domain, case" maxlength="80" />
+              <label for="cardBody">Details</label>
+              <textarea id="cardBody" name="cardBody" rows="4" placeholder="Key findings and next action..." maxlength="1200" required></textarea>
+              <button class="btn" type="submit">Create Card</button>
+            </form>
+            <div id="cardList" class="workspace-list" aria-live="polite"></div>
+          </article>
+
+          <article class="workspace-column">
+            <h3>Pastes</h3>
+            <form id="pasteForm" class="workspace-form">
+              <label for="pasteTitle">Label</label>
+              <input id="pasteTitle" name="pasteTitle" type="text" placeholder="Raw output" maxlength="120" />
+              <label for="pasteContent">Paste text</label>
+              <textarea id="pasteContent" name="pasteContent" rows="8" placeholder="Paste logs, usernames, hashes, links, or snippets..." maxlength="6000" required></textarea>
+              <button class="btn" type="submit">Save Paste</button>
+            </form>
+            <div id="pasteList" class="workspace-list" aria-live="polite"></div>
+          </article>
+        </div>
+      </section>
 
       <div id="resultsMeta" class="results-meta">Showing all resources</div>
       <div id="actionStatus" class="results-meta">Ready.</div>

@@ -8,9 +8,10 @@ JustOSINT presents a category-based intelligence toolkit with:
 
 - Interactive category tree and flow views
 - Search across nodes, tools, and tags
-- Quick access to curated links across major OSINT domains
+- 220 curated tools across major OSINT domains (including relatives and dating-focused discovery)
 - Light and dark theme toggle
 - Zoom and expand/collapse controls for easier navigation
+- Workspace mode for creating local cards and storing text pastes
 
 ## Project Structure
 
