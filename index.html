@@ -14,11 +14,14 @@
 <header id="topbar">
   <div class="topbar-brand">
     <span class="brand-icon">⬡</span>
-    <span class="brand-name">JustOSINT</span>
+    <div class="brand-lockup">
+      <span class="brand-name">JustOSINT</span>
+      <span class="brand-credit">Built by Influence</span>
+    </div>
   </div>
   <div class="topbar-search">
     <span class="search-icon">⌕</span>
-    <input id="searchInput" type="text" placeholder="Search 1,100+ tools by name, description, or category…" autocomplete="off" spellcheck="false" />
+    <input id="searchInput" type="text" placeholder="Search 1,150+ tools by name, description, or category…" autocomplete="off" spellcheck="false" />
     <button id="searchClear" class="search-clear" title="Clear search" aria-label="Clear search">✕</button>
   </div>
   <div class="topbar-actions">
@@ -44,6 +47,10 @@
     <nav id="catNav">
       <!-- Injected by JS -->
     </nav>
+    <div class="sidebar-credit">
+      <div class="sidebar-credit-label">Credits</div>
+      <div class="sidebar-credit-line">Designed and built by Influence.</div>
+    </div>
   </aside>
 
   <!-- ── MAIN CONTENT ──────────────────── -->
@@ -71,6 +78,15 @@
         <button class="req-filter" data-req="dork">
           <span class="badge-dot dork"></span>Dork
         </button>
+      </div>
+      <div id="facetFilters">
+        <button class="facet-filter active" data-facet="all">Any Source</button>
+        <button class="facet-filter" data-facet="people">People</button>
+        <button class="facet-filter" data-facet="infra">Infra</button>
+        <button class="facet-filter" data-facet="media">Media</button>
+        <button class="facet-filter" data-facet="government">Government</button>
+        <button class="facet-filter" data-facet="dataset">Datasets</button>
+        <button class="facet-filter" data-facet="repo">Repo Tools</button>
       </div>
       <div id="resultMeta"></div>
     </div>

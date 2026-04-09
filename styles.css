@@ -90,6 +90,12 @@ input, textarea, select { font: inherit; }
   text-decoration: none;
 }
 
+.brand-lockup {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
 .brand-icon {
   font-size: 22px;
   color: var(--accent);
@@ -102,6 +108,13 @@ input, textarea, select { font: inherit; }
   letter-spacing: -0.01em;
   color: var(--text-primary);
   white-space: nowrap;
+}
+
+.brand-credit {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .topbar-search {
@@ -228,6 +241,28 @@ input, textarea, select { font: inherit; }
   padding-bottom: 16px;
 }
 
+.sidebar-credit {
+  border-top: 1px solid var(--border-subtle);
+  padding: 14px 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sidebar-credit-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.sidebar-credit-line {
+  font-size: 0.76rem;
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
 .cat-item {
   display: flex;
   align-items: center;
@@ -312,6 +347,12 @@ input, textarea, select { font: inherit; }
   flex-wrap: wrap;
 }
 
+#facetFilters {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
 .req-filter {
   display: flex;
   align-items: center;
@@ -326,13 +367,39 @@ input, textarea, select { font: inherit; }
   transition: all 0.15s;
 }
 
+.facet-filter {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text-secondary);
+  padding: 5px 11px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+
 .req-filter:hover {
   border-color: var(--text-secondary);
   color: var(--text-primary);
 }
 
+.facet-filter:hover {
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.02);
+}
+
 .req-filter.active {
   background: rgba(88,166,255,0.12);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.facet-filter.active {
+  background: rgba(88,166,255,0.1);
   border-color: var(--accent);
   color: var(--accent);
 }
@@ -782,6 +849,7 @@ input, textarea, select { font: inherit; }
   #sidebar { display: none; }
   #toolGrid { grid-template-columns: 1fr; }
   .topbar-btn .btn-label { display: none; }
+  .brand-credit { display: none; }
   :root { --panel-w: 100%; }
 }
 

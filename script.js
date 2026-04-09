@@ -1171,6 +1171,66 @@ const osintData = [
     { name: "ProtonMail users", url: "https://api.protonmail.ch/pks/lookup?op=index&search=<username>@protonmail.com", tags: ["api"], desc: "Queries ProtonMail's HKP-compatible PGP key server to look up the public key for a ProtonMail username. A successful response confirms the account exists." },
     { name: "ProtonMail Domains", url: "https://api.protonmail.ch/pks/lookup?op=index&search=<email_address>", tags: ["api"], desc: "Queries ProtonMail's HKP key server with a full email address to check for a PGP public key. Useful for identifying ProtonMail users on custom domains." },
   ]},
+  { category: "Breach & Leak Intelligence", tools: [
+    { name: "Have I Been Pwned", url: "https://haveibeenpwned.com/", tags: ["api", "paid"], desc: "Breach lookup service for checking whether email addresses, passwords, and domains appear in known data breaches and paste datasets." },
+    { name: "DeHashed", url: "https://www.dehashed.com/", tags: ["login", "api", "paid"], desc: "Commercial breach intelligence platform that searches leaked credentials, usernames, emails, IPs, and other identifiers across aggregated breach collections." },
+    { name: "Intelligence X", url: "https://intelx.io/", tags: ["login", "api", "paid"], desc: "Search engine covering leaks, historical content, public web data, darknet material, WHOIS data, and other archived intelligence sources." },
+    { name: "LeakCheck", url: "https://leakcheck.io/", tags: ["api", "paid"], desc: "Breach monitoring and lookup service for email addresses, usernames, phone numbers, and passwords from public and commercial leak sources." },
+    { name: "Snusbase", url: "https://snusbase.com/", tags: ["login", "paid"], desc: "Credential and breach search platform that supports pivoting across leaked usernames, passwords, IPs, names, and phone numbers." },
+    { name: "Hudson Rock Cavalier", url: "https://cavalier.hudsonrock.com/", tags: ["open"], desc: "Infostealer intelligence search for compromised employees, credentials, and infected hosts tied to domains and organizations." },
+    { name: "Cybernews Personal Data Leak Checker", url: "https://cybernews.com/personal-data-leak-check/", tags: ["open"], desc: "Public breach checker for emails and phone-linked exposure, useful for quick first-pass compromise validation." },
+    { name: "BreachSense", url: "https://www.breachsense.com/", tags: ["login", "api", "paid"], desc: "Exposure monitoring platform for leaked credentials, third-party risks, and breached assets tied to domains and organizations." },
+  ]},
+  { category: "Code & Repository Intelligence", tools: [
+    { name: "Sourcegraph", url: "https://sourcegraph.com/search", tags: ["open"], desc: "Cross-repository code search platform useful for locating leaked keys, domains, usernames, package references, and infrastructure clues in public code." },
+    { name: "grep.app", url: "https://grep.app/", tags: ["open"], desc: "Fast public code search across GitHub repositories for strings such as domains, API hostnames, usernames, or email patterns." },
+    { name: "PublicWWW", url: "https://publicwww.com/", tags: ["paid"], desc: "Source-code and HTML fingerprint search engine that finds websites using the same tracking IDs, scripts, snippets, or page markers." },
+    { name: "searchcode", url: "https://searchcode.com/", tags: ["open"], desc: "Code search engine for public repositories that helps uncover strings, function names, emails, and references across many projects." },
+    { name: "Libraries.io", url: "https://libraries.io/", tags: ["api", "paid"], desc: "Package intelligence service for tracking open-source libraries, maintainers, versions, dependencies, and repository metadata." },
+    { name: "deps.dev", url: "https://deps.dev/", tags: ["api"], desc: "Google-backed dependency intelligence explorer for packages, maintainers, repositories, and transitive relationships across major ecosystems." },
+    { name: "OSS Insight", url: "https://ossinsight.io/", tags: ["open"], desc: "Repository analytics interface that turns GitHub event and project data into searchable insights for organizations, maintainers, and ecosystems." },
+    { name: "GitHub Code Search", url: "https://github.com/search?q=&type=code", tags: ["login", "dork"], desc: "Native GitHub code search for finding emails, domains, keys, references, and infrastructure strings in public repositories." },
+  ]},
+  { category: "Metadata & File Analysis", tools: [
+    { name: "ExifTool", url: "https://exiftool.org/", tags: ["install"], desc: "Industry-standard command-line utility for reading, writing, and analyzing metadata across images, videos, audio, office files, and PDFs." },
+    { name: "FOCA", url: "https://github.com/ElevenPaths/FOCA", tags: ["install"], desc: "Metadata extraction and document analysis tool focused on files published by organizations, helping uncover usernames, software versions, and infrastructure." },
+    { name: "mat2", url: "https://0xacab.org/jvoisin/mat2", tags: ["install"], desc: "Metadata anonymization toolkit that strips embedded metadata from common document and image formats before redistribution or disclosure." },
+    { name: "Metagoofil", url: "https://github.com/opsdisk/metagoofil", tags: ["install"], desc: "OSINT utility that discovers public files belonging to a target domain and extracts metadata such as usernames, software paths, and email addresses." },
+    { name: "FotoForensics", url: "https://fotoforensics.com/", tags: ["open"], desc: "Image analysis site that surfaces EXIF data and forensic overlays like ELA to support authenticity and manipulation review." },
+    { name: "Jeffrey's Image Metadata Viewer", url: "https://exif.regex.info/exif.cgi", tags: ["open"], desc: "Web-based EXIF viewer for quickly extracting metadata from remotely hosted or uploaded images." },
+    { name: "Hachoir", url: "https://hachoir.readthedocs.io/", tags: ["install"], desc: "Python-based parser framework for extracting low-level metadata and internal structures from a wide range of binary file formats." },
+    { name: "PDF-Parser", url: "https://github.com/DidierStevens/DidierStevensSuite/blob/master/pdf-parser.py", tags: ["install"], desc: "Didier Stevens' PDF analysis tool for inspecting objects, streams, metadata, and suspicious structure inside PDF files." },
+  ]},
+  { category: "Government, Court & Sanctions", tools: [
+    { name: "CourtListener", url: "https://www.courtlistener.com/", tags: ["api"], desc: "Free legal research platform covering millions of U.S. court opinions, dockets, oral arguments, and judge-level analytics." },
+    { name: "PACER", url: "https://pacer.uscourts.gov/", tags: ["login", "paid"], desc: "Official U.S. federal court records system for case dockets, filings, and party-level litigation research." },
+    { name: "govinfo", url: "https://www.govinfo.gov/", tags: ["api"], desc: "Official U.S. government publishing portal for bills, hearings, CFR, court opinions, and authenticated federal documents." },
+    { name: "OpenSanctions", url: "https://www.opensanctions.org/", tags: ["api"], desc: "Open sanctions and watchlist dataset linking sanctions, politically exposed persons, crimes, entities, and ownership data." },
+    { name: "USAspending", url: "https://www.usaspending.gov/", tags: ["api"], desc: "U.S. federal spending database for tracing awards, contracts, grants, agencies, recipients, and transaction-level outlays." },
+    { name: "SAM.gov", url: "https://sam.gov/", tags: ["api"], desc: "Official U.S. federal entity registration and procurement portal with notices, exclusions, assistance listings, and contracting data." },
+    { name: "LobbyView", url: "https://lobbyview.org/", tags: ["api"], desc: "Open lobbying intelligence dataset and API for legislative influence analysis, registrants, clients, and issue codes." },
+    { name: "OpenJustice", url: "https://openjustice.doj.ca.gov/", tags: ["open"], desc: "Public California justice data portal with law-enforcement, arrests, deaths in custody, and demographic reporting datasets." },
+  ]},
+  { category: "Datasets & Knowledge Bases", tools: [
+    { name: "Wikidata Query Service", url: "https://query.wikidata.org/", tags: ["api"], desc: "SPARQL endpoint for querying Wikidata entities, identifiers, relationships, geographies, organizations, and people at scale." },
+    { name: "DBpedia", url: "https://www.dbpedia.org/", tags: ["api"], desc: "Structured knowledge graph extracted from Wikipedia, useful for entity resolution, identifiers, and linked-data enrichment." },
+    { name: "GDELT", url: "https://www.gdeltproject.org/", tags: ["api"], desc: "Global event, media, and narrative monitoring platform covering broadcast, web, and translated news streams across many languages." },
+    { name: "OpenAlex", url: "https://openalex.org/", tags: ["api"], desc: "Open scholarly graph covering authors, institutions, concepts, sources, and research works with entity-level identifiers." },
+    { name: "Zenodo", url: "https://zenodo.org/", tags: ["api"], desc: "Open repository of research outputs, datasets, reports, and archived project materials with DOI-backed records." },
+    { name: "Kaggle Datasets", url: "https://www.kaggle.com/datasets", tags: ["login", "api"], desc: "Large public catalog of datasets spanning finance, social, security, geospatial, and machine learning domains." },
+    { name: "Data.gov", url: "https://www.data.gov/", tags: ["api"], desc: "U.S. government open-data portal indexing federal datasets across transportation, climate, health, agriculture, and justice." },
+    { name: "World Bank Data", url: "https://data.worldbank.org/", tags: ["api"], desc: "Global development dataset portal for country-level demographics, economics, infrastructure, and governance indicators." },
+  ]},
+  { category: "Web Capture & Surface Analysis", tools: [
+    { name: "urlscan.io", url: "https://urlscan.io/", tags: ["login", "api"], desc: "URL and webpage scanning platform for collecting screenshots, requests, domains, technologies, certificates, and page artifacts." },
+    { name: "BuiltWith", url: "https://builtwith.com/", tags: ["paid"], desc: "Technology profiling platform for identifying analytics, frameworks, hosting, tags, and historical web stack changes." },
+    { name: "Wappalyzer", url: "https://www.wappalyzer.com/", tags: ["install", "api", "paid"], desc: "Website technology profiler available as a browser extension and API for fingerprinting CMS, frameworks, analytics, and hosting patterns." },
+    { name: "ArchiveBox", url: "https://archivebox.io/", tags: ["install"], desc: "Self-hosted web archiving system for preserving pages, media, screenshots, DOM captures, and extracted text locally." },
+    { name: "SingleFile", url: "https://github.com/gildas-lormeau/SingleFile", tags: ["install"], desc: "Browser extension that saves complete web pages as a single HTML file for offline evidence capture and preservation." },
+    { name: "Web-Check", url: "https://web-check.xyz/", tags: ["open"], desc: "Web surface reconnaissance tool that combines DNS, TLS, headers, cookies, WHOIS, and tech-profile lookups into one view." },
+    { name: "Aquatone", url: "https://github.com/michenriksen/aquatone", tags: ["install"], desc: "Security reconnaissance tool that captures screenshots and surface metadata across large sets of discovered hosts." },
+    { name: "httpx", url: "https://github.com/projectdiscovery/httpx", tags: ["install"], desc: "Fast HTTP toolkit for probing live hosts, fingerprints, TLS details, titles, status codes, and web-server metadata at scale." },
+  ]},
 ];
 // ── App State ─────────────────────────────────────────────────────────────────
 const STORAGE_KEY = 'justOsintV3';
@@ -1193,6 +1253,7 @@ function saveState() {
 // ── View State ────────────────────────────────────────────────────────────────
 let activeCategory = 'all';
 let activeReqFilter = 'all';
+let activeFacetFilter = 'all';
 let searchQuery = '';
 let searchDebounce = null;
 
@@ -1259,7 +1320,7 @@ function renderGrid() {
       });
     });
 
-    const filtered = favTools.filter(({ tool }) => matchesSearch(tool, q) && matchesReq(tool));
+    const filtered = favTools.filter(({ tool, category }) => matchesSearch(tool, q) && matchesReq(tool) && matchesFacet(tool, category));
     filtered.forEach(({ tool, category }) => {
       elToolGrid.appendChild(makeToolCard(tool, category));
       rendered++;
@@ -1267,10 +1328,10 @@ function renderGrid() {
 
   } else if (activeCategory === 'all') {
     osintData.forEach(group => {
-      const matchingTools = group.tools.filter(t => matchesSearch(t, q) && matchesReq(t));
+      const matchingTools = group.tools.filter(t => matchesSearch(t, q) && matchesReq(t) && matchesFacet(t, group.category));
       if (matchingTools.length === 0) return;
 
-      if (!q && activeReqFilter === 'all') {
+      if (!q && activeReqFilter === 'all' && activeFacetFilter === 'all') {
         // Show category header in "all" view
         const hdr = document.createElement('div');
         hdr.className = 'cat-section-title';
@@ -1287,7 +1348,7 @@ function renderGrid() {
   } else {
     const group = osintData.find(g => g.category === activeCategory);
     if (group) {
-      const matchingTools = group.tools.filter(t => matchesSearch(t, q) && matchesReq(t));
+      const matchingTools = group.tools.filter(t => matchesSearch(t, q) && matchesReq(t) && matchesFacet(t, group.category));
       matchingTools.forEach(tool => {
         elToolGrid.appendChild(makeToolCard(tool, group.category));
         rendered++;
@@ -1297,7 +1358,7 @@ function renderGrid() {
 
   // Update result meta
   const total = getTotalToolCount();
-  if (q || activeReqFilter !== 'all') {
+  if (q || activeReqFilter !== 'all' || activeFacetFilter !== 'all') {
     elResultMeta.textContent = `${rendered.toLocaleString()} result${rendered !== 1 ? 's' : ''}`;
   } else if (activeCategory === 'all') {
     elResultMeta.textContent = `${total.toLocaleString()} tools across ${osintData.length} categories`;
@@ -1323,6 +1384,44 @@ function matchesSearch(tool, q) {
 function matchesReq(tool) {
   if (activeReqFilter === 'all') return true;
   return Array.isArray(tool.tags) && tool.tags.includes(activeReqFilter);
+}
+
+function matchesFacet(tool, category) {
+  if (activeFacetFilter === 'all') return true;
+  return getToolFacets(tool, category).includes(activeFacetFilter);
+}
+
+function getToolFacets(tool, category) {
+  const facets = new Set();
+  const url = (tool.url || '').toLowerCase();
+  const desc = (tool.desc || '').toLowerCase();
+  const categoryName = (category || '').toLowerCase();
+
+  if (categoryName.includes('people') || categoryName.includes('dating') || categoryName.includes('telephone') || categoryName.includes('public records') || categoryName.includes('username') || categoryName.includes('social networks') || categoryName.includes('instant messaging') || categoryName.includes('breach & leak intelligence')) {
+    facets.add('people');
+  }
+
+  if (categoryName.includes('cloud infrastructure') || categoryName.includes('domain name') || categoryName.includes('ip & mac') || categoryName.includes('cyber threat intelligence') || categoryName.includes('web capture & surface analysis')) {
+    facets.add('infra');
+  }
+
+  if (categoryName.includes('images / videos / docs') || categoryName.includes('geolocation tools / maps') || categoryName.includes('disinformation & media verification') || categoryName.includes('metadata & file analysis')) {
+    facets.add('media');
+  }
+
+  if (url.includes('github.com') || url.includes('gitlab.com') || url.includes('codeberg.org') || url.includes('sourcegraph.com') || url.includes('grep.app') || url.includes('searchcode.com')) {
+    facets.add('repo');
+  }
+
+  if (url.includes('.gov') || url.includes('.mil') || url.includes('europa.eu') || url.includes('govinfo.gov') || url.includes('sam.gov') || url.includes('courtlistener.com') || categoryName.includes('government, court & sanctions')) {
+    facets.add('government');
+  }
+
+  if (url.includes('data.gov') || url.includes('worldbank.org') || url.includes('openalex.org') || url.includes('gdeltproject.org') || url.includes('dbpedia.org') || url.includes('wikidata.org') || url.includes('zenodo.org') || url.includes('kaggle.com/datasets') || categoryName.includes('datasets & knowledge bases') || desc.includes('dataset')) {
+    facets.add('dataset');
+  }
+
+  return Array.from(facets);
 }
 
 function makeToolCard(tool, category) {
@@ -1620,6 +1719,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!btn) return;
     activeReqFilter = btn.dataset.req;
     document.querySelectorAll('.req-filter').forEach(b => b.classList.toggle('active', b.dataset.req === activeReqFilter));
+    renderGrid();
+  });
+
+  document.getElementById('facetFilters').addEventListener('click', e => {
+    const btn = e.target.closest('.facet-filter');
+    if (!btn) return;
+    activeFacetFilter = btn.dataset.facet;
+    document.querySelectorAll('.facet-filter').forEach(b => b.classList.toggle('active', b.dataset.facet === activeFacetFilter));
     renderGrid();
   });
 
