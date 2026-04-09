@@ -454,6 +454,96 @@ function matchesNode(text) {
   return text.toLowerCase().includes(q);
 }
 
+function inferRequirements(category, tool) {
+  const lowerName = tool.name.toLowerCase();
+  const lowerTag = tool.tag.toLowerCase();
+  const lowerCategory = category.toLowerCase();
+  const markers = new Set();
+
+  if (
+    lowerTag.includes("cli") ||
+    lowerTag.includes("self hosted") ||
+    lowerTag.includes("automation") ||
+    lowerTag.includes("tooling") ||
+    lowerTag.includes("opsec") ||
+    lowerName.includes("project") ||
+    lowerName.includes("ghunt") ||
+    lowerName.includes("sherlock") ||
+    lowerName.includes("maigret") ||
+    lowerName.includes("nexfil") ||
+    lowerName.includes("holehe") ||
+    lowerName.includes("phoneinfoga") ||
+    lowerName.includes("onionscan") ||
+    lowerName.includes("ffmpeg")
+  ) {
+    markers.add("install");
+  }
+
+  if (
+    lowerCategory.includes("dating") ||
+    lowerCategory.includes("social") ||
+    lowerCategory.includes("employment") ||
+    lowerCategory.includes("messaging") ||
+    lowerName.includes("linkedin") ||
+    lowerName.includes("discord") ||
+    lowerName.includes("telegram") ||
+    lowerName.includes("reddit") ||
+    lowerName.includes("xing") ||
+    lowerName.includes("glassdoor")
+  ) {
+    markers.add("login");
+  }
+
+  if (
+    lowerTag.includes("api") ||
+    lowerName.includes("lookup") ||
+    lowerName.includes("whoxy") ||
+    lowerName.includes("securitytrails") ||
+    lowerName.includes("zoominfo") ||
+    lowerName.includes("hunter") ||
+    lowerName.includes("rocketreach")
+  ) {
+    markers.add("api");
+  }
+
+  if (
+    lowerTag.includes("premium") ||
+    lowerTag.includes("company intel") ||
+    lowerTag.includes("pay") ||
+    lowerName.includes("pacer") ||
+    lowerName.includes("spokeo") ||
+    lowerName.includes("intelius") ||
+    lowerName.includes("truthfinder") ||
+    lowerName.includes("beenverified") ||
+    lowerName.includes("zoominfo")
+  ) {
+    markers.add("paid");
+  }
+
+  if (!markers.size) {
+    markers.add("open");
+  }
+
+  return Array.from(markers);
+}
+
+function requirementLabels(category, tool) {
+  const labels = {
+    install: "install",
+    login: "login",
+    api: "api",
+    paid: "paid",
+    open: "open"
+  };
+  return inferRequirements(category, tool).map((marker) => labels[marker]);
+}
+
+function requirementBadgeHtml(category, tool) {
+  return requirementLabels(category, tool)
+    .map((label) => `<span class="req-badge">${label}</span>`)
+    .join("");
+}
+
 function toolKey(category, tool) {
   return `${category}::${tool.name}`;
 }
@@ -470,7 +560,7 @@ function toggleFavorite(category, tool) {
     appState.favorites.splice(idx, 1);
     setStatus(`Removed favorite: ${tool.name}`);
   } else {
-    appState.favorites.push({ id, category, name: tool.name, url: tool.url, tag: tool.tag });
+    appState.favorites.push({ id, category, name: tool.name, url: tool.url, tag: tool.tag, requirements: inferRequirements(category, tool) });
     setStatus(`Pinned favorite: ${tool.name}`);
   }
   saveAppState();
@@ -513,6 +603,7 @@ function renderFavorites() {
     link.target = "_blank";
     link.rel = "noreferrer noopener";
     link.innerHTML = `<span class="tree-leaf-name">${item.name}</span><span class="tree-item-meta">${item.category}</span>`;
+    link.title = `Requirements: ${(item.requirements || ["open"]).join(", ")}`;
 
     const removeBtn = document.createElement("button");
     removeBtn.type = "button";
@@ -597,7 +688,9 @@ function renderSidebarFolders() {
         leaf.href = tool.url;
         leaf.target = "_blank";
         leaf.rel = "noreferrer noopener";
-        leaf.innerHTML = `<span class="tree-leaf-name">${tool.name}</span><span class="tree-item-meta">${tool.tag}</span>`;
+        const req = requirementLabels(group.category, tool).join("/");
+        leaf.innerHTML = `<span class="tree-leaf-name">${tool.name}</span><span class="tree-item-meta">${tool.tag} · ${req}</span>`;
+        leaf.title = `Requirements: ${req}`;
 
         toolRow.appendChild(leaf);
         toolRow.appendChild(createPinButton(group.category, tool));
@@ -672,7 +765,9 @@ function renderSidebarTags() {
         leaf.href = tool.url;
         leaf.target = "_blank";
         leaf.rel = "noreferrer noopener";
-        leaf.innerHTML = `<span class="tree-leaf-name">${tool.name}</span><span class="tree-item-meta">${tool.category}</span>`;
+        const req = requirementLabels(tool.category, tool).join("/");
+        leaf.innerHTML = `<span class="tree-leaf-name">${tool.name}</span><span class="tree-item-meta">${tool.category} · ${req}</span>`;
+        leaf.title = `Requirements: ${req}`;
 
         toolRow.appendChild(leaf);
         toolRow.appendChild(createPinButton(tool.category, tool));
@@ -705,7 +800,10 @@ function createNodeRow(node, hasChildren) {
     label.type = "button";
   }
 
-  const detail = node.count !== undefined ? `<span class="tree-item-meta">${node.count}</span>` : "";
+  let detail = node.count !== undefined ? `<span class="tree-item-meta">${node.count}</span>` : "";
+  if (node.kind === "tool") {
+    detail += `<span class="req-badges">${requirementBadgeHtml(node.category, { name: node.label, tag: node.tag, url: node.url })}</span>`;
+  }
   label.innerHTML = `${node.label}${detail}`;
 
   if (hasChildren) {
@@ -888,7 +986,8 @@ function renderKnowledgeMode(groups) {
       link.href = tool.url;
       link.target = "_blank";
       link.rel = "noreferrer noopener";
-      link.textContent = `${tool.name} · #${tool.tag}`;
+      link.innerHTML = `<span>${tool.name} · #${tool.tag}</span><span class="req-badges">${requirementBadgeHtml(group.category, tool)}</span>`;
+      link.title = `Requirements: ${requirementLabels(group.category, tool).join(", ")}`;
 
       row.appendChild(link);
       row.appendChild(createPinButton(group.category, tool));
