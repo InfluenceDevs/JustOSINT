@@ -37,11 +37,6 @@ input, textarea, select { font: inherit; }
   --text-secondary: #8b949e;
   --text-muted: #656d76;
   --accent: #58a6ff;
-  .brand-icon svg {
-    width: 18px;
-    height: 18px;
-    stroke-width: 2.2;
-  }
   --accent-hover: #79c0ff;
   --sidebar-w: 240px;
   --topbar-h: 58px;
@@ -49,15 +44,9 @@ input, textarea, select { font: inherit; }
 
   /* Requirement badge colors */
   --badge-open-bg: rgba(35, 134, 54, 0.18);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+  --badge-open-text: #3fb950;
   --badge-open-border: rgba(63, 185, 80, 0.35);
 
-  .search-icon svg {
-    width: 16px;
-    height: 16px;
-  }
   --badge-login-bg: rgba(187, 90, 0, 0.18);
   --badge-login-text: #f0883e;
   --badge-login-border: rgba(240, 136, 62, 0.35);
@@ -75,10 +64,6 @@ input, textarea, select { font: inherit; }
   --badge-install-border: rgba(227, 179, 65, 0.3);
 
   --badge-dork-bg: rgba(32, 178, 171, 0.15);
-  .search-clear svg {
-    width: 14px;
-    height: 14px;
-  }
   --badge-dork-text: #2dd4bf;
   --badge-dork-border: rgba(45, 212, 191, 0.3);
 }
@@ -92,15 +77,6 @@ input, textarea, select { font: inherit; }
   border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
-  .btn-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .btn-icon svg {
-    width: 15px;
-    height: 15px;
-  }
   gap: 16px;
   padding: 0 20px;
   z-index: 100;
@@ -115,41 +91,24 @@ input, textarea, select { font: inherit; }
 }
 
 .brand-lockup {
-  .small-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .small-btn svg {
-    width: 14px;
-    height: 14px;
-  }
   display: flex;
   flex-direction: column;
   gap: 1px;
 }
-  .empty-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .empty-icon svg {
-    width: 34px;
-    height: 34px;
-  }
 
 .brand-icon {
-  font-size: 22px;
   color: var(--accent);
   line-height: 1;
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
-  .panel-title svg {
-    width: 15px;
-    height: 15px;
-  }
+
+.brand-icon svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.2;
+}
 
 .brand-name {
   font-size: 1.05rem;
@@ -158,16 +117,9 @@ input, textarea, select { font: inherit; }
   color: var(--text-primary);
   white-space: nowrap;
 }
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
 
 .brand-credit {
   font-size: 0.68rem;
-  .panel-close svg {
-    width: 14px;
-    height: 14px;
-  }
   color: var(--text-muted);
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -179,26 +131,26 @@ input, textarea, select { font: inherit; }
   max-width: 620px;
 }
 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
 .search-icon {
   position: absolute;
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
   color: var(--text-muted);
-  font-size: 1.1rem;
   pointer-events: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-icon svg {
+  width: 16px;
+  height: 16px;
 }
 
 #searchInput {
   width: 100%;
   background: var(--bg-input);
-  .card-fav svg {
-    width: 14px;
-    height: 14px;
-  }
   border: 1px solid var(--border);
   border-radius: 8px;
   color: var(--text-primary);
@@ -208,15 +160,8 @@ input, textarea, select { font: inherit; }
   outline: none;
 }
 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
 #searchInput::placeholder { color: var(--text-muted); }
 
-  .fav-unpin svg {
-    width: 14px;
-    height: 14px;
-  }
 #searchInput:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(88,166,255,0.12);
@@ -235,9 +180,18 @@ input, textarea, select { font: inherit; }
   border-radius: 4px;
   line-height: 1;
   transition: color 0.15s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .search-clear:hover { color: var(--text-primary); }
 .search-clear.hidden { display: none; }
+
+.search-clear svg {
+  width: 14px;
+  height: 14px;
+}
 
 .topbar-actions {
   display: flex;
@@ -257,6 +211,17 @@ input, textarea, select { font: inherit; }
   padding: 7px 13px;
   font-size: 0.85rem;
   transition: all 0.15s;
+}
+
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon svg {
+  width: 15px;
+  height: 15px;
 }
 
 .topbar-btn:hover {
@@ -619,27 +584,41 @@ input, textarea, select { font: inherit; }
 .card-title a:hover { color: var(--accent); text-decoration: none; }
 
 .card-fav {
-  background: transparent;
+  background: rgba(255,255,255,0.02);
   border: 1px solid var(--border);
-  border-radius: 5px;
+  border-radius: 8px;
   color: var(--text-muted);
-  padding: 3px 7px;
-  font-size: 0.8rem;
+  width: 28px;
+  height: 28px;
+  padding: 0;
   flex-shrink: 0;
-  line-height: 1.4;
+  line-height: 1;
   transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .card-fav:hover {
   border-color: #f1c232;
   color: #f1c232;
-  background: rgba(241, 194, 50, 0.1);
+  background: rgba(241, 194, 50, 0.14);
 }
 
 .card-fav.pinned {
   color: #f1c232;
-  border-color: #f1c23280;
-  background: rgba(241, 194, 50, 0.1);
+  border-color: rgba(241, 194, 50, 0.6);
+  background: rgba(241, 194, 50, 0.16);
+}
+
+.card-fav svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 2.2;
+}
+
+.card-fav.pinned svg {
+  fill: currentColor;
 }
 
 .card-badges {
@@ -734,9 +713,14 @@ input, textarea, select { font: inherit; }
 
 #emptyState.hidden { display: none; }
 
-.empty-icon { font-size: 2.5rem; opacity: 0.5; }
+.empty-icon { font-size: 2.5rem; opacity: 0.5; display: inline-flex; align-items: center; justify-content: center; }
 .empty-title { font-size: 1rem; font-weight: 600; color: var(--text-secondary); }
 .empty-sub { font-size: 0.85rem; }
+
+.empty-icon svg {
+  width: 34px;
+  height: 34px;
+}
 
 /* ── Side Panels ─────────────────────────── */
 .side-panel {
@@ -777,6 +761,14 @@ input, textarea, select { font: inherit; }
   font-size: 0.95rem;
   font-weight: 700;
   color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.panel-title svg {
+  width: 15px;
+  height: 15px;
 }
 
 .panel-close {
@@ -786,9 +778,17 @@ input, textarea, select { font: inherit; }
   padding: 4px 9px;
   border-radius: 6px;
   font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.15s;
 }
 .panel-close:hover { color: var(--text-primary); border-color: var(--text-secondary); }
+
+.panel-close svg {
+  width: 14px;
+  height: 14px;
+}
 
 .panel-body {
   flex: 1;
@@ -892,11 +892,19 @@ input, textarea, select { font: inherit; }
   color: var(--text-secondary);
   padding: 5px 12px;
   font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   transition: all 0.15s;
 }
 .small-btn:hover {
   border-color: var(--text-secondary);
   color: var(--text-primary);
+}
+
+.small-btn svg {
+  width: 14px;
+  height: 14px;
 }
 
 .row-gap {
@@ -967,8 +975,16 @@ input, textarea, select { font: inherit; }
   padding: 2px 5px;
   border-radius: 4px;
   flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .fav-unpin:hover { color: #f85149; }
+
+.fav-unpin svg {
+  width: 14px;
+  height: 14px;
+}
 
 .empty-fav {
   font-size: 0.85rem;
