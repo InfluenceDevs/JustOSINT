@@ -1265,6 +1265,12 @@ let elCatNav, elToolGrid, elSearchInput, elResultMeta, elEmptyState,
     elProfileList, elProfileListSection, elProfileFormSection,
     elProfileFormTitle, elFavList;
 
+function refreshIcons() {
+  if (window.lucide && typeof window.lucide.createIcons === 'function') {
+    window.lucide.createIcons();
+  }
+}
+
 // ── Sidebar: Render Categories ────────────────────────────────────────────────
 function renderSidebar() {
   elCatNav.innerHTML = '';
@@ -1374,6 +1380,8 @@ function renderGrid() {
   if (rendered === 0) {
     elEmptyState.classList.remove('hidden');
   }
+
+  refreshIcons();
 }
 
 function matchesSearch(tool, q) {
@@ -1581,7 +1589,7 @@ function makeToolCard(tool, category) {
   card.innerHTML = `
     <div class="card-top">
       <div class="card-title"><a href="${escHtml(tool.url)}" target="_blank" rel="noopener noreferrer" title="${escHtml(tool.name)}">${escHtml(tool.name)}</a></div>
-      <button class="card-fav${isFav ? ' pinned' : ''}" data-url="${escHtml(tool.url)}" aria-label="${isFav ? 'Unpin' : 'Pin'} ${escHtml(tool.name)}">${isFav ? '★' : '☆'}</button>
+      <button class="card-fav${isFav ? ' pinned' : ''}" data-url="${escHtml(tool.url)}" aria-label="${isFav ? 'Unpin' : 'Pin'} ${escHtml(tool.name)}"><i data-lucide="star"></i></button>
     </div>
     <div class="card-badges">${badges}</div>
     <div class="card-signals">${signalBadges}</div>
@@ -1622,7 +1630,8 @@ function toggleFav(tool, category) {
 function renderFavPanel() {
   elFavList.innerHTML = '';
   if (appState.favorites.length === 0) {
-    elFavList.innerHTML = '<div class="empty-fav">No favorites yet. Click ☆ on any tool to pin it here.</div>';
+    elFavList.innerHTML = '<div class="empty-fav">No favorites yet. Click the star on any tool to pin it here.</div>';
+    refreshIcons();
     return;
   }
   appState.favorites.forEach(fav => {
@@ -1631,7 +1640,7 @@ function renderFavPanel() {
     item.innerHTML = `
       <div class="fav-item-name"><a href="${escHtml(fav.url)}" target="_blank" rel="noopener noreferrer">${escHtml(fav.name)}</a></div>
       <div class="fav-item-cat">${escHtml(fav.category)}</div>
-      <button class="fav-unpin" data-url="${escHtml(fav.url)}" title="Remove favorite">✕</button>
+      <button class="fav-unpin" data-url="${escHtml(fav.url)}" title="Remove favorite" aria-label="Remove favorite"><i data-lucide="x"></i></button>
     `;
     item.querySelector('.fav-unpin').addEventListener('click', () => {
       const idx = appState.favorites.findIndex(f => f.url === fav.url);
@@ -1643,6 +1652,8 @@ function renderFavPanel() {
     });
     elFavList.appendChild(item);
   });
+
+  refreshIcons();
 }
 
 // ── Profile Panel ─────────────────────────────────────────────────────────────
@@ -1831,6 +1842,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initial render
   renderSidebar();
   renderGrid();
+  refreshIcons();
 
   // ── Search ────────────────────────────────────────────
   elSearchInput.addEventListener('input', () => {

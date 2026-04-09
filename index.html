@@ -13,24 +13,24 @@
 <!-- ╚══════════════════════════════════════╝ -->
 <header id="topbar">
   <div class="topbar-brand">
-    <span class="brand-icon">⬡</span>
+    <span class="brand-icon" aria-hidden="true"><i data-lucide="hexagon"></i></span>
     <div class="brand-lockup">
       <span class="brand-name">JustOSINT</span>
       <span class="brand-credit">Built by Influence</span>
     </div>
   </div>
   <div class="topbar-search">
-    <span class="search-icon">⌕</span>
+    <span class="search-icon" aria-hidden="true"><i data-lucide="search"></i></span>
     <input id="searchInput" type="text" placeholder="Search 1,150+ tools by name, description, or category…" autocomplete="off" spellcheck="false" />
-    <button id="searchClear" class="search-clear" title="Clear search" aria-label="Clear search">✕</button>
+    <button id="searchClear" class="search-clear" title="Clear search" aria-label="Clear search"><i data-lucide="x"></i></button>
   </div>
   <div class="topbar-actions">
     <button id="profilesToggleBtn" class="topbar-btn" title="Profile Builder">
-      <span class="btn-icon">👤</span>
+      <span class="btn-icon" aria-hidden="true"><i data-lucide="user-round"></i></span>
       <span class="btn-label">Profiles</span>
     </button>
     <button id="favToggleBtn" class="topbar-btn" title="Favorites">
-      <span class="btn-icon">★</span>
+      <span class="btn-icon" aria-hidden="true"><i data-lucide="star"></i></span>
       <span class="btn-label">Favorites</span>
     </button>
   </div>
@@ -116,7 +116,7 @@
 
     <!-- Empty state -->
     <div id="emptyState" class="hidden">
-      <div class="empty-icon">🔍</div>
+      <div class="empty-icon" aria-hidden="true"><i data-lucide="search-x"></i></div>
       <div class="empty-title">No tools found</div>
       <div class="empty-sub">Try a different search term or clear the filters.</div>
     </div>
@@ -131,7 +131,7 @@
 <div id="profilePanel" class="side-panel hidden">
   <div class="panel-header">
     <span class="panel-title">Profile Builder</span>
-    <button class="panel-close" id="profilePanelClose">✕</button>
+    <button class="panel-close" id="profilePanelClose" aria-label="Close profile panel"><i data-lucide="x"></i></button>
   </div>
   <div class="panel-body">
 
@@ -139,16 +139,16 @@
     <div id="profileListSection">
       <div class="panel-section-head">
         <span>Saved Profiles</span>
-        <button id="newProfileBtn" class="small-btn">+ New</button>
+        <button id="newProfileBtn" class="small-btn"><i data-lucide="plus"></i>New</button>
       </div>
       <div id="profileList"></div>
       <div class="panel-section-head" style="margin-top:16px;">
         <span>Import / Export</span>
       </div>
       <div class="row-gap">
-        <button id="exportProfilesBtn" class="small-btn">⬇ Export JSON</button>
+        <button id="exportProfilesBtn" class="small-btn"><i data-lucide="download"></i>Export JSON</button>
         <label class="small-btn" style="cursor:pointer;">
-          ⬆ Import JSON
+          <i data-lucide="upload"></i>Import JSON
           <input type="file" id="importProfilesInput" accept=".json" style="display:none;" />
         </label>
       </div>
@@ -158,7 +158,7 @@
     <div id="profileFormSection" class="hidden">
       <div class="panel-section-head">
         <span id="profileFormTitle">New Profile</span>
-        <button id="backToListBtn" class="small-btn">← Back</button>
+        <button id="backToListBtn" class="small-btn"><i data-lucide="arrow-left"></i>Back</button>
       </div>
       <form id="profileForm" autocomplete="off">
         <div class="field-group">
@@ -230,8 +230,8 @@
 <!-- ╚══════════════════════════════════════╝ -->
 <div id="favPanel" class="side-panel hidden">
   <div class="panel-header">
-    <span class="panel-title">★ Favorites</span>
-    <button class="panel-close" id="favPanelClose">✕</button>
+    <span class="panel-title"><i data-lucide="star"></i>Favorites</span>
+    <button class="panel-close" id="favPanelClose" aria-label="Close favorites panel"><i data-lucide="x"></i></button>
   </div>
   <div class="panel-body">
     <div id="favList">
@@ -243,6 +243,7 @@
 <!-- Overlay for panels -->
 <div id="overlay" class="hidden"></div>
 
+<script src="https://unpkg.com/lucide@latest"></script>
 <script src="script.js"></script>
 </body>
 </html>
