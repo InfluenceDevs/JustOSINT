@@ -1261,6 +1261,34 @@ let searchDebounce = null;
 
 const TAG_WHITELIST = new Set(['open', 'login', 'api', 'paid', 'install', 'dork']);
 
+const REPO_HOSTS = new Set([
+  'github.com',
+  'gitlab.com',
+  'codeberg.org',
+  'sourceforge.net',
+  'bitbucket.org',
+  '0xacab.org'
+]);
+
+const GOV_LIKE_HOST_SUFFIXES = ['gov', 'mil', 'europa.eu', 'un.org', 'who.int'];
+
+const GLOBAL_HOST_HINTS = new Set([
+  'github.com',
+  'gitlab.com',
+  'duckduckgo.com',
+  'google.com',
+  'microsoft.com',
+  'twilio.com',
+  'archive.org',
+  'wikipedia.org',
+  'wikidata.org',
+  'dbpedia.org',
+  'openalex.org',
+  'worldbank.org',
+  'gdeltproject.org',
+  'opencorporates.com'
+]);
+
 const TOOL_OVERRIDE_RULES = [
   // Telephone Numbers category: manually audited overrides
   { host: 'slydial.com', tags: ['login', 'paid'], safety: 'screened', regions: ['us'] },
@@ -1513,12 +1541,42 @@ function normalizeTags(tags) {
   return normalized.length ? Array.from(new Set(normalized)) : ['open'];
 }
 
+function isRepoHost(host) {
+  return Array.from(REPO_HOSTS).some(base => host === base || host.endsWith(`.${base}`));
+}
+
+function isGovLikeHost(host) {
+  return GOV_LIKE_HOST_SUFFIXES.some(sfx => host === sfx || host.endsWith(`.${sfx}`));
+}
+
+function applyHostTagCorrections(tool, tags) {
+  const host = getHostname(tool.url || '');
+  const corrected = new Set(tags);
+
+  if (isRepoHost(host)) {
+    corrected.delete('paid');
+    corrected.delete('login');
+    corrected.delete('api');
+    corrected.add('install');
+  }
+
+  if (isGovLikeHost(host)) {
+    corrected.delete('paid');
+  }
+
+  if (!corrected.size) {
+    corrected.add('open');
+  }
+
+  return Array.from(corrected).filter(t => TAG_WHITELIST.has(t));
+}
+
 function getToolTags(tool) {
   const override = getToolOverride(tool);
   if (override && override.tags) {
     return normalizeTags(override.tags);
   }
-  return normalizeTags(tool.tags);
+  return applyHostTagCorrections(tool, normalizeTags(tool.tags));
 }
 
 function hostEndsWith(rawUrl, suffix) {
@@ -1534,47 +1592,52 @@ function getToolRegions(tool, category) {
   }
 
   const regions = new Set();
-  const text = `${tool.name || ''} ${tool.desc || ''} ${category || ''}`.toLowerCase();
-  const url = tool.url || '';
+  const categoryName = (category || '').toLowerCase();
+  const host = getHostname(tool.url || '');
 
   const addRegional = code => {
     regions.add(code);
     regions.add('regional');
   };
 
-  if (hostEndsWith(url, 'gov.uk') || hostEndsWith(url, 'co.uk') || text.includes(' uk ') || text.includes('united kingdom') || text.includes('british') || text.includes('england') || text.includes('scotland') || text.includes('northern ireland')) {
+  if (host === 'gov.uk' || host.endsWith('.gov.uk') || host.endsWith('.co.uk') || host.endsWith('.uk')) {
     addRegional('uk');
   }
 
-  if (hostEndsWith(url, 'gc.ca') || hostEndsWith(url, 'ca') || text.includes('canada') || text.includes('canadian')) {
+  if (host === 'gc.ca' || host.endsWith('.gc.ca') || host.endsWith('.ca')) {
     addRegional('ca');
   }
 
-  if (hostEndsWith(url, 'gov.au') || hostEndsWith(url, 'au') || text.includes('australia') || text.includes('australian')) {
+  if (host === 'gov.au' || host.endsWith('.gov.au') || host.endsWith('.au')) {
     addRegional('au');
   }
 
-  if (hostEndsWith(url, 'de') || text.includes('germany') || text.includes('german') || text.includes('deutsche')) {
+  if (host.endsWith('.de')) {
     addRegional('de');
   }
 
-  if (hostEndsWith(url, 'nl') || text.includes('netherlands') || text.includes('dutch')) {
+  if (host.endsWith('.nl')) {
     addRegional('nl');
   }
 
-  if (hostEndsWith(url, 'in') || text.includes('india') || text.includes('indian')) {
+  if (host.endsWith('.in')) {
     addRegional('in');
   }
 
-  if (hostEndsWith(url, 'gov') || hostEndsWith(url, 'mil') || hostEndsWith(url, 'edu') || hostEndsWith(url, 'us') || text.includes('u.s.') || text.includes(' usa ') || text.includes(' united states') || text.includes('california') || text.includes('american ')) {
+  if (host.endsWith('.gov') || host.endsWith('.mil') || host.endsWith('.us') || host.endsWith('.edu')) {
     addRegional('us');
   }
 
-  if (getHostname(url).includes('europa.eu') || text.includes('european union') || text.includes('eu member') || text.includes(' eu ') || text.includes('(eu)')) {
+  if (host === 'europa.eu' || host.endsWith('.europa.eu') || host.endsWith('.eu')) {
     addRegional('eu');
   }
 
-  if (text.includes('global') || text.includes('worldwide') || text.includes('international') || text.includes('across many languages') || text.includes('across 100+') || text.includes('world bank') || text.includes('global development') || text.includes('multi-chain') || text.includes('across 26 countries')) {
+  if (GLOBAL_HOST_HINTS.has(host) || Array.from(GLOBAL_HOST_HINTS).some(base => host.endsWith(`.${base}`))) {
+    regions.add('global');
+  }
+
+  // Category-level conservative rule: training and open datasets are often global-facing.
+  if (categoryName.includes('training') || categoryName.includes('datasets')) {
     regions.add('global');
   }
 
