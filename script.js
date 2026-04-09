@@ -1262,12 +1262,28 @@ let searchDebounce = null;
 const TAG_WHITELIST = new Set(['open', 'login', 'api', 'paid', 'install', 'dork']);
 
 const TOOL_OVERRIDE_RULES = [
-  {
-    host: 'whocalld.com',
-    tags: ['open'],
-    safety: 'screened',
-    regions: ['global']
-  }
+  // Telephone Numbers category: manually audited overrides
+  { host: 'slydial.com', tags: ['login', 'paid'], safety: 'screened', regions: ['us'] },
+  { host: 'numberingplans.com', tags: ['open'], safety: 'screened', regions: ['global'] },
+  { host: 'numberway.com', tags: ['open'], safety: 'screened', regions: ['global'] },
+  { host: 'whocalld.com', tags: ['open'], safety: 'screened', regions: ['global'] },
+  { host: 'calleridtest.com', tags: ['open'], safety: 'screened', regions: ['us'] },
+  { host: 'twilio.com', tags: ['login', 'api', 'paid'], safety: 'screened', regions: ['global'] },
+  { host: 'fonefinder.net', tags: ['open'], safety: 'caution', regions: ['us'] },
+  { host: 'truecaller.com', tags: ['login', 'paid'], safety: 'screened', regions: ['global'] },
+  { host: 'reversegenie.com', tags: ['open'], safety: 'screened', regions: ['us'] },
+  { host: 'spydialer.com', tags: ['open'], safety: 'screened', regions: ['us'] },
+  { host: 'phonevalidator.com', tags: ['open'], safety: 'screened', regions: ['us'] },
+  { host: 'martinvigo.com', name: 'Phonerator', tags: ['open'], safety: 'screened', regions: ['global'] },
+  { host: 'hiya.com', name: 'Mr. Number', tags: ['open'], safety: 'caution', regions: ['us'] },
+  { host: 'nextcaller.com', tags: ['login', 'api', 'paid'], safety: 'screened', regions: ['us'] },
+  { host: 'data24-7.com', tags: ['login', 'api', 'paid'], safety: 'screened', regions: ['us'] },
+  { host: 'hlr-lookups.com', tags: ['login', 'api', 'paid'], safety: 'screened', regions: ['global'] },
+  { host: 'opencnam.com', tags: ['api', 'paid'], safety: 'screened', regions: ['us'] },
+  { host: 'pythonanywhere.com', name: 'Numspy-Api', tags: ['api', 'open'], safety: 'screened', regions: ['global'] },
+  { host: 'familytreenow.com', tags: ['open'], safety: 'screened', regions: ['us'] },
+  { host: 'whitepages.com', tags: ['paid'], safety: 'screened', regions: ['us'] },
+  { host: 'hiya.com', name: 'Hiya (R$)', tags: ['login', 'paid'], safety: 'screened', regions: ['global'] }
 ];
 
 const KNOWN_CAUTION_TOOL_NAMES = new Set([
@@ -1563,7 +1579,7 @@ function getToolRegions(tool, category) {
   }
 
   if (!regions.size) {
-    regions.add('global');
+    regions.add('regional');
   }
 
   return Array.from(regions);
