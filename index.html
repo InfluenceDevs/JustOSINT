@@ -1,179 +1,214 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JustOSINT</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <title>JustOSINT — OSINT Tools Directory</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="dark">
-  <div class="bg-layer"></div>
-  <main class="app-shell">
-    <header class="topbar panel">
-      <div class="brand">
-        <p class="kicker">Open Source Intelligence Workbench</p>
-        <h1>JustOSINT Navigator</h1>
+<body>
+
+<!-- ╔══════════════════════════════════════╗ -->
+<!-- ║  TOP BAR                             ║ -->
+<!-- ╚══════════════════════════════════════╝ -->
+<header id="topbar">
+  <div class="topbar-brand">
+    <span class="brand-icon">⬡</span>
+    <span class="brand-name">JustOSINT</span>
+  </div>
+  <div class="topbar-search">
+    <span class="search-icon">⌕</span>
+    <input id="searchInput" type="text" placeholder="Search 1,100+ tools by name, description, or category…" autocomplete="off" spellcheck="false" />
+    <button id="searchClear" class="search-clear" title="Clear search" aria-label="Clear search">✕</button>
+  </div>
+  <div class="topbar-actions">
+    <button id="profilesToggleBtn" class="topbar-btn" title="Profile Builder">
+      <span class="btn-icon">👤</span>
+      <span class="btn-label">Profiles</span>
+    </button>
+    <button id="favToggleBtn" class="topbar-btn" title="Favorites">
+      <span class="btn-icon">★</span>
+      <span class="btn-label">Favorites</span>
+    </button>
+  </div>
+</header>
+
+<!-- ╔══════════════════════════════════════╗ -->
+<!-- ║  APP BODY (sidebar + main)           ║ -->
+<!-- ╚══════════════════════════════════════╝ -->
+<div id="appBody">
+
+  <!-- ── SIDEBAR ───────────────────────── -->
+  <aside id="sidebar">
+    <div class="sidebar-section-label">CATEGORIES</div>
+    <nav id="catNav">
+      <!-- Injected by JS -->
+    </nav>
+  </aside>
+
+  <!-- ── MAIN CONTENT ──────────────────── -->
+  <div id="mainWrap">
+
+    <!-- Filter bar -->
+    <div id="filterBar">
+      <div id="reqFilters">
+        <button class="req-filter active" data-req="all">All</button>
+        <button class="req-filter" data-req="open">
+          <span class="badge-dot open"></span>Open
+        </button>
+        <button class="req-filter" data-req="login">
+          <span class="badge-dot login"></span>Login
+        </button>
+        <button class="req-filter" data-req="api">
+          <span class="badge-dot api"></span>API Key
+        </button>
+        <button class="req-filter" data-req="paid">
+          <span class="badge-dot paid"></span>Paid
+        </button>
+        <button class="req-filter" data-req="install">
+          <span class="badge-dot install"></span>Install
+        </button>
+        <button class="req-filter" data-req="dork">
+          <span class="badge-dot dork"></span>Dork
+        </button>
       </div>
+      <div id="resultMeta"></div>
+    </div>
 
-      <label class="search-wrap" for="searchInput">
-        <span>Find nodes, tools, tags</span>
-        <input id="searchInput" type="search" placeholder="public records, geolocation, dns, username..." autocomplete="off" />
-      </label>
+    <!-- Tool grid -->
+    <div id="toolGrid">
+      <!-- Injected by JS -->
+    </div>
 
-      <div class="top-actions">
-        <button id="homeBtn" class="rail-btn" type="button">Home</button>
-        <button id="knowledgeBtn" class="rail-btn active" type="button">Knowledge</button>
-        <button id="flowBtn" class="rail-btn" type="button">Flow</button>
-        <button id="statsBtn" class="rail-btn" type="button">Stats</button>
-        <button id="workspaceBtn" class="rail-btn" type="button">Workspace</button>
-        <button id="themeToggle" class="rail-btn" type="button">Theme</button>
+    <!-- Empty state -->
+    <div id="emptyState" class="hidden">
+      <div class="empty-icon">🔍</div>
+      <div class="empty-title">No tools found</div>
+      <div class="empty-sub">Try a different search term or clear the filters.</div>
+    </div>
+
+  </div><!-- /mainWrap -->
+
+</div><!-- /appBody -->
+
+<!-- ╔══════════════════════════════════════╗ -->
+<!-- ║  PROFILE SIDE PANEL                  ║ -->
+<!-- ╚══════════════════════════════════════╝ -->
+<div id="profilePanel" class="side-panel hidden">
+  <div class="panel-header">
+    <span class="panel-title">Profile Builder</span>
+    <button class="panel-close" id="profilePanelClose">✕</button>
+  </div>
+  <div class="panel-body">
+
+    <!-- Profile list -->
+    <div id="profileListSection">
+      <div class="panel-section-head">
+        <span>Saved Profiles</span>
+        <button id="newProfileBtn" class="small-btn">+ New</button>
       </div>
-    </header>
+      <div id="profileList"></div>
+      <div class="panel-section-head" style="margin-top:16px;">
+        <span>Import / Export</span>
+      </div>
+      <div class="row-gap">
+        <button id="exportProfilesBtn" class="small-btn">⬇ Export JSON</button>
+        <label class="small-btn" style="cursor:pointer;">
+          ⬆ Import JSON
+          <input type="file" id="importProfilesInput" accept=".json" style="display:none;" />
+        </label>
+      </div>
+    </div>
 
-    <aside class="left-rail panel">
-      <div class="segment-wrap">
-        <div class="segmented">
-          <button id="foldersModeBtn" class="seg-btn active" type="button">Folders</button>
-          <button id="tagsModeBtn" class="seg-btn" type="button">Tags</button>
+    <!-- Profile form -->
+    <div id="profileFormSection" class="hidden">
+      <div class="panel-section-head">
+        <span id="profileFormTitle">New Profile</span>
+        <button id="backToListBtn" class="small-btn">← Back</button>
+      </div>
+      <form id="profileForm" autocomplete="off">
+        <div class="field-group">
+          <label>Full Name</label>
+          <input type="text" id="pf_fullName" placeholder="John Doe" />
         </div>
-      </div>
-
-      <div class="stack tree-panel">
-        <div class="tree-head">
-          <h2>Knowledge Tree</h2>
-          <span class="tree-badge">12</span>
+        <div class="field-group">
+          <label>Alias / Handle</label>
+          <input type="text" id="pf_alias" placeholder="@username" />
         </div>
-        <nav id="categoryNav" class="category-nav" aria-label="OSINT categories"></nav>
-      </div>
-    </aside>
-
-    <section class="board panel">
-      <header class="board-top">
-        <h2 id="boardTitle">Home Dashboard</h2>
-        <div class="board-actions">
-          <button id="expandAllBtn" class="btn ghost" type="button">Expand All</button>
-          <button id="collapseAllBtn" class="btn ghost" type="button">Collapse All</button>
-          <button id="zoomOutBtn" class="btn ghost" type="button">-</button>
-          <button id="zoomInBtn" class="btn ghost" type="button">+</button>
-          <span id="zoomLabel" class="mode-pill">100%</span>
+        <div class="field-group">
+          <label>Date of Birth</label>
+          <input type="text" id="pf_dob" placeholder="YYYY-MM-DD" />
         </div>
-      </header>
-
-      <div id="treeStage" class="tree-stage">
-        <div id="treeViewport" class="tree-viewport">
-          <svg id="graphSvg" class="graph-svg" aria-hidden="true"></svg>
-          <div id="interactiveTree" class="interactive-tree" role="tree" aria-label="Interactive OSINT tree"></div>
+        <div class="field-group">
+          <label>Location</label>
+          <input type="text" id="pf_location" placeholder="City, Country" />
         </div>
-      </div>
-
-      <section id="workspacePanel" class="workspace-panel hidden" aria-label="Investigation workspace">
-        <div class="workspace-toolbar">
-          <p>Advanced Profile Builder. Everything autosaves in your browser.</p>
-          <div class="workspace-actions">
-            <button id="exportProfilesBtn" class="btn ghost" type="button">Export JSON</button>
-            <label class="import-label btn ghost" for="importProfilesInput">Import JSON</label>
-            <input id="importProfilesInput" type="file" accept="application/json" class="hidden-file-input" />
-            <button id="clearWorkspaceBtn" class="btn ghost" type="button">Clear Profiles</button>
-          </div>
+        <div class="field-group">
+          <label>Email Addresses</label>
+          <textarea id="pf_emails" rows="2" placeholder="one per line"></textarea>
         </div>
-
-        <div class="workspace-grid">
-          <article class="workspace-column">
-            <h3>Profile Builder</h3>
-            <form id="profileForm" class="workspace-form">
-              <label for="profileFullName">Full name</label>
-              <input id="profileFullName" name="profileFullName" type="text" placeholder="Jane Doe" maxlength="120" required />
-              <label for="profileAlias">Alias / username</label>
-              <input id="profileAlias" name="profileAlias" type="text" placeholder="jdoe77" maxlength="120" />
-              <label for="profileDob">DOB / age note</label>
-              <input id="profileDob" name="profileDob" type="text" placeholder="1992-03-12 or approx. 34" maxlength="80" />
-              <label for="profileLocation">Location</label>
-              <input id="profileLocation" name="profileLocation" type="text" placeholder="City, state, country" maxlength="140" />
-              <label for="profileEmails">Emails</label>
-              <textarea id="profileEmails" name="profileEmails" rows="2" placeholder="comma or newline separated" maxlength="600"></textarea>
-              <label for="profilePhones">Phones</label>
-              <textarea id="profilePhones" name="profilePhones" rows="2" placeholder="comma or newline separated" maxlength="600"></textarea>
-              <label for="profileUsernames">Usernames</label>
-              <textarea id="profileUsernames" name="profileUsernames" rows="2" placeholder="social handles or accounts" maxlength="800"></textarea>
-              <label for="profileEmployers">Employers / schools</label>
-              <textarea id="profileEmployers" name="profileEmployers" rows="2" placeholder="known organizations" maxlength="800"></textarea>
-              <label for="profileRelationship">Relationship / dating context</label>
-              <input id="profileRelationship" name="profileRelationship" type="text" placeholder="single, married, unknown" maxlength="120" />
-              <label for="profileTags">Tags</label>
-              <input id="profileTags" name="profileTags" type="text" placeholder="target, witness, lead" maxlength="160" />
-              <label for="profileRisk">Risk level</label>
-              <select id="profileRisk" name="profileRisk">
-                <option value="low">Low</option>
-                <option value="medium" selected>Medium</option>
-                <option value="high">High</option>
-              </select>
-              <label for="profileNotes">Investigation notes</label>
-              <textarea id="profileNotes" name="profileNotes" rows="5" placeholder="timeline, links, confidence, next steps" maxlength="4000"></textarea>
-              <button id="saveProfileBtn" class="btn" type="submit">Save Profile</button>
-            </form>
-          </article>
-
-          <article class="workspace-column">
-            <h3>Saved Profiles</h3>
-            <p class="workspace-hint">Drag to reorder. Click Edit to load a profile into the builder.</p>
-            <div id="profileList" class="workspace-list" aria-live="polite"></div>
-          </article>
+        <div class="field-group">
+          <label>Phone Numbers</label>
+          <textarea id="pf_phones" rows="2" placeholder="one per line"></textarea>
         </div>
-      </section>
-
-      <div id="resultsMeta" class="results-meta">Showing all resources</div>
-      <div id="actionStatus" class="results-meta">Ready.</div>
-      <div id="cardsRoot" class="cards-root hidden" aria-live="polite"></div>
-    </section>
-
-    <aside class="right-rail panel">
-      <div class="stack rating-panel">
-        <h2>Community Rating</h2>
-        <div class="stars" aria-label="community rating">★★★★★</div>
-        <p class="rating-value">0 / 5.0 (demo)</p>
-        <button id="submitScoreBtn" class="btn" type="button">Submit Score</button>
-      </div>
-
-      <div class="stack issue-panel">
-        <h2>Report An Issue</h2>
-        <div class="checks">
-          <label><input type="checkbox" id="issueDead" aria-label="Dead link" /> Dead link</label>
-          <label><input type="checkbox" id="issuePaywalled" aria-label="Paywalled" /> Paywalled</label>
-          <label><input type="checkbox" id="issueIncorrect" aria-label="Incorrect info" /> Incorrect info</label>
+        <div class="field-group">
+          <label>Usernames</label>
+          <textarea id="pf_usernames" rows="2" placeholder="one per line"></textarea>
         </div>
-        <button id="sendFeedbackBtn" class="btn ghost" type="button">Send Feedback</button>
-      </div>
+        <div class="field-group">
+          <label>Employers / Organizations</label>
+          <textarea id="pf_employers" rows="2" placeholder="one per line"></textarea>
+        </div>
+        <div class="field-group">
+          <label>Relationship to Subject</label>
+          <input type="text" id="pf_relationship" placeholder="Target / Associate / POI…" />
+        </div>
+        <div class="field-group">
+          <label>Risk Level</label>
+          <select id="pf_risk">
+            <option value="">— Select —</option>
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+            <option>Critical</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Tags</label>
+          <input type="text" id="pf_tags" placeholder="fraud, social-eng, …" />
+        </div>
+        <div class="field-group">
+          <label>Notes</label>
+          <textarea id="pf_notes" rows="4" placeholder="Investigation notes…"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" id="saveProfileBtn" class="btn-primary">Save Profile</button>
+          <button type="button" id="cancelProfileBtn" class="small-btn">Cancel</button>
+        </div>
+      </form>
+    </div>
 
-      <div class="stack favorites-panel">
-        <h2>Quick Access</h2>
-        <p class="workspace-hint">Pin tools from Knowledge or Flow using the + button.</p>
-        <div id="favoritesList" class="workspace-list" aria-live="polite"></div>
-      </div>
+  </div><!-- /panel-body -->
+</div>
 
-      <p class="credits">Made by Influence</p>
-    </aside>
-  </main>
+<!-- ╔══════════════════════════════════════╗ -->
+<!-- ║  FAVORITES SIDE PANEL                ║ -->
+<!-- ╚══════════════════════════════════════╝ -->
+<div id="favPanel" class="side-panel hidden">
+  <div class="panel-header">
+    <span class="panel-title">★ Favorites</span>
+    <button class="panel-close" id="favPanelClose">✕</button>
+  </div>
+  <div class="panel-body">
+    <div id="favList">
+      <div class="empty-fav">No favorites yet. Click the star on any tool to pin it here.</div>
+    </div>
+  </div>
+</div>
 
-  <template id="categoryTemplate">
-    <article class="category-card" data-category="">
-      <header>
-        <h3></h3>
-        <span class="count-pill"></span>
-      </header>
-      <div class="tool-list"></div>
-    </article>
-  </template>
+<!-- Overlay for panels -->
+<div id="overlay" class="hidden"></div>
 
-  <template id="toolTemplate">
-    <a class="tool-item" href="#" target="_blank" rel="noreferrer noopener">
-      <span class="tool-name">Tool</span>
-      <span class="tool-tag"></span>
-    </a>
-  </template>
-
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

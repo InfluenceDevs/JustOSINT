@@ -1,1493 +1,1676 @@
 const osintData = [
-  {
-    category: "Search Engines",
-    tools: [
-      { name: "Google Dorks", url: "https://www.exploit-db.com/google-hacking-database", tag: "queries" },
-      { name: "Bing", url: "https://www.bing.com/", tag: "web" },
-      { name: "Brave Search", url: "https://search.brave.com/", tag: "privacy" },
-      { name: "Yandex", url: "https://yandex.com/", tag: "regional" },
-      { name: "DuckDuckGo", url: "https://duckduckgo.com/", tag: "private" },
-      { name: "Qwant", url: "https://www.qwant.com/", tag: "privacy" },
-      { name: "Startpage", url: "https://www.startpage.com/", tag: "privacy" },
-      { name: "Kagi", url: "https://kagi.com/", tag: "premium" }
-    ]
-  },
-  {
-    category: "Email Address",
-    tools: [
-      { name: "Hunter", url: "https://hunter.io/", tag: "discovery" },
-      { name: "Have I Been Pwned", url: "https://haveibeenpwned.com/", tag: "breaches" },
-      { name: "EmailRep", url: "https://emailrep.io/", tag: "reputation" },
-      { name: "Verify Email", url: "https://verify-email.org/", tag: "validation" },
-      { name: "DeHashed", url: "https://www.dehashed.com/", tag: "leaks" },
-      { name: "Skymem", url: "https://www.skymem.info/", tag: "search" },
-      { name: "LeakCheck", url: "https://leakcheck.io/", tag: "breaches" },
-      { name: "GHunt", url: "https://github.com/mxrch/GHunt", tag: "google" }
-    ]
-  },
-  {
-    category: "Domain Name",
-    tools: [
-      { name: "Whois", url: "https://who.is/", tag: "registration" },
-      { name: "crt.sh", url: "https://crt.sh/", tag: "certificates" },
-      { name: "SecurityTrails", url: "https://securitytrails.com/", tag: "dns" },
-      { name: "DNSTwister", url: "https://dnstwister.report/", tag: "typosquat" },
-      { name: "BuiltWith", url: "https://builtwith.com/", tag: "tech stack" },
-      { name: "DomainTools", url: "https://whois.domaintools.com/", tag: "historical" },
-      { name: "ViewDNS", url: "https://viewdns.info/", tag: "dns" },
-      { name: "Whoxy", url: "https://www.whoxy.com/", tag: "whois api" }
-    ]
-  },
-  {
-    category: "IP & MAC Address",
-    tools: [
-      { name: "Shodan", url: "https://www.shodan.io/", tag: "internet assets" },
-      { name: "Censys", url: "https://search.censys.io/", tag: "asset intel" },
-      { name: "AbuseIPDB", url: "https://www.abuseipdb.com/", tag: "abuse reports" },
-      { name: "GreyNoise", url: "https://www.greynoise.io/", tag: "noise vs threat" },
-      { name: "IPinfo", url: "https://ipinfo.io/", tag: "geo/asn" },
-      { name: "VirusTotal IP", url: "https://www.virustotal.com/gui/home/search", tag: "reputation" },
-      { name: "BGPView", url: "https://bgpview.io/", tag: "routing" },
-      { name: "Robtex", url: "https://www.robtex.com/", tag: "dns+network" }
-    ]
-  },
-  {
-    category: "Geolocation Tools / Maps",
-    tools: [
-      { name: "OpenStreetMap", url: "https://www.openstreetmap.org/", tag: "maps" },
-      { name: "Google Earth", url: "https://earth.google.com/", tag: "satellite" },
-      { name: "Mapillary", url: "https://www.mapillary.com/", tag: "street level" },
-      { name: "SunCalc", url: "https://www.suncalc.org/", tag: "sun shadows" },
-      { name: "GeoSpy", url: "https://geospy.ai/", tag: "image geo" },
-      { name: "GeoNames", url: "https://www.geonames.org/", tag: "gazetteer" },
-      { name: "Overpass Turbo", url: "https://overpass-turbo.eu/", tag: "osm queries" },
-      { name: "What3Words", url: "https://what3words.com/", tag: "location coding" }
-    ]
-  },
-  {
-    category: "Images / Videos / Docs",
-    tools: [
-      { name: "Google Lens", url: "https://lens.google.com/", tag: "reverse image" },
-      { name: "TinEye", url: "https://tineye.com/", tag: "reverse image" },
-      { name: "InVID", url: "https://www.invid-project.eu/tools-and-services/invid-verification-plugin/", tag: "video verify" },
-      { name: "FotoForensics", url: "https://fotoforensics.com/", tag: "metadata" },
-      { name: "ExifTool", url: "https://exiftool.org/", tag: "metadata cli" },
-      { name: "Yandex Images", url: "https://yandex.com/images/", tag: "reverse image" },
-      { name: "Bing Visual Search", url: "https://www.bing.com/visualsearch", tag: "reverse image" },
-      { name: "FFmpeg", url: "https://ffmpeg.org/", tag: "video cli" },
-      { name: "PDFDigger", url: "https://www.pdfdigger.com/", tag: "pdf metadata" },
-      { name: "Metadata2Go", url: "https://www.metadata2go.com/", tag: "metadata" }
-    ]
-  },
-  {
-    category: "Social Networks",
-    tools: [
-      { name: "Social Searcher", url: "https://www.social-searcher.com/", tag: "mentions" },
-      { name: "Twitonomy", url: "https://www.twitonomy.com/", tag: "x analytics" },
-      { name: "Snoopreport", url: "https://snoopreport.com/", tag: "instagram" },
-      { name: "Nitter Mirrors", url: "https://github.com/zedeus/nitter/wiki/Instances", tag: "x mirror" },
-      { name: "CrowdTangle Guide", url: "https://help.crowdtangle.com/", tag: "meta insights" },
-      { name: "Mastodon Search", url: "https://search.noc.social/", tag: "mastodon" },
-      { name: "FediDB", url: "https://fedidb.org/", tag: "fediverse" },
-      { name: "TubeArchivist", url: "https://github.com/tubearchivist/tubearchivist", tag: "youtube archive" }
-    ]
-  },
-  {
-    category: "Username",
-    tools: [
-      { name: "Namechk", url: "https://namechk.com/", tag: "availability" },
-      { name: "WhatsMyName", url: "https://whatsmyname.app/", tag: "platform lookup" },
-      { name: "Sherlock", url: "https://github.com/sherlock-project/sherlock", tag: "cli" },
-      { name: "UserSearch", url: "https://usersearch.org/", tag: "cross-platform" },
-      { name: "Blackbird", url: "https://github.com/p1ngul1n0/blackbird", tag: "automation" },
-      { name: "Maigret", url: "https://github.com/soxoj/maigret", tag: "automation" },
-      { name: "NexFil", url: "https://github.com/thewhiteh4t/nexfil", tag: "automation" },
-      { name: "Holehe", url: "https://github.com/megadose/holehe", tag: "email+username" }
-    ]
-  },
-  {
-    category: "Public Records",
-    tools: [
-      { name: "PACER", url: "https://pacer.uscourts.gov/", tag: "us federal" },
-      { name: "OpenCorporates", url: "https://opencorporates.com/", tag: "companies" },
-      { name: "SEC EDGAR", url: "https://www.sec.gov/edgar/search/", tag: "filings" },
-      { name: "WorldCat", url: "https://www.worldcat.org/", tag: "libraries" },
-      { name: "State Business Search", url: "https://www.nass.org/business-services/business-resource-center", tag: "registry" },
-      { name: "CourtListener", url: "https://www.courtlistener.com/", tag: "legal" },
-      { name: "Data.gov", url: "https://www.data.gov/", tag: "open data" },
-      { name: "National Archives", url: "https://www.archives.gov/", tag: "archives" },
-      { name: "GovInfo", url: "https://www.govinfo.gov/", tag: "government docs" },
-      { name: "OpenSanctions", url: "https://www.opensanctions.org/", tag: "sanctions" }
-    ]
-  },
-  {
-    category: "Dark Web",
-    tools: [
-      { name: "Tor Project", url: "https://www.torproject.org/", tag: "access" },
-      { name: "Ahmia", url: "https://ahmia.fi/", tag: "onion search" },
-      { name: "Dark.fail", url: "https://dark.fail/", tag: "directory" },
-      { name: "OnionScan", url: "https://github.com/s-rah/onionscan", tag: "service scan" },
-      { name: "Tails", url: "https://tails.net/", tag: "opsec" },
-      { name: "OnionSearch", url: "https://github.com/megadose/OnionSearch", tag: "search" },
-      { name: "Kali Tor Tools", url: "https://www.kali.org/tools/", tag: "tooling" },
-      { name: "OnionLand", url: "https://onionlandsearchengine.com/", tag: "search" }
-    ]
-  },
-  {
-    category: "Blockchain & Cryptocurrency",
-    tools: [
-      { name: "Blockchain Explorer", url: "https://www.blockchain.com/explorer", tag: "btc" },
-      { name: "Etherscan", url: "https://etherscan.io/", tag: "eth" },
-      { name: "TRM Blog", url: "https://www.trmlabs.com/resources", tag: "intel" },
-      { name: "Breadcrumbs", url: "https://www.breadcrumbs.app/", tag: "graph" },
-      { name: "WalletExplorer", url: "https://www.walletexplorer.com/", tag: "clusters" },
-      { name: "Blockchair", url: "https://blockchair.com/", tag: "multi chain" },
-      { name: "Arkham", url: "https://platform.arkhamintelligence.com/", tag: "intel" },
-      { name: "Mempool", url: "https://mempool.space/", tag: "btc mempool" }
-    ]
-  },
-  {
-    category: "Cloud Infrastructure",
-    tools: [
-      { name: "Netlas", url: "https://netlas.io/", tag: "attack surface" },
-      { name: "BGPView", url: "https://bgpview.io/", tag: "routing" },
-      { name: "CloudSnare", url: "https://github.com/christophetd/CloudFlair", tag: "origin ip" },
-      { name: "RapidDNS", url: "https://rapiddns.io/", tag: "passive dns" },
-      { name: "FOFA", url: "https://en.fofa.info/", tag: "internet mapping" },
-      { name: "BinaryEdge", url: "https://www.binaryedge.io/", tag: "attack surface" },
-      { name: "LeakIX", url: "https://leakix.net/", tag: "exposed services" },
-      { name: "URLScan", url: "https://urlscan.io/", tag: "web telemetry" }
-    ]
-  },
-  {
-    category: "Phone Numbers",
-    tools: [
-      { name: "Numverify", url: "https://numverify.com/", tag: "validation" },
-      { name: "Truecaller", url: "https://www.truecaller.com/", tag: "caller id" },
-      { name: "Sync.me", url: "https://sync.me/", tag: "identity" },
-      { name: "PhoneInfoga", url: "https://github.com/sundowndev/phoneinfoga", tag: "cli" },
-      { name: "Whoscall", url: "https://whoscall.com/", tag: "caller id" },
-      { name: "CarrierLookup", url: "https://carrierlookup.com/", tag: "carrier" },
-      { name: "Twilio Lookup", url: "https://www.twilio.com/lookup", tag: "api" },
-      { name: "NumBuster", url: "https://numbuster.com/", tag: "community" }
-    ]
-  },
-  {
-    category: "Transportation",
-    tools: [
-      { name: "FlightRadar24", url: "https://www.flightradar24.com/", tag: "aviation" },
-      { name: "ADS-B Exchange", url: "https://globe.adsbexchange.com/", tag: "aviation" },
-      { name: "MarineTraffic", url: "https://www.marinetraffic.com/", tag: "shipping" },
-      { name: "OpenRailwayMap", url: "https://www.openrailwaymap.org/", tag: "rail" },
-      { name: "VesselFinder", url: "https://www.vesselfinder.com/", tag: "shipping" },
-      { name: "Raildar", url: "https://raildar.co.uk/", tag: "rail" },
-      { name: "Airportia", url: "https://www.airportia.com/", tag: "flight history" },
-      { name: "PlaneSpotters", url: "https://www.planespotters.net/", tag: "aircraft registry" }
-    ]
-  },
-  {
-    category: "Archives",
-    tools: [
-      { name: "Wayback Machine", url: "https://web.archive.org/", tag: "web archive" },
-      { name: "Archive.today", url: "https://archive.ph/", tag: "snapshot" },
-      { name: "Memento Time Travel", url: "https://timetravel.mementoweb.org/", tag: "archive aggregator" },
-      { name: "OldWeb.today", url: "https://oldweb.today/", tag: "historical browsing" },
-      { name: "Ghostarchive", url: "https://ghostarchive.org/", tag: "media archive" },
-      { name: "Library of Congress", url: "https://www.loc.gov/", tag: "records" },
-      { name: "Perma.cc", url: "https://perma.cc/", tag: "legal archive" },
-      { name: "ArchiveBox", url: "https://archivebox.io/", tag: "self hosted" }
-    ]
-  },
-  {
-    category: "Relatives & Family Lookup",
-    tools: [
-      { name: "FamilySearch", url: "https://www.familysearch.org/", tag: "genealogy" },
-      { name: "Find A Grave", url: "https://www.findagrave.com/", tag: "memorial" },
-      { name: "TruePeopleSearch", url: "https://www.truepeoplesearch.com/", tag: "people search" },
-      { name: "Whitepages", url: "https://www.whitepages.com/", tag: "directory" },
-      { name: "Spokeo", url: "https://www.spokeo.com/", tag: "aggregator" },
-      { name: "FastPeopleSearch", url: "https://www.fastpeoplesearch.com/", tag: "people search" },
-      { name: "Thatsthem", url: "https://thatsthem.com/", tag: "identity" },
-      { name: "AnyWho", url: "https://www.anywho.com/", tag: "directory" },
-      { name: "ClustrMaps", url: "https://clustrmaps.com/", tag: "address links" },
-      { name: "USSearch", url: "https://www.ussearch.com/", tag: "records" },
-      { name: "FamilyTreeNow", url: "https://www.familytreenow.com/", tag: "family graph" },
-      { name: "PeopleFinders", url: "https://www.peoplefinders.com/", tag: "people search" }
-    ]
-  },
-  {
-    category: "Dating & Relationships",
-    tools: [
-      { name: "Bumble", url: "https://bumble.com/", tag: "dating profile" },
-      { name: "Tinder", url: "https://tinder.com/", tag: "dating profile" },
-      { name: "Hinge", url: "https://hinge.co/", tag: "dating profile" },
-      { name: "OkCupid", url: "https://www.okcupid.com/", tag: "dating profile" },
-      { name: "Match", url: "https://www.match.com/", tag: "dating profile" },
-      { name: "Plenty of Fish", url: "https://www.pof.com/", tag: "dating profile" },
-      { name: "eHarmony", url: "https://www.eharmony.com/", tag: "dating profile" },
-      { name: "Badoo", url: "https://badoo.com/", tag: "dating profile" },
-      { name: "Coffee Meets Bagel", url: "https://coffeemeetsbagel.com/", tag: "dating profile" },
-      { name: "BLK", url: "https://blk-app.com/", tag: "dating profile" },
-      { name: "Feeld", url: "https://feeld.co/", tag: "dating profile" },
-      { name: "Boo", url: "https://boo.world/", tag: "dating profile" }
-    ]
-  },
-  {
-    category: "People Search & Identity",
-    tools: [
-      { name: "Pipl", url: "https://pipl.com/", tag: "identity" },
-      { name: "PeekYou", url: "https://www.peekyou.com/", tag: "username" },
-      { name: "Radaris", url: "https://radaris.com/", tag: "people search" },
-      { name: "Nuwber", url: "https://nuwber.com/", tag: "people search" },
-      { name: "BeenVerified", url: "https://www.beenverified.com/", tag: "background" },
-      { name: "Intelius", url: "https://www.intelius.com/", tag: "background" },
-      { name: "TruthFinder", url: "https://www.truthfinder.com/", tag: "background" },
-      { name: "PeopleLooker", url: "https://www.peoplelooker.com/", tag: "background" },
-      { name: "ZabaSearch", url: "https://www.zabasearch.com/", tag: "directory" },
-      { name: "AddressSearch", url: "https://addresssearch.com/", tag: "address" },
-      { name: "NeighborWho", url: "https://www.neighborwho.com/", tag: "property" },
-      { name: "LocatePeople", url: "https://www.locatepeople.org/", tag: "people search" }
-    ]
-  },
-  {
-    category: "Property & Address Records",
-    tools: [
-      { name: "Zillow", url: "https://www.zillow.com/", tag: "property" },
-      { name: "Realtor", url: "https://www.realtor.com/", tag: "property" },
-      { name: "Redfin", url: "https://www.redfin.com/", tag: "property" },
-      { name: "Trulia", url: "https://www.trulia.com/", tag: "property" },
-      { name: "County Office", url: "https://www.countyoffice.org/", tag: "public records" },
-      { name: "PropertyShark", url: "https://www.propertyshark.com/", tag: "records" },
-      { name: "OnXmaps", url: "https://www.onxmaps.com/", tag: "parcel maps" },
-      { name: "Landgrid", url: "https://landgrid.com/", tag: "parcel maps" },
-      { name: "Regrid", url: "https://regrid.com/", tag: "parcel maps" },
-      { name: "BatchGeo", url: "https://batchgeo.com/", tag: "mapping" },
-      { name: "OpenAddresses", url: "https://openaddresses.io/", tag: "open data" },
-      { name: "Assessor Parcel Search", url: "https://www.nass.org/business-services/business-resource-center", tag: "county assessor" }
-    ]
-  },
-  {
-    category: "Court, Marriage & Divorce",
-    tools: [
-      { name: "RECAP Archive", url: "https://www.courtlistener.com/recap/", tag: "court dockets" },
-      { name: "JudyRecords", url: "https://www.judyrecords.com/", tag: "court records" },
-      { name: "UniCourt", url: "https://unicourt.com/", tag: "court records" },
-      { name: "Trellis", url: "https://trellis.law/", tag: "state courts" },
-      { name: "VitalChek", url: "https://www.vitalchek.com/", tag: "vital records" },
-      { name: "CDC Vital Records", url: "https://www.cdc.gov/nchs/w2w/index.htm", tag: "vital records" },
-      { name: "State Courts Directory", url: "https://www.ncsc.org/information-and-resources/state-court-websites", tag: "court links" },
-      { name: "Justia Dockets", url: "https://dockets.justia.com/", tag: "court dockets" },
-      { name: "Law360", url: "https://www.law360.com/", tag: "legal news" },
-      { name: "State Marriage Indexes", url: "https://www.familysearch.org/search/collection/list", tag: "marriage" },
-      { name: "State Divorce Indexes", url: "https://www.familysearch.org/search/collection/list", tag: "divorce" },
-      { name: "PublicData Check", url: "https://publicdatacheck.com/", tag: "background" }
-    ]
-  },
-  {
-    category: "Messaging & Community Signals",
-    tools: [
-      { name: "Telegram", url: "https://telegram.org/", tag: "messaging" },
-      { name: "Discord", url: "https://discord.com/", tag: "community" },
-      { name: "Reddit", url: "https://www.reddit.com/", tag: "community" },
-      { name: "4chan Archive", url: "https://archive.4plebs.org/", tag: "forum archive" },
-      { name: "Lemmy Explorer", url: "https://join-lemmy.org/instances", tag: "fediverse" },
-      { name: "Discord.me", url: "https://discord.me/", tag: "server discovery" },
-      { name: "TelegramDB", url: "https://telegramdb.org/", tag: "channel discovery" },
-      { name: "Disboard", url: "https://disboard.org/", tag: "server discovery" },
-      { name: "Top.gg", url: "https://top.gg/servers", tag: "server discovery" },
-      { name: "Kbin Instances", url: "https://kbin.pub/en", tag: "fediverse" },
-      { name: "Usenet CSE", url: "https://cse.google.com/cse?cx=010582677517954599991:2x8jzj7y6gc", tag: "archives" },
-      { name: "BoardReader", url: "https://boardreader.com/", tag: "forum search" }
-    ]
-  },
-  {
-    category: "Genealogy & Historical People",
-    tools: [
-      { name: "Ancestry", url: "https://www.ancestry.com/", tag: "genealogy" },
-      { name: "MyHeritage", url: "https://www.myheritage.com/", tag: "genealogy" },
-      { name: "Geni", url: "https://www.geni.com/", tag: "family tree" },
-      { name: "WikiTree", url: "https://www.wikitree.com/", tag: "family tree" },
-      { name: "Cyndi's List", url: "https://www.cyndislist.com/", tag: "genealogy links" },
-      { name: "NARA Genealogy", url: "https://www.archives.gov/research/genealogy", tag: "us archives" },
-      { name: "Ellis Island Records", url: "https://heritage.statueofliberty.org/", tag: "immigration" },
-      { name: "JewishGen", url: "https://www.jewishgen.org/", tag: "genealogy" },
-      { name: "Findmypast", url: "https://www.findmypast.com/", tag: "records" },
-      { name: "BillionGraves", url: "https://billiongraves.com/", tag: "cemetery" },
-      { name: "The National Archives UK", url: "https://www.nationalarchives.gov.uk/", tag: "archives" },
-      { name: "ArchiveGrid", url: "https://researchworks.oclc.org/archivegrid/", tag: "archive search" }
-    ]
-  },
-  {
-    category: "Employment & Professional",
-    tools: [
-      { name: "LinkedIn", url: "https://www.linkedin.com/", tag: "professional" },
-      { name: "Xing", url: "https://www.xing.com/", tag: "professional" },
-      { name: "RocketReach", url: "https://rocketreach.co/", tag: "contacts" },
-      { name: "Apollo", url: "https://www.apollo.io/", tag: "contacts" },
-      { name: "ZoomInfo", url: "https://www.zoominfo.com/", tag: "company intel" },
-      { name: "Crunchbase", url: "https://www.crunchbase.com/", tag: "companies" },
-      { name: "BuiltIn", url: "https://builtin.com/", tag: "company profiles" },
-      { name: "Wellfound", url: "https://wellfound.com/", tag: "startup people" },
-      { name: "Indeed Company Pages", url: "https://www.indeed.com/companies", tag: "company profiles" },
-      { name: "Glassdoor", url: "https://www.glassdoor.com/", tag: "employment" },
-      { name: "OpenSecrets", url: "https://www.opensecrets.org/", tag: "influence" },
-      { name: "LittleSis", url: "https://littlesis.org/", tag: "network mapping" }
-    ]
-  }
+  { category: "AI Tools", tools: [
+    { name: "AI or Not", url: "https://www.aiornot.com/", tags: ["api", "paid"], desc: "AI content detection tool that analyzes images and audio to determine whether they were generated by AI or created by humans." },
+    { name: "Copyleaks", url: "https://copyleaks.com/", tags: ["login", "api", "paid"], desc: "Plagiarism and AI-generated content detection platform that checks text against web sources and AI writing patterns across multiple languages." },
+    { name: "Decopy AI Image Detector", url: "https://decopy.ai/ai-image-detector/", tags: ["api", "paid"], desc: "AI image detection tool that analyzes photographs and graphics to identify signatures of AI generation from models like Midjourney, DALL-E, and Stable Diffusion" },
+    { name: "DeepAI AI Image Detector", url: "https://deepai.org/ai-image-detector", tags: ["api", "paid"], desc: "DeepAI's image authenticity classifier that detects whether an image was generated by an AI model or captured by a camera." },
+    { name: "DeepSeek", url: "https://www.deepseek.com/", tags: ["api", "paid"], desc: "Chinese open-source large language model and chat assistant offering competitive reasoning capabilities with free access for research and analysis tasks." },
+    { name: "DocMind AI", url: "https://github.com/BjornMelin/docmind-ai-llm", tags: ["install"], desc: "Open-source local LLM-powered document analysis tool for querying and summarizing documents using locally running language models via LangChain." },
+    { name: "DuckDuckGo AI Chat", url: "https://duckduckgo.com/aichat", tags: ["open"], desc: "Privacy-focused AI chat interface by DuckDuckGo that proxies conversations through multiple LLMs without tying them to user identity or storing them." },
+    { name: "GPTZero", url: "https://gptzero.me/", tags: ["api", "paid"], desc: "AI text detection tool specifically designed to identify ChatGPT and large language model-generated content with sentence-level granularity." },
+    { name: "Grammarly AI Detector", url: "https://www.grammarly.com/ai-detector", tags: ["open"], desc: "Grammarly's AI content detection tool that identifies text likely generated by AI writing assistants, with percentage breakdown of human vs. AI content." },
+    { name: "Hive AI Generated Content Detection", url: "https://hivemoderation.com/ai-generated-content-detection", tags: ["login", "api", "paid"], desc: "Enterprise-grade AI content detection API from Hive Moderation that detects AI-generated text, images, and video at scale." },
+    { name: "Hugging Face AI Detector", url: "https://huggingface.co/spaces/umm-maybe/AI_Detector", tags: ["open"], desc: "Community-hosted AI text detector on Hugging Face Spaces that classifies text as AI-generated or human-written using open-source models." },
+    { name: "Illuminarty", url: "https://app.illuminarty.ai/", tags: ["login", "api", "paid"], desc: "AI image detection tool that identifies AI-generated images and attempts to identify which AI model was used to create them." },
+    { name: "Microsoft Copilot", url: "https://copilot.microsoft.com/", tags: ["api"], desc: "Microsoft's AI assistant powered by GPT-4 with web search integration; useful for summarizing open-source intelligence and conducting research tasks." },
+    { name: "Ollama", url: "https://ollama.com/", tags: ["install", "api"], desc: "Local LLM runner that enables privacy-preserving AI inference on personal hardware by downloading and running open-source models like Llama 3, Mistral, and Gemm" },
+    { name: "OSINT Analyser", url: "https://github.com/joestanding/osint-analyser", tags: ["install"], desc: "Open-source OSINT data aggregation and AI analysis tool that collects information from multiple sources and uses LLMs to generate intelligence summaries." },
+    { name: "TrueMedia", url: "https://www.truemedia.org/", tags: ["open"], desc: "AI deepfake detection platform focused on political content that analyzes videos and images for synthetic media manipulation indicators." },
+    { name: "WasItAI", url: "https://wasitai.com/", tags: ["api"], desc: "Lightweight AI content detection tool that analyzes text and images to determine if they were created by AI, with a simple interface for quick checks." },
+    { name: "World Monitor", url: "https://www.worldmonitor.app/", tags: ["login", "api", "paid"], desc: "AI-powered geopolitical event monitoring and intelligence platform that tracks global news and events relevant to national security and business risk." },
+    { name: "You.com", url: "https://you.com/", tags: ["login", "api", "paid"], desc: "AI-powered search engine and assistant that combines web search with LLM-generated responses and source citations for research tasks." },
+  ]},
+  { category: "Archives", tools: [
+    { name: "Anna's Archive", url: "https://annas-archive.org/", tags: ["login"], desc: "Meta-search index for books and papers that aggregates links from multiple shadow libraries." },
+    { name: "Archive.is", url: "https://archive.is/", tags: ["open"], desc: "On-demand web snapshot service that preserves point-in-time copies of pages and shortens archive links." },
+    { name: "Browsershots", url: "https://browsershots.org/", tags: ["open"], desc: "Legacy cross-browser screenshot service historically used to render pages in multiple browser/OS combinations." },
+    { name: "Cached Pages", url: "https://www.cachedpages.com/", tags: ["open"], desc: "Web cache lookup utility that surfaces archived and cached versions of a target page from multiple sources." },
+    { name: "Cached View", url: "https://cachedview.com/", tags: ["open"], desc: "Simple cache-checking service that retrieves copies of pages from search engine and archive caches." },
+    { name: "Common Crawl", url: "https://commoncrawl.org/", tags: ["api"], desc: "Open repository of large-scale web crawl data published as monthly WARC datasets." },
+    { name: "Internet Archive: Wayback Machine", url: "https://web.archive.org/", tags: ["api"], desc: "Web archive providing historical snapshots of websites captured over time." },
+    { name: "PDF My URL", url: "https://pdfmyurl.com/", tags: ["paid"], desc: "Converts web pages into downloadable PDF captures for documentation and evidence preservation." },
+    { name: "Screenshots.com", url: "https://www.screenshots.com/", tags: ["login", "paid"], desc: "Website screenshot archive and capture service for viewing historical or current rendered page images." },
+    { name: "Wayback Machine Chrome Extension", url: "https://chrome.google.com/webstore/detail/wayback-machine/fpnmgdkabkmnadcjpehmlllkndpkmiak", tags: ["install"], desc: "Browser extension that detects missing pages and loads historical versions from the Wayback Machine." },
+    { name: "Textfiles.com", url: "https://textfiles.com/", tags: ["open"], desc: "Historic repository preserving early internet text artifacts including BBS files, documents, and underground zines." },
+    { name: "UK Web Archive", url: "https://www.webarchive.org.uk/ukwa/", tags: ["open"], desc: "British Library-led archive preserving selected UK websites and related national web heritage content." },
+    { name: "Waybackpack", url: "https://github.com/jsvine/waybackpack", tags: ["install", "api"], desc: "Command-line tool for bulk downloading archived captures from the Internet Archive Wayback Machine." },
+    { name: "Web Archive-RU", url: "https://web-arhive.ru/", tags: ["open"], desc: "Regional web archiving service focused on preserving and browsing snapshots of selected websites." },
+    { name: "WebCite", url: "https://www.webcitation.org:443/query", tags: ["open"], desc: "Citation-focused web preservation service with legacy archived records and limited query capabilities." },
+    { name: "Cryptome", url: "https://cryptome.org/", tags: ["open"], desc: "Long-running disclosure archive hosting leaked or hard-to-find government, intelligence, and policy documents." },
+    { name: "Databases.Today", url: "https://databases.today/", tags: ["login", "paid"], desc: "Breach data discovery portal indexing exposed databases and leaked credential collections." },
+    { name: "WikiLeaks", url: "https://wikileaks.org/", tags: ["open"], desc: "Global document leak publication platform containing diplomatic, military, and corporate disclosures." },
+    { name: "Labeled Faces in the Wild DB", url: "https://vis-www.cs.umass.edu/lfw/", tags: ["open"], desc: "Academic benchmark dataset of labeled face photographs collected from the public web." },
+    { name: "Stanford Large Network Dataset Collection", url: "https://snap.stanford.edu/data/#amazon", tags: ["open"], desc: "SNAP repository of graph/network datasets spanning social networks, web graphs, and communication systems." },
+    { name: "UCI Spambase Data Set", url: "https://archive.ics.uci.edu/dataset/94/spambase", tags: ["open"], desc: "Classic UCI machine-learning dataset for spam classification and email feature analysis." },
+    { name: "Visual Genome", url: "https://visualgenome.org/", tags: ["api"], desc: "Structured image dataset linking objects, attributes, and scene graph relationships for visual understanding research." },
+    { name: "TV Closed Caption Search", url: "https://archive.org/details/tv", tags: ["api"], desc: "Internet Archive TV News collection for searching closed-caption text across broadcast recordings." },
+  ]},
+  { category: "Blockchain & Cryptocurrency", tools: [
+    { name: "Bitcoin Who's Who", url: "https://www.bitcoinwhoswho.com/", tags: ["open"], desc: "Bitcoin address profiling and scam reporting platform with community-driven address tagging for fraud detection and wallet identification." },
+    { name: "BitRef", url: "https://bitref.com/", tags: ["api", "paid"], desc: "Bitcoin address balance checker and transaction analyzer supporting address clustering, mempool data, mining statistics, and developer API." },
+    { name: "Blockonomics", url: "https://www.blockonomics.co/", tags: ["api", "paid"], desc: "Bitcoin payment API and OSINT platform providing address monitoring, wallet balance tracking, and transaction alerts for developers and enterprises." },
+    { name: "Blockr.io", url: "https://blockr.io/", tags: ["open"], desc: "Legacy Bitcoin blockchain explorer acquired by Coinbase in August 2014 and no longer maintained as standalone service." },
+    { name: "Blocktrail", url: "https://www.blocktrail.com/BTC", tags: ["open"], desc: "Bitcoin transaction analysis platform acquired by Bitmain in July 2016 and rebranded to BTC.com; original service no longer operational." },
+    { name: "Orbit", url: "https://github.com/s0md3v/Orbit", tags: ["install"], desc: "Python CLI tool for Bitcoin wallet network analysis that visualizes transaction relationships through recursive crawling and graph rendering." },
+    { name: "Wallet Explorer", url: "https://www.walletexplorer.com/", tags: ["paid"], desc: "Bitcoin address clustering and wallet linking tool using multi-input heuristics to identify related addresses and track entity-level transaction patterns." },
+    { name: "Bitcoin Abuse Database", url: "https://bitcoinabuse.com/", tags: ["open"], desc: "Community-curated Bitcoin address abuse database tracking addresses associated with ransomware, fraud, scams, and illicit activities." },
+    { name: "Blockchair", url: "https://blockchair.com/", tags: ["api", "paid"], desc: "Multi-chain blockchain explorer supporting 48+ blockchains (Bitcoin, Ethereum, Litecoin, Solana, etc.) with advanced search, SQL-like queries, and privacy-focus" },
+    { name: "Blockscan", url: "https://blockscan.com/", tags: ["paid"], desc: "Multichain EVM blockchain explorer aggregating 25+ EVM-compatible chains with portfolio tracking, real-time data, and in-depth analytics." },
+    { name: "Etherscan", url: "https://etherscan.io/", tags: ["api", "paid"], desc: "Leading blockchain explorer, analytics, and API platform for Ethereum and 60+ EVM-compatible chains with comprehensive smart contract interaction tracking and d" },
+    { name: "OXT.me", url: "https://oxt.me/", tags: ["open"], desc: "Bitcoin blockchain analysis platform providing address probability scoring, transaction graph visualization, and timeline-based balance analysis for privacy res" },
+    { name: "DefiLlama", url: "https://defillama.com/", tags: ["api", "paid"], desc: "DeFi analytics platform aggregating Total Value Locked (TVL), yields, protocol revenue, and fees across 7000+ protocols on 500+ chains." },
+    { name: "Dune Analytics", url: "https://dune.com/", tags: ["api", "paid"], desc: "Onchain data analytics platform enabling SQL queries against indexed blockchain data for 100+ blockchains with interactive dashboard and visualization tools." },
+    { name: "Arkham Intelligence", url: "https://intel.arkm.com/", tags: ["login", "api", "paid"], desc: "AI-powered blockchain intelligence platform mapping 300+ million address labels and 150K+ entity pages using proprietary Ultra system for entity deanonymization" },
+    { name: "Breadcrumbs.app", url: "https://www.breadcrumbs.app/", tags: ["paid"], desc: "Community-powered blockchain analytics platform with fund-flow visualization (PathFinder), address investigation, and crypto transaction network mapping." },
+    { name: "MetaSleuth", url: "https://metasleuth.io/", tags: ["login", "paid"], desc: "Cross-chain cryptocurrency tracking and AML platform supporting 13 blockchains with fund-tracing through mixers using time/amount heuristics and network analysi" },
+    { name: "MistTrack", url: "https://misttrack.io/", tags: ["login", "paid"], desc: "Comprehensive AML and fund-tracing platform with 400M+ labeled wallet addresses, compliance database integration (OFAC, NBCTF, UK HMT), and real-time monitoring" },
+    { name: "Monero Blocks", url: "https://localmonero.co/blocks/", tags: ["open"], desc: "Monero blockchain explorer displaying blocks, transactions, and network statistics for the privacy-focused Monero cryptocurrency." },
+    { name: "XMRChain.net", url: "https://xmrchain.net/", tags: ["open"], desc: "Minimal Monero blockchain explorer with no JavaScript, cookies, or tracking; available via Tor with focus on privacy and open-source design." },
+    { name: "Bitquery Explorer", url: "https://explorer.bitquery.io/", tags: ["api", "paid"], desc: "Multi-chain blockchain explorer with GraphQL API supporting 40+ blockchains, real-time streaming, and advanced querying for token trades, transfers, and smart c" },
+    { name: "Etherscan NFT Tracker", url: "https://etherscan.io/nft", tags: ["api", "paid"], desc: "NFT-specific section of Etherscan for tracking ERC-721 and ERC-1155 token transfers, marketplace activities, and collection-level statistics." },
+    { name: "OpenSea", url: "https://opensea.io/", tags: ["paid"], desc: "Multi-chain NFT marketplace supporting 22+ blockchains (Ethereum, Solana, Arbitrum, Optimism, etc.) with transaction history, collection analytics, and trading " },
+    { name: "Zcash Block Explorer", url: "https://blockchair.com/zcash", tags: ["api", "paid"], desc: "Zcash blockchain explorer (hosted on Blockchair) supporting transparent and shielded transaction analysis for privacy-coin OSINT with transaction filtering and " },
+  ]},
+  { category: "Business Records", tools: [
+    { name: "AnnualReports.com", url: "https://www.annualreports.com/", tags: ["open"], desc: "Free directory of annual reports for thousands of public companies worldwide. Allows browsing and downloading official investor relations documents." },
+    { name: "Public Register Online", url: "https://www.annualreportservice.com/", tags: ["open"], desc: "Online directory for accessing annual reports and financial documents from companies that participate in the service." },
+    { name: "Public Register's Annual Report Service", url: "https://www.prars.com/search/alpha/A", tags: ["open"], desc: "PRARS provides access to annual reports for thousands of publicly traded companies, organized alphabetically for browsing." },
+    { name: "International Registries", url: "https://www.gov.uk/government/publications/overseas-registries/overseas-registries", tags: ["open"], desc: "UK government page listing official overseas company registries for countries worldwide, linking to each nation's official registration authority." },
+    { name: "Commercial Register - Worldwide", url: "https://www.sg.ch/recht/handelsregister-notariate.html", tags: ["open"], desc: "Canton of St. Gallen (Switzerland) official commercial register, providing a searchable database of businesses registered in the canton." },
+    { name: "SEC.gov - EDGAR", url: "https://www.sec.gov/submit-filings", tags: ["api", "dork"], desc: "The SEC's Electronic Data Gathering, Analysis, and Retrieval system provides free public access to corporate filings including 10-K, 10-Q, 8-K, and proxy statem" },
+    { name: "International White Pages", url: "https://www.wayp.com/", tags: ["open"], desc: "WAYP.com is an international white pages and business directory aggregating contact listings from multiple countries." },
+    { name: "UK Companies", url: "https://www.gov.uk/get-information-about-a-company", tags: ["api"], desc: "Official UK government service providing free access to information about companies registered in England, Wales, Scotland, and Northern Ireland." },
+    { name: "Global EDGE Resource Directory", url: "https://globaledge.msu.edu/global-resources", tags: ["open"], desc: "MSU GlobalEdge curated directory of international business resources, organized by topic including trade, investment, finance, and country data." },
+    { name: "Google Finance", url: "https://www.google.com/finance/", tags: ["open"], desc: "Google's financial data platform providing stock quotes, financial statements, news, and company overviews for publicly traded companies." },
+    { name: "OpenCorporates", url: "https://opencorporates.com/", tags: ["api", "paid"], desc: "The world's largest open database of companies, covering 200+ jurisdictions with over 200 million company records sourced directly from official registries." },
+    { name: "AIHIT", url: "https://www.aihitdata.com/", tags: ["login", "api", "paid"], desc: "B2B company intelligence platform providing data on millions of businesses including executives, contact information, and company profiles." },
+    { name: "Plonked", url: "https://www.plonked.com/", tags: ["open"], desc: "UK business directory service for locating companies and contact information." },
+    { name: "Buzzfile", url: "https://www.buzzfile.com/Home/Basic", tags: ["paid"], desc: "US company database providing business profiles, SIC codes, employee counts, and contact information for millions of US businesses." },
+    { name: "LittleSis", url: "https://littlesis.org/", tags: ["api"], desc: "Free database mapping relationships between powerful people and organizations, tracking political donors, lobbyists, board members, and corporate networks." },
+    { name: "Rusprofile", url: "https://www.rusprofile.ru/", tags: ["paid"], desc: "Russian company registry and business intelligence platform providing information on Russian legal entities from official government sources." },
+    { name: "Companies House", url: "https://beta.companieshouse.gov.uk/", tags: ["api"], desc: "Official UK government company registry for England, Wales, Scotland, and Northern Ireland. Provides free access to company filings, officers, and registration " },
+    { name: "Company Data Rex (EU)", url: "https://www.cdrex.com/", tags: ["paid"], desc: "European company data aggregation platform providing business intelligence on EU-registered companies from multiple national registries." },
+    { name: "Europages", url: "https://www.europages.co.uk:443/", tags: ["open"], desc: "European B2B marketplace and company directory covering 3+ million companies across 26 countries with product and service listings." },
+    { name: "Owler", url: "https://www.owler.com/corp", tags: ["login", "paid"], desc: "Competitive intelligence platform providing company profiles, revenue estimates, employee counts, news alerts, and competitor tracking. Requires registration fo" },
+    { name: "Vault", url: "https://vault.com/", tags: ["paid"], desc: "Career research platform providing company profiles, employee reviews, salary data, and industry guides for job seekers and researchers." },
+    { name: "Companies In The UK", url: "https://www.companiesintheuk.co.uk/", tags: ["open"], desc: "UK company search engine aggregating information from Companies House, providing easy lookup of registered UK businesses." },
+    { name: "UK Data", url: "https://ukdata.com/", tags: ["paid"], desc: "UK company information and credit data service providing business intelligence on UK-registered companies." },
+    { name: "Orbis Directory", url: "https://orbisdirectory.bvdinfo.com/version-2016121/OrbisDirectory/Companies", tags: ["login", "api", "paid"], desc: "Bureau van Dijk's global company database covering 400+ million companies with standardized financial data, ownership structures, and M&A activity." },
+    { name: "Crunchbase", url: "https://www.crunchbase.com/#/home/index", tags: ["login", "api", "paid"], desc: "Leading startup and investment intelligence platform tracking company funding rounds, acquisitions, investors, and executive profiles." },
+    { name: "RecruitEm", url: "https://recruitin.net/", tags: ["dork"], desc: "Free X-Ray search tool for finding profiles on LinkedIn, GitHub, Twitter, and other platforms using Google's site: operator with customizable search parameters." },
+    { name: "LinkedIn", url: "https://www.linkedin.com/", tags: ["login", "paid", "dork"], desc: "World's largest professional network with 900+ million members. Provides company pages, employee listings, and professional history data." },
+    { name: "Jobster", url: "https://jobster.com/", tags: ["open"], desc: "Early job search and professional networking site that aggregated job listings and professional profiles." },
+    { name: "XING", url: "https://www.xing.com/", tags: ["login", "paid"], desc: "European professional networking platform popular in German-speaking countries. Provides company profiles, employee listings, and career data. Requires registra" },
+    { name: "CVGadget", url: "https://cvgadget.com/", tags: ["dork"], desc: "CV and resume search tool using Google X-Ray techniques to find publicly posted resumes and CVs on the web." },
+    { name: "RBA - Business Information Resources", url: "https://www.rba.co.uk/sources/", tags: ["open"], desc: "Curated directory maintained by Researching Business Activities, linking to free and paid business information sources organized by category." },
+    { name: "VAT Number Validation", url: "https://ec.europa.eu/taxation_customs/vies/?locale=en", tags: ["api"], desc: "EU VIES (VAT Information Exchange System) allows validation of VAT numbers for businesses registered in EU member states." },
+  ]},
+  { category: "Classifieds", tools: [
+    { name: "Craigslist", url: "https://charlotte.craigslist.org/", tags: ["dork"], desc: "One of the largest free online classifieds platforms in the US, covering jobs, housing, for sale, services, and community posts organized by metropolitan area." },
+    { name: "Kijiji - Canada Classifieds", url: "https://www.kijiji.ca:443/", tags: ["dork"], desc: "Canada's largest free online classifieds marketplace covering vehicles, real estate, jobs, and general merchandise listings across Canadian cities." },
+    { name: "Quikr - India Classifieds", url: "https://www.quikr.com/", tags: ["dork"], desc: "Major Indian online classifieds platform for buying and selling goods, services, vehicles, and real estate across hundreds of Indian cities." },
+    { name: "eBay", url: "https://www.ebay.com/", tags: ["api", "dork"], desc: "Global e-commerce and online auction marketplace; valuable for OSINT research on seller profiles, item histories, and cross-referencing usernames." },
+    { name: "OfferUp", url: "https://offerup.com/", tags: ["dork"], desc: "US-focused mobile-first marketplace for local buying and selling of goods, with user profiles that may include ratings, reviews, and item listing history." },
+    { name: "Goofbid", url: "https://www.goofbid.com/", tags: ["open"], desc: "eBay auction search and sniping tool that finds misspelled eBay listings and provides advanced search features to surface hard-to-find items." },
+    { name: "SearchAllJunk", url: "https://www.searchalljunk.com/", tags: ["open"], desc: "Classifieds metasearch engine that searches across multiple classified platforms simultaneously including Craigslist and similar sites." },
+    { name: "TotalCraigSearch", url: "https://www.totalcraigsearch.com/", tags: ["open"], desc: "Search tool that enables cross-city and nationwide searches across Craigslist, bypassing the site's single-city search limitation." },
+    { name: "Search Tempest", url: "https://www.searchtempest.com/", tags: ["paid"], desc: "Nationwide Craigslist search tool that searches all Craigslist cities simultaneously with advanced filtering by distance, price range, and category." },
+    { name: "francais-a-londres.org - French Classifieds", url: "https://francaisalondres.com/", tags: ["dork"], desc: "French-language classifieds site for the French community in London covering housing, jobs, services, and items for sale." },
+    { name: "Kleinanzeigen.de", url: "https://www.kleinanzeigen.de/", tags: ["dork"], desc: "Germany's largest classified ads platform (formerly eBay Kleinanzeigen) for vehicles, real estate, electronics, and general merchandise." },
+  ]},
+  { category: "Cloud Infrastructure", tools: [
+    { name: "AWSBucketDump", url: "https://github.com/jordanpotti/AWSBucketDump", tags: ["install"], desc: "Python tool that enumerates AWS S3 buckets and optionally downloads accessible objects using keyword and pattern-based discovery." },
+    { name: "cloud_enum", url: "https://github.com/initstring/cloud_enum", tags: ["install"], desc: "Multi-cloud enumeration tool that looks for exposed AWS, Azure, and GCP storage assets from target naming patterns." },
+    { name: "Subfinder", url: "https://github.com/projectdiscovery/subfinder", tags: ["install", "login", "api"], desc: "Fast passive subdomain discovery utility that aggregates results from many curated OSINT and API-backed sources." },
+    { name: "AADInternals", url: "https://github.com/Gerenios/AADInternals", tags: ["install"], desc: "PowerShell toolkit for Azure AD and Entra ID assessment, including tenant reconnaissance and hybrid identity attack-path analysis." },
+    { name: "GCPBucketBrute", url: "https://github.com/RhinoSecurityLabs/GCPBucketBrute", tags: ["install"], desc: "Google Cloud Storage bucket enumeration utility for identifying publicly accessible or weakly protected buckets." },
+    { name: "MicroBurst", url: "https://github.com/NetSPI/MicroBurst", tags: ["install"], desc: "PowerShell collection focused on Azure security assessment, including subscription discovery and cloud service misconfiguration checks." },
+    { name: "ROADtools", url: "https://github.com/dirkjanm/roadtools", tags: ["install", "api"], desc: "Azure AD exploration framework for dumping tenant objects, principals, and permissions to support attack-path and privilege analysis." },
+    { name: "Stormspotter", url: "https://github.com/Azure/Stormspotter", tags: ["install", "api"], desc: "Graph-based Azure reconnaissance platform that maps cloud attack paths and trust relationships using Neo4j-backed visualization." },
+    { name: "BucketLoot", url: "https://github.com/redhuntlabs/BucketLoot", tags: ["install"], desc: "Open-source cloud bucket discovery utility with limited current documentation and unclear maintenance signals." },
+    { name: "goblob", url: "https://github.com/Macmod/goblob", tags: ["install"], desc: "Go-based Azure blob storage enumeration utility designed for fast discovery of publicly exposed containers and blobs." },
+    { name: "lazys3", url: "https://github.com/nahamsec/lazys3", tags: ["install"], desc: "S3 bucket brute-forcing utility that generates candidate names from permutations and checks bucket accessibility." },
+    { name: "Public Buckets", url: "https://buckets.grayhatwarfare.com/", tags: ["login", "paid"], desc: "Search interface for publicly indexed cloud object storage buckets and files across multiple providers." },
+    { name: "S3Scanner", url: "https://github.com/sa7mon/s3scanner", tags: ["install"], desc: "Command-line scanner for enumerating and checking S3 bucket misconfigurations across AWS and compatible object storage services." },
+    { name: "Checkov", url: "https://github.com/bridgecrewio/checkov", tags: ["install"], desc: "Infrastructure-as-code security scanner that checks Terraform, CloudFormation, Kubernetes, and other cloud configs against policy rules." },
+    { name: "Cloud Custodian", url: "https://github.com/cloud-custodian/cloud-custodian", tags: ["install", "api"], desc: "Policy-as-code engine for cloud governance and security that can detect and remediate risky cloud configurations." },
+    { name: "Prowler", url: "https://github.com/prowler-cloud/prowler", tags: ["install", "api", "paid"], desc: "Cloud security posture and compliance assessment framework covering AWS, Azure, GCP, Kubernetes, and SaaS surfaces." },
+    { name: "ScoutSuite", url: "https://github.com/nccgroup/ScoutSuite", tags: ["install"], desc: "Multi-cloud auditing tool that inventories cloud resources and highlights security risks in an interactive HTML report." },
+    { name: "Steampipe", url: "https://github.com/turbot/steampipe", tags: ["install", "api", "paid"], desc: "SQL interface over cloud APIs and services, enabling ad hoc querying of AWS, Azure, GCP, and many other data sources." },
+    { name: "Amass", url: "https://github.com/owasp-amass/amass", tags: ["install", "login", "api"], desc: "Advanced attack surface mapping framework for DNS and subdomain enumeration with graph correlation and extensive data-source support." },
+    { name: "SpiderFoot", url: "https://github.com/smicallef/spiderfoot", tags: ["install", "api"], desc: "Automated OSINT collection tool with 200+ modules for reconnaissance and threat intelligence." },
+  ]},
+  { category: "Compliance & Risk Intelligence", tools: [
+    { name: "OpenSanctions", url: "https://www.opensanctions.org/", tags: ["api", "paid"], desc: "Aggregated database of sanctioned entities, politically exposed persons, and persons of criminal interest from 329 global data sources." },
+    { name: "OFAC Sanctions List Search", url: "https://sanctionssearch.ofac.treas.gov/", tags: ["open"], desc: "Official U.S. Treasury tool for searching OFAC Specially Designated Nationals and related sanctions lists with approximate string matching." },
+    { name: "EU Sanctions Tool", url: "https://sanctions-tool.ec.europa.eu", tags: ["open"], desc: "European Commission tool for searching EU restrictive measures and consolidated sanctions lists targeting persons, entities, and bodies." },
+    { name: "dilisense", url: "https://dilisense.com/en", tags: ["login", "api", "paid"], desc: "AML compliance platform that screens individuals and entities against sanctions, PEP, and watchlist data sources with fuzzy matching and confidence scoring." },
+    { name: "NameScan", url: "https://namescan.io", tags: ["api", "paid"], desc: "Compliance screening platform providing sanctions checks, PEP screenings, and adverse media searches against global government databases with a free tier." },
+    { name: "OpenScreening", url: "https://resources.linkurious.com/openscreening", tags: ["open"], desc: "Free graph-based PEP and sanctions screening tool by Linkurious that visualizes connections across persons of interest using OpenSanctions and ICIJ data." },
+    { name: "Companies House", url: "https://find-and-update.company-information.service.gov.uk/", tags: ["api"], desc: "Official UK government register for searching company information, officer appointments, and disqualified directors across all UK-registered companies." },
+    { name: "OpenOwnership", url: "https://www.openownership.org/en/", tags: ["api"], desc: "Global hub for beneficial ownership transparency, providing data standards and a register linking corporate ownership data across jurisdictions." },
+    { name: "ICIJ Offshore Leaks Database", url: "https://offshoreleaks.icij.org/", tags: ["api"], desc: "Searchable database of 800,000+ offshore entities from ICIJ investigations including Panama Papers, Paradise Papers, and Pandora Papers." },
+    { name: "OCCRP Aleph", url: "https://aleph.occrp.org/", tags: ["login", "api"], desc: "Global archive of research material for investigative reporting, aggregating public records, court filings, company registries, and leaks from 200+ sources." },
+    { name: "Public Records?", url: "https://publicrecords.searchsystems.net/", tags: ["open"], desc: "" },
+    { name: "BRB Public Records", url: "https://www.brbpub.com/", tags: ["open"], desc: "" },
+    { name: "Open-Data-Portal M\u00fcnchen (German)", url: "https://www.opengov-muenchen.de/", tags: ["open"], desc: "" },
+    { name: "Searchable FCC ID Database", url: "https://fccid.io/", tags: ["open"], desc: "" },
+    { name: "PepChecker", url: "https://pepchecker.com", tags: ["login", "api", "paid"], desc: "PEP and sanctions screening tool offering checks against comprehensive PEP lists and global sanctions databases with a free tier of limited searches." },
+    { name: "Ukraine PEP Register", url: "https://pep.org.ua/en/", tags: ["open"], desc: "Formerly a database of Ukrainian politically exposed persons maintained by civil society. Now redirects to a static wartime advocacy page." },
+  ]},
+  { category: "Cyber Threat Intelligence", tools: [
+    { name: "Vulert: Updated Open Source Vulnerability Database", url: "https://vulert.com/vuln-db", tags: ["open"], desc: "" },
+    { name: "SecurityFocus", url: "https://www.securityfocus.com/bid", tags: ["open"], desc: "" },
+    { name: "NVD - NIST", url: "https://nvd.nist.gov/", tags: ["open"], desc: "" },
+    { name: "OSV Vulnerability Library", url: "https://osv.dev/list", tags: ["open"], desc: "" },
+    { name: "CVE Details", url: "https://www.cvedetails.com/", tags: ["open"], desc: "" },
+    { name: "CVE - MITRE", url: "https://www.cve.org/", tags: ["open"], desc: "" },
+    { name: "OWASP", url: "https://www.owasp.org/index.php/Main_Page", tags: ["open"], desc: "" },
+    { name: "Secunia", url: "https://secuniaresearch.flexerasoftware.com/community/research/", tags: ["open"], desc: "" },
+    { name: "Australian Cyber Security Centre", url: "https://www.cyber.gov.au/", tags: ["open"], desc: "" },
+    { name: "Canadian Centre for Cyber Security", url: "https://www.cyber.gc.ca/", tags: ["open"], desc: "" },
+    { name: "ImmuniWeb", url: "https://www.immuniweb.com/", tags: ["login", "api", "paid"], desc: "AI-powered application security platform for web penetration testing and vulnerability scanning." },
+    { name: "Default Passwords DB", url: "https://cirt.net/passwords/", tags: ["open"], desc: "" },
+    { name: "Default passwords list", url: "https://default-password.info/", tags: ["open"], desc: "" },
+    { name: "Default Password Lookup Utility", url: "https://fortypoundhead.com/tools_dpw.asp", tags: ["open"], desc: "" },
+    { name: "Phenoelit Default Password List", url: "https://phenoelit.org/dpl/dpl.html", tags: ["open"], desc: "" },
+    { name: "Default Router Passwords", url: "https://www.routerpasswords.com/", tags: ["open"], desc: "" },
+    { name: "Open Sez Me Default Passwords", url: "https://open-sez.me/", tags: ["open"], desc: "" },
+    { name: "Hashes.org", url: "https://hashes.org/", tags: ["open"], desc: "" },
+    { name: "Exploit DB", url: "https://www.exploit-db.com/", tags: ["open"], desc: "" },
+    { name: "Packet Storm", url: "https://packetstormsecurity.com/", tags: ["open"], desc: "" },
+    { name: "Jager", url: "https://github.com/sroberts/jager", tags: ["install", "api"], desc: "Python IOC aggregation and analysis tool for collecting and organizing security indicators." },
+    { name: "IOC Parser", url: "https://github.com/armbues/ioc_parser", tags: ["install"], desc: "Python library for extracting and parsing IOCs from raw text and security reports." },
+    { name: "Cacador", url: "https://github.com/sroberts/cacador", tags: ["install"], desc: "Python tool for indicator extraction and deduplication from threat intelligence documents." },
+    { name: "ThreatPinch Lookup", url: "https://github.com/cloudtracer/ThreatPinchLookup", tags: ["install", "api"], desc: "Browser extension and Python tool for enriching IOCs with real-time threat intelligence." },
+    { name: "Mimir", url: "https://github.com/NullArray/Mimir", tags: ["install"], desc: "IOC extraction and validation tool from security reports (unmaintained)." },
+    { name: "iocextract", url: "https://github.com/InQuest/iocextract", tags: ["install"], desc: "Python library and CLI tool for rapid IOC extraction with support for obfuscated indicators." },
+    { name: "ThreatIngestor", url: "https://github.com/InQuest/ThreatIngestor", tags: ["install", "api"], desc: "Modular IOC ingestion platform for automated threat indicator extraction from multiple sources." },
+    { name: "SecAI.ai", url: "https://secai.ai/research", tags: ["open"], desc: "Security research platform providing threat intelligence, vulnerability analysis, and cybersecurity insights with focus on emerging threats." },
+    { name: "https://openphish.com/feed.txt", url: "https://openphish.com/feed.txt", tags: ["api"], desc: "Real-time phishing URL feed providing confirmed malicious phishing sites updated continuously." },
+    { name: "PhishTank", url: "https://www.phishtank.com/", tags: ["api"], desc: "Community-driven phishing URL database where users submit and verify suspected phishing sites." },
+    { name: "PhishStats", url: "https://phishstats.info/", tags: ["api"], desc: "Phishing detection and analysis platform providing statistics on campaigns and domain intelligence." },
+    { name: "Global Terrorism Database", url: "https://www.start.umd.edu/research-projects/global-terrorism-database-gtd", tags: ["open"], desc: "Academic database of terrorist attacks maintained by START at University of Maryland." },
+    { name: "START Consortium for the Study of Terrorism and Responses to Terrorism", url: "https://www.start.umd.edu/", tags: ["open"], desc: "National Consortium conducting research on terrorism causes, consequences, and responses." },
+    { name: "CSIS Warfare, Irregular Threats, and Terrorism Program", url: "https://www.csis.org/programs/warfare-irregular-threats-and-terrorism-program", tags: ["open"], desc: "Research program analyzing terrorism, cyber threats, and irregular warfare." },
+    { name: "Institute for Strategic Dialogue", url: "https://www.isdglobal.org/", tags: ["open"], desc: "International research organization studying conflict, extremism, and social change." },
+    { name: "RAND Terrorism Research", url: "https://www.rand.org/topics/terrorism.html", tags: ["open"], desc: "RAND Corporation's collection of research and analysis on terrorism topics." },
+    { name: "UN Security Council Consolidated List", url: "https://main.un.org/securitycouncil/en/content/un-sc-consolidated-list", tags: ["open"], desc: "Official UN Security Council list of designated individuals and entities." },
+    { name: "Terrorist Finance Tracking Program", url: "https://home.treasury.gov/policy-issues/terrorism-and-illicit-finance/terrorist-finance-tracking-program-tftp", tags: ["open"], desc: "U.S. Treasury program tracking terrorist financing and money laundering." },
+    { name: "IBM X-Force Exchange", url: "https://exchange.xforce.ibmcloud.com/", tags: ["login", "api", "paid"], desc: "Collaborative threat intelligence platform with malware, vulnerability, and campaign data." },
+    { name: "Malware Information Sharing Platform", url: "https://www.misp-project.org/", tags: ["install", "api"], desc: "Open-source platform for collecting, storing, and sharing cyber threat indicators and malware data." },
+    { name: "Malware Patrol", url: "https://www.malwarepatrol.net/", tags: ["login", "api", "paid"], desc: "Threat intelligence feed service providing malware samples, URLs, domains, and IOC data." },
+    { name: "AlienVault OTX", url: "https://otx.alienvault.com/", tags: ["login", "api"], desc: "Crowd-sourced threat intelligence platform with 180K+ participants sharing 19M+ daily threats." },
+    { name: "Maltiverse", url: "https://maltiverse.com/", tags: ["login", "api", "paid"], desc: "Threat intelligence platform aggregating 100+ sources with real-time IOC scoring." },
+    { name: "Malpedia", url: "https://malpedia.caad.fkie.fraunhofer.de/", tags: ["login", "api", "paid"], desc: "Free collaborative malware database from Fraunhofer FKIE with 600+ malware families." },
+    { name: "Project Honey Pot", url: "https://www.projecthoneypot.org/", tags: ["login", "api"], desc: "Distributed honeypot project tracking email harvesters, spam servers, and malicious IPs." },
+    { name: "Cymon Open Threat Intelligence", url: "https://cymon.io/", tags: ["login", "api", "paid"], desc: "Largest open tracker of malware, phishing, botnets containing 6M+ malicious IPs." },
+    { name: "mlsecproject / combine", url: "https://github.com/mlsecproject/combine", tags: ["install"], desc: "Tool for gathering and normalizing threat intelligence feeds from public sources." },
+    { name: "hostintel - keithjjones Github", url: "https://github.com/keithjjones/hostintel", tags: ["install"], desc: "Modular Python application to collect host and malicious IP intelligence." },
+    { name: "massive-octo-spice - csirtgadgets Github", url: "https://github.com/csirtgadgets/massive-octo-spice", tags: ["install"], desc: "CSIRT threat intelligence platform (deprecated - use bearded-avenger v3 instead)." },
+    { name: "Scam Database", url: "https://www.scamdb.net/", tags: ["login"], desc: "User-contributed database of scam reports searchable by phone, email, and website." },
+    { name: "Bot Scout", url: "https://botscout.com/", tags: ["login", "api", "paid"], desc: "Service tracking bot signatures (names, IPs, emails) to prevent automated spam and abuse." },
+    { name: "APTnotes", url: "https://github.com/aptnotes/data", tags: ["open"], desc: "Repository of public documents, whitepapers, and articles about APT campaigns." },
+    { name: "HoneyDB", url: "https://honeydb.io/", tags: ["login", "api", "paid"], desc: "Honeypot network providing real-time IoT and server threat intelligence via REST API." },
+    { name: "Pulsedive", url: "https://pulsedive.com/", tags: ["login", "api", "paid"], desc: "Free threat intelligence platform for enriching IPs, URLs, domains, and IOCs from OSINT feeds." },
+    { name: "Mr.Looquer IOC Feed - 1st Dual Stack Threat Feed", url: "https://iocfeed.mrlooquer.com/", tags: ["open"], desc: "Threat intelligence feed providing IOC data with IPv4/IPv6 dual stack support." },
+    { name: "REScure Cyber Threat Intelligence Project", url: "https://rescure.me/", tags: ["open"], desc: "Community-driven cyber threat intelligence project providing IOC feeds and research." },
+    { name: "Malware Exploit TTP Database", url: "https://www.pwnmalw.re/", tags: ["open"], desc: "Malware exploit database documenting security vulnerabilities in malware families (offline)." },
+    { name: "Mitre TTPs", url: "https://attack.mitre.org/", tags: ["api"], desc: "MITRE ATT&CK framework: globally-accessible knowledge base of adversary tactics and techniques." },
+  ]},
+  { category: "Dark Web", tools: [
+    { name: "Reddit Deep Web", url: "https://www.reddit.com/r/deepweb/", tags: ["api"], desc: "Subreddit focused on dark web discussions, beginner guidance, and community-sourced OSINT references." },
+    { name: "Reddit Onions", url: "https://www.reddit.com/r/onions/", tags: ["api"], desc: "Subreddit for .onion service discussion, availability reports, and tool recommendations." },
+    { name: "Reddit Darknet", url: "https://www.reddit.com/r/darknet/", tags: ["api"], desc: "Community forum discussing darknet marketplaces, ecosystem events, and related threat activity." },
+    { name: "Tor Download", url: "https://www.torproject.org/download/", tags: ["install"], desc: "Official Tor Project distribution page for Tor Browser and related anonymity tooling." },
+    { name: "Freenet Project", url: "https://www.hyphanet.org/", tags: ["install"], desc: "Hyphanet (formerly Freenet) is a decentralized, privacy-oriented network for anonymous publishing and file sharing." },
+    { name: "I2P Anonymous Network", url: "https://i2p.net/", tags: ["install"], desc: "I2P is an anonymous overlay network supporting eepsites, messaging, and peer-to-peer services." },
+    { name: "OnionScan", url: "https://github.com/s-rah/onionscan", tags: ["install"], desc: "Open-source scanner for .onion services that identifies metadata leaks and potential OPSEC weaknesses." },
+    { name: "TorBot", url: "https://github.com/DedSecInside/TorBot", tags: ["install", "api"], desc: "Python-based crawler for discovering and indexing .onion links and related metadata." },
+    { name: "Tor Scan", url: "https://www.torscan.io/", tags: ["install"], desc: "Legacy or ambiguous dark web scanning entry with unclear maintenance and uncertain distinction from OnionScan." },
+    { name: "Onioff", url: "https://github.com/k4m4/onioff", tags: ["install"], desc: "Onion URL inspection utility for checking reachability and extracting metadata from hidden service links." },
+    { name: "Hunchly Hidden Services Report", url: "https://darkweb.hunch.ly/", tags: ["login", "api"], desc: "Daily feed of newly observed hidden services and associated monitoring data from Hunchly." },
+    { name: "docker-onion-nmap", url: "https://github.com/milesrichardson/docker-onion-nmap", tags: ["install"], desc: "Dockerized nmap/proxychains workflow for enumerating exposed ports on onion services through Tor." },
+    { name: "Onion Investigator", url: "https://oint.ctrlbox.com/", tags: ["open"], desc: "Ambiguous investigation entry with limited current validation and unclear relation to other onion analysis tools." },
+    { name: "Onion Cab", url: "https://onion.cab/", tags: ["open"], desc: "Dark web search/directory endpoint with intermittent reliability and limited contemporary documentation." },
+    { name: "Ahmia", url: "https://ahmia.fi/", tags: ["api"], desc: "Well-known Tor search engine indexing onion services with clearnet accessibility for discovery workflows." },
+    { name: "Hidden Wiki", url: "https://thehiddenwiki.org/", tags: ["open"], desc: "Historically popular onion directory with variable trustworthiness, mirror churn, and high link rot." },
+    { name: "Web O Proxy", url: "https://weboproxy.com/", tags: ["open"], desc: "Web-based onion proxy/gateway style entry with uncertain current reliability and attribution risk." },
+    { name: "IACA Dark Web Investigation Support", url: "https://iaca-darkweb-tools.com/", tags: ["open"], desc: "International Anti Crime Academy dark web investigation support portal for federated search workflows." },
+  ]},
+  { category: "Dating", tools: [
+    { name: "AYI.com", url: "https://www.ayichat.com", tags: ["login", "api", "paid"], desc: "Online community for real-time meeting and chatting with singles across web and mobile platforms." },
+    { name: "Plenty Of Fish.com", url: "https://www.pof.com/", tags: ["login", "paid"], desc: "Freemium dating platform with large membership and profile-based discovery through filters and recommendations." },
+    { name: "eHarmony", url: "https://www.eharmony.com/", tags: ["login", "paid"], desc: "Personality-based matchmaking platform focused on long-term relationships with curated compatibility-driven pairings." },
+    { name: "Farmers Only", url: "https://www.farmersonly.com/", tags: ["login", "paid"], desc: "Niche dating service for rural communities including farmers and ranchers with lifestyle-focused matching." },
+    { name: "Tinder", url: "https://tinder.com/", tags: ["login", "paid"], desc: "Swipe-based dating platform emphasizing quick location-aware matching and in-app messaging." },
+    { name: "Bumble", url: "https://bumble.com/", tags: ["login", "paid"], desc: "Swipe-based dating app with women-first messaging rules and location-based recommendations." },
+    { name: "Tantan", url: "https://int.tantanapp.com", tags: ["login", "paid"], desc: "Swipe-based Asian-focused dating app with geolocation and algorithmic profile recommendations." },
+    { name: "AdultFriendFinder", url: "https://www.adultfriendfinder.com", tags: ["login", "paid"], desc: "Adult-oriented social and dating platform with searchable profiles and preference-driven discovery." },
+    { name: "BeautifulPeople.com", url: "https://www.beautifulpeople.com/en-US", tags: ["login", "paid"], desc: "Dating community with verification-oriented onboarding and profile access tied to membership standards." },
+    { name: "Badoo", url: "https://badoo.com", tags: ["login", "paid"], desc: "Global social dating platform with swipe-based matching, nearby discovery, and in-app messaging." },
+    { name: "Spark.com", url: "https://spark.com", tags: ["login", "paid"], desc: "Long-running relationship-focused dating service with profile filtering and compatibility-oriented matching tools." },
+    { name: "Meetup", url: "https://www.meetup.com/", tags: ["login", "api"], desc: "Community event platform for discovering local groups and activities that can support social and relationship networking." },
+    { name: "Hinge", url: "https://hinge.co/en-gb", tags: ["login", "paid"], desc: "Relationship-oriented dating app focused on prompt-driven profiles and conversation-first matching." },
+  ]},
+  { category: "Disinformation & Media Verification", tools: [
+    { name: "DeepFake-Detect", url: "https://github.com/dessa-oss/DeepFake-Detection", tags: ["install"], desc: "Open-source deepfake detection project built with PyTorch and ResNet18 for classifying manipulated media." },
+    { name: "DeepFake-Image-Detection", url: "https://github.com/rmkemker/DeepFake-Image-Detection", tags: ["install"], desc: "Archived deepfake image detection repository previously used for forensic model experimentation." },
+    { name: "DeepSafe", url: "https://github.com/siddharthksah/DeepSafe", tags: ["install"], desc: "Containerized deepfake detection suite combining multiple models with both web and extension interfaces." },
+    { name: "DeepfakeBench", url: "https://github.com/SCLBD/DeepfakeBench", tags: ["install"], desc: "Benchmark framework for deepfake detection with multiple datasets and standardized evaluation pipelines." },
+    { name: "DeepfakeDetector", url: "https://github.com/TRahulsingh/DeepfakeDetector", tags: ["install"], desc: "Open-source deepfake detector with EfficientNet-based models and a web-facing analysis workflow." },
+    { name: "FaceForensics++", url: "https://www.faceforensics.com/", tags: ["login"], desc: "Academic deepfake forensics dataset with manipulated video samples, masks, and aligned benchmarks." },
+    { name: "InVID-WeVerify Verification Plugin", url: "https://www.invid-project.eu/tools-and-services/invid-verification-plugin/", tags: ["install"], desc: "Journalist-focused browser plugin for media verification, reverse image search, metadata checks, and video keyframe analysis." },
+    { name: "TruthScan Deepfake Detector", url: "https://truthscan.com/", tags: ["login", "api", "paid"], desc: "Cloud-based deepfake detection platform offering forensic analysis for manipulated video and audio." },
+    { name: "Duke Reporters' Lab", url: "https://reporterslab.org/", tags: ["open"], desc: "Duke University journalism lab tracking global fact-checking initiatives, tools, and ecosystem trends." },
+    { name: "Hoaxy", url: "https://hoaxy.osome.iu.edu/", tags: ["open"], desc: "Visualization platform for tracking how claims and fact-checking spread through social media networks." },
+    { name: "PolitiFact", url: "https://www.politifact.com/", tags: ["open"], desc: "Fact-checking publication that rates political claims and documents supporting evidence." },
+    { name: "SciCheck", url: "https://factcheck.org/scicheck/", tags: ["open"], desc: "FactCheck.org section dedicated to scientific and health misinformation analysis." },
+    { name: "Snopes", url: "https://www.snopes.com/", tags: ["open"], desc: "Long-running debunking site covering rumors, hoaxes, and viral misinformation claims." },
+    { name: "Stop Fake Tools", url: "http://www.stopfake.org/", tags: ["open"], desc: "Ukrainian anti-disinformation initiative publishing fact-checks, analysis, and media literacy resources." },
+    { name: "ImgOps", url: "https://imgops.com/", tags: ["open"], desc: "Meta-search utility that routes an image to multiple reverse search and forensic services." },
+    { name: "TinEye Reverse Image Search", url: "https://tineye.com/", tags: ["api", "paid"], desc: "Reverse image search engine that finds where an image appears online and identifies modified versions." },
+    { name: "FotoForensics", url: "https://fotoforensics.com/", tags: ["open"], desc: "Image forensics platform with error level analysis and metadata-oriented integrity checks." },
+    { name: "Verification Handbook", url: "https://verificationhandbook.com/", tags: ["open"], desc: "Reference handbook for journalists covering verification methodologies for digital investigations." },
+    { name: "Verification Junkie", url: "https://verificationjunkie.com/", tags: ["open"], desc: "Curated directory of verification resources, tools, and training materials for journalists." },
+  ]},
+  { category: "Documentation / Evidence Capture", tools: [
+    { name: "Forensic OSINT", url: "https://www.forensicosint.com/", tags: ["install", "api"], desc: "Chrome extension for full-page web capture with evidence preservation; timestamps and disclosure-ready exports for legal investigations." },
+    { name: "Fiddler", url: "https://www.telerik.com/download/fiddler", tags: ["install", "login", "api", "paid"], desc: "Web debugging proxy that monitors, inspects, and logs HTTPS/WebSocket traffic between a computer and the internet for analysis." },
+    { name: "Burp Suite", url: "https://portswigger.net/burp/download.html", tags: ["install", "login", "api", "paid"], desc: "Integrated web application security testing platform with proxy, scanner, and manual testing tools for vulnerability assessment." },
+    { name: "Page2Images", url: "https://www.page2images.com/URL-Live-Website-Screenshot-Generator", tags: ["api", "paid"], desc: "Website screenshot and full-page capture API that converts URLs to images for various devices including desktop, mobile, and tablet." },
+    { name: "Web Page Saver", url: "https://www.magnetforensics.com/resources/web-page-saver/", tags: ["install"], desc: "Browser extension for saving complete webpages as single HTML files for offline access and evidence preservation." },
+    { name: "Snapper", url: "https://github.com/dxa4481/Snapper", tags: ["install"], desc: "Open-source Linux-based tool for automated batch website screenshotting and file capture across multiple hosts." },
+    { name: "Full Page Screen Capture Chrome Extension", url: "https://github.com/mrcoles/full-page-screen-capture-chrome-extension", tags: ["install"], desc: "Chrome extension for one-click full-page screenshot capture of entire scrollable page content." },
+    { name: "EZR OSINT Sidebar", url: "https://chromewebstore.google.com/detail/ezr-osint-sidebar/joagbbgciboooipadijeaoidjjigdmof", tags: ["install"], desc: "Chrome extension providing integrated OSINT tools in a browser sidebar; extracts and documents images, emails, IPs, and metadata from web content." },
+    { name: "FRAPS", url: "https://fraps.com/", tags: ["install", "paid"], desc: "Video recording and screen capture utility for Windows with FPS benchmarking and lossless video capture; last updated 2013 but still functional." },
+    { name: "ShareX", url: "https://getsharex.com/", tags: ["install"], desc: "Free and open-source screenshot and screen recording tool for Windows supporting 80+ upload destinations and extensive automation workflows." },
+    { name: "Greenshot", url: "https://getgreenshot.org/", tags: ["install"], desc: "Free and open-source screenshot program for Windows and macOS with annotation, highlighting, and multi-format export capabilities." },
+    { name: "ZeeMaps", url: "https://www.zeemaps.com/", tags: ["login", "api", "paid"], desc: "Interactive map creation and sharing tool with unlimited markers, 3-level access control, and support for crowdsourced data input." },
+    { name: "Timeline JS3", url: "https://timeline.knightlab.com/", tags: ["install", "api"], desc: "Open-source JavaScript timeline tool by Knight Lab that creates interactive multimedia timelines from Google Sheets or JSON data." },
+  ]},
+  { category: "Domain Name", tools: [
+    { name: "Domain Dossier", url: "https://centralops.net/co/DomainDossier.aspx", tags: ["open"], desc: "Free web-based tool that aggregates WHOIS, DNS, and network information for domains and IP addresses into a single consolidated report." },
+    { name: "domainIQ", url: "https://www.domainiq.com/", tags: ["login", "paid"], desc: "Comprehensive domain intelligence platform offering reverse lookups, ownership history, and related domain discovery. Trusted by government agencies, domain inv" },
+    { name: "DomainTools Whois", url: "https://whois.domaintools.com/", tags: ["login", "api", "paid"], desc: "Enterprise-grade WHOIS API with decades of historical domain data and rapid query response. The industry leader for threat intelligence and domain tracking." },
+    { name: "SWITCH Internet Domains Whois (.ch)", url: "https://www.nic.ch/whois/", tags: ["open"], desc: "Official Swiss domain registry WHOIS lookup service operated by SWITCH for .ch and .li country-code domains. Public registry with all owner contact details visi" },
+    { name: "Whoisology", url: "https://whoisology.com/#advanced", tags: ["paid"], desc: "Searchable archive of billions of current and historical domain WHOIS records with cross-referencing capabilities. Designed for InfoSec, legal, and research pro" },
+    { name: "Whois ARIN", url: "https://whois.arin.net/ui/advanced.jsp", tags: ["open"], desc: "Official American Registry for Internet Numbers WHOIS and RDAP lookup service for IPv4, IPv6, ASNs, and organizations in the North American region." },
+    { name: "DNSstuff", url: "https://www.dnsstuff.com/freetools", tags: ["open"], desc: "Suite of free DNS and network tools providing lookups, DNS checks, and WHOIS information for domain reconnaissance." },
+    { name: "Robtex", url: "https://robtex.com/", tags: ["open"], desc: "Comprehensive free DNS lookup and network intelligence tool with decade-spanning database containing billions of documents of internet data. Useful for forensic" },
+    { name: "Domaincrawler.com", url: "https://domaincrawler.com/", tags: ["login", "api", "paid"], desc: "Enterprise-grade domain database covering 1.4+ billion registered and unregistered domains with 80+ billion historical records since 2008. Used by brand protect" },
+    { name: "MarkMonitor Whois Search", url: "https://domains.markmonitor.com/whois/", tags: ["login", "paid"], desc: "ICANN-accredited registrar and brand protection company offering WHOIS lookup and domain management services. Exclusively serves corporate clients including maj" },
+    { name: "easyWhois", url: "https://www.easywhois.com/", tags: ["open"], desc: "Free domain WHOIS lookup and DNS tools service. Now operated under the DomainHelp platform, providing domain registration information and DNS lookups." },
+    { name: "Website Informer", url: "https://website.informer.com/", tags: ["open"], desc: "Free domain and website information aggregator providing visitor statistics, safety status, Alexa rankings, ownership data, and technical details about websites" },
+    { name: "Who.is", url: "https://who.is/", tags: ["open"], desc: "Comprehensive WHOIS and RDAP lookup service with large database of domain registration, DNS records, and IP information. Provides both current and historical da" },
+    { name: "Whois AMPed", url: "https://whoisamped.com/", tags: ["open"], desc: "Mobile-optimized WHOIS lookup service accessible via web interface for domain registration information and WHOIS queries." },
+    { name: "ViewDNS.info", url: "https://viewdns.info/", tags: ["api"], desc: "Comprehensive DNS lookup and WHOIS service providing detailed DNS records, reverse IP lookups, reverse WHOIS searches, and API access for automated queries." },
+    { name: "Daily DNS Changes", url: "https://dailychanges.domaintools.com/", tags: ["paid"], desc: "DomainTools service monitoring DNS record changes across domains, detecting newly registered subdomains and tracking DNS infrastructure modifications." },
+    { name: "IP2WHOIS", url: "https://www.ip2whois.com", tags: ["api"], desc: "Free WHOIS lookup service for domain names and IP addresses, providing registration details, registrant information, location data, and API access." },
+    { name: "Netlas.io", url: "https://app.netlas.io/whois_domains/", tags: ["api", "paid"], desc: "Comprehensive internet-wide scanning and OSINT platform providing DNS, WHOIS, SSL, and network reconnaissance with attack surface discovery capabilities." },
+    { name: "SynapsInt", url: "https://synapsint.com", tags: ["open"], desc: "Unified web-based OSINT research platform supporting domain, IP, SSL, analytics, email, phone, and social media lookups with subdomain enumeration." },
+    { name: "Aquatone", url: "https://github.com/michenriksen/aquatone", tags: ["install"], desc: "Go-based tool for domain reconnaissance that automates subdomain discovery, HTTP service scanning, screenshot capture, and visual HTML report generation for att" },
+    { name: "FindSubDomains", url: "https://findsubdomains.com/", tags: ["open"], desc: "Free web-based automated subdomain discovery tool with filtering and analysis capabilities, showing organization names, relationships, and top subdomain statist" },
+    { name: "Google Subdomains", url: "https://www.google.com/?gws_rd=ssl#q=site:%3Cdomain.com%3E", tags: ["dork"], desc: "Google Dork technique using the 'site:' operator to enumerate subdomains of a target domain via Google's search index." },
+    { name: "Recon-ng", url: "https://github.com/lanmaster53/recon-ng", tags: ["install", "api"], desc: "Full-featured web reconnaissance framework with independent modules for data gathering." },
+    { name: "XRay", url: "https://github.com/evilsocket/xray", tags: ["install"], desc: "Go-based network reconnaissance tool that automates subdomain enumeration via DNS brute force, integrates Shodan for port discovery, and gathers banner informat" },
+    { name: "DNS Recon", url: "https://github.com/darkoperator/dnsrecon", tags: ["install"], desc: "Python-based DNS enumeration script supporting zone transfers, standard record enumeration, TLD expansion, DNS brute force, and PTR lookups." },
+    { name: "Gobuster", url: "https://github.com/OJ/gobuster", tags: ["install"], desc: "Multi-mode brute-force tool for DNS subdomain, virtual host, and directory discovery." },
+    { name: "Fierce Domain Scanner", url: "https://github.com/davidpepper/fierce-domain-scanner", tags: ["install"], desc: "DNS reconnaissance tool focused on subdomain discovery and non-contiguous IP space mapping." },
+    { name: "Bluto", url: "https://github.com/darryllane/Bluto", tags: ["install"], desc: "Recon utility for domain intelligence including DNS records, email patterns, and infrastructure clues." },
+    { name: "OWASP Maryam", url: "https://github.com/saeeddhqan/Maryam", tags: ["install"], desc: "Modular OWASP OSINT framework with footprinting and search modules for multi-source reconnaissance." },
+    { name: "Pentest-tools.com Subdomains", url: "https://pentest-tools.com/information-gathering/find-subdomains-of-domain", tags: ["login", "paid"], desc: "Web-based subdomain finder that enumerates subdomains for a given domain through hosted scanning." },
+    { name: "SecLists DNS Subdomains", url: "https://github.com/danielmiessler/SecLists/tree/master/Discovery/DNS", tags: ["install"], desc: "Community-maintained DNS wordlist collection used to power subdomain brute-force workflows." },
+    { name: "dnspop", url: "https://github.com/bitquark/dnspop", tags: ["install"], desc: "DNS reconnaissance utility for enumerating records and identifying domain-related infrastructure." },
+    { name: "gdns", url: "https://github.com/hrbrmstr/gdns", tags: ["install"], desc: "Google DNS-focused command-line tool for DNS lookup and domain record exploration." },
+    { name: "Sublist3r", url: "https://github.com/aboul3la/Sublist3r", tags: ["install"], desc: "Python tool for subdomain enumeration using search engines, passive sources, and optional brute-force." },
+    { name: "AltDNS", url: "https://github.com/infosec-au/altdns", tags: ["install"], desc: "Permutation-based DNS tool that generates and resolves alternative subdomains from known names." },
+    { name: "Netlas.io", url: "https://app.netlas.io/domains/", tags: ["api", "paid"], desc: "Comprehensive internet-wide scanning and OSINT platform providing DNS, WHOIS, SSL, and network reconnaissance with attack surface discovery capabilities." },
+    { name: "Shodan", url: "https://www.shodan.io/", tags: ["login", "api", "paid"], desc: "Search engine for internet-exposed devices, services, and security-relevant banners." },
+    { name: "Netlas.io", url: "https://app.netlas.io/", tags: ["api", "paid"], desc: "Comprehensive internet-wide scanning and OSINT platform providing DNS, WHOIS, SSL, and network reconnaissance with attack surface discovery capabilities." },
+    { name: "Kraken", url: "https://github.com/Sw4mpf0x/Kraken", tags: ["install"], desc: "Open-source reconnaissance utility for domain and network intelligence gathering workflows." },
+    { name: "Online Nikto scanner", url: "https://nikto.online/", tags: ["open"], desc: "Hosted version of the Nikto web server scanner for identifying vulnerabilities, misconfigurations, and exposed files." },
+    { name: "urlscan.io", url: "https://urlscan.io/search/#*", tags: ["login", "api", "paid"], desc: "URL and domain analysis service that captures page loads, requests, and security-relevant artifacts." },
+    { name: "Redirect Detective", url: "https://redirectdetective.com/", tags: ["open"], desc: "Web tool that traces URL redirect chains and final destinations across multi-hop redirects." },
+    { name: "Sitediff", url: "https://github.com/digininja/sitediff", tags: ["install"], desc: "Command-line utility for comparing website versions to detect content and structural changes." },
+    { name: "BuiltWith", url: "https://builtwith.com/", tags: ["api", "paid"], desc: "Technology profiling platform that identifies web stacks, frameworks, analytics, and hosting signals." },
+    { name: "Wappalyzer", url: "https://www.wappalyzer.com/", tags: ["login", "api", "paid"], desc: "Technology detection platform and browser tooling for identifying frameworks, CMS, and SaaS usage." },
+    { name: "AnalyzeID", url: "https://analyzeid.com/", tags: ["open"], desc: "Reverse lookup service for tracking IDs such as Google Analytics, AdSense, and affiliate identifiers." },
+    { name: "Criminal IP Search", url: "https://www.criminalip.io/", tags: ["login", "api", "paid"], desc: "Cyber threat intelligence search engine for exposed assets, domains, vulnerabilities, and risk indicators." },
+    { name: "urlDNA", url: "https://urldna.io", tags: ["login", "paid"], desc: "URL intelligence service for investigating domains, redirects, and related reputation indicators." },
+    { name: "ZoomEye.ai", url: "https://www.zoomeye.org/", tags: ["login", "api", "paid", "dork"], desc: "Cyberspace search engine indexing internet-connected devices, services, and vulnerabilities globally. Provides AI-powered search via ZoomEyeGPT with support for" },
+    { name: "Google's Certificate Transparency", url: "https://www.certificate-transparency.org/known-logs", tags: ["api"], desc: "Directory of all known Certificate Transparency logs monitored by Chrome and other browsers. Browse CT log records to discover issued certificates, identify una" },
+    { name: "Spyse", url: "https://spyse.com/search/certificate", tags: ["login", "api", "paid"], desc: "Internet assets registry providing certificate search, domain intelligence, and vulnerability discovery. Scans domains, subdomains, certificates, emails, and op" },
+    { name: "Censys", url: "https://censys.io/", tags: ["login", "api", "paid"], desc: "Internet-wide scanner and search engine for hosts, certificates, and services." },
+    { name: "crt.sh - Certificate Search", url: "https://crt.sh/?", tags: ["api"], desc: "CT log viewer aggregating certificate data from multiple Certificate Transparency logs. Search for all certificates ever issued to a domain to discover subdomai" },
+    { name: "CertKit - Certificate Transparency Log Search", url: "https://www.certkit.io/tools/ct-logs/", tags: ["api"], desc: "Fast Certificate Transparency log search tool using Clickhouse for sub-second queries. Discover all certificates issued to a domain, including Subject Alternati" },
+    { name: "certgraph", url: "https://github.com/lanrat/certgraph", tags: ["install"], desc: "CLI tool that crawls SSL certificates via Certificate Transparency logs to create a directed graph of domain relationships. Supports multiple drivers including " },
+    { name: "Netlas.io", url: "https://app.netlas.io/certs/", tags: ["api", "paid"], desc: "Comprehensive internet-wide scanning and OSINT platform providing DNS, WHOIS, SSL, and network reconnaissance with attack surface discovery capabilities." },
+    { name: "Mnemonic", url: "https://passivedns.mnemonic.no/", tags: ["api"], desc: "Mnemonic's public PassiveDNS service providing historical and current DNS records collected from global sensor networks. Unauthenticated queries available with " },
+    { name: "DNS Dumpster", url: "https://dnsdumpster.com/", tags: ["open"], desc: "Free domain research tool that discovers hosts and subdomains related to a domain. Provides DNS record enumeration (MX, TXT, Host) with a visual map of discover" },
+    { name: "Deteque", url: "https://www.deteque.com/", tags: ["api", "paid"], desc: "Real-time IP, domain, and threat intelligence from Spamhaus and abuse.ch alliance. Provides comprehensive malware, botnet, and abuse data with diverse IOC cover" },
+    { name: "UrlQuery.net", url: "https://urlquery.net/", tags: ["open"], desc: "Free online URL scanner that analyzes webpages for malware, suspicious elements, and phishing threats. Provides comprehensive threat detection reports with thre" },
+    { name: "URL Void", url: "https://www.urlvoid.com/", tags: ["api"], desc: "Free website reputation checker that scans URLs against 30+ blocklist engines and reputation services. Detects fraudulent and malicious websites with browser ex" },
+    { name: "FortiGuard Reputation Service", url: "https://fortiguard.com/iprep", tags: ["open"], desc: "Fortinet's IP reputation service aggregating malicious source IP data from global threat sensors and collaborators. Blocks botnets, DDoS sources, and IPs associ" },
+    { name: "Trend Micro Site Safety Center", url: "https://global.sitesafety.trendmicro.com/", tags: ["open"], desc: "Free service that checks website safety ratings from Trend Micro's research and reputation sources. Identifies websites with malware, phishing activity, or susp" },
+    { name: "WatchGuard ReputationAuthority", url: "https://www.reputationauthority.org/", tags: ["open"], desc: "In-the-cloud reputation monitoring service analyzing URL and IP threat risk. Assigns reputation scores between 1-100 using data from global sources and deployed" },
+    { name: "Sucuri SiteCheck", url: "https://sitecheck.sucuri.net/", tags: ["open"], desc: "Free remote website scanner that checks for malware, security threats, blacklisting, and vulnerabilities. Detects outdated CMS versions, insecure configurations" },
+    { name: "ThreatMiner.org", url: "https://www.threatminer.org/", tags: ["api"], desc: "Non-profit threat intelligence portal providing IOC research including domains, IPs, malware samples, SSL certificates, WHOIS data, and malicious URLs under Cre" },
+    { name: "BlueCoat WebPulse", url: "https://sitereview.bluecoat.com/sitereview.jsp", tags: ["open"], desc: "Web reputation filtering service rating URLs with 50+ language support. Processes 180+ million rating requests daily with Dynamic Link Analysis for attack injec" },
+    { name: "Zscaler Zulu URL Risk Analyzer", url: "https://zulu.zscaler.com/", tags: ["open"], desc: "Free dynamic risk scoring engine for web content analysis. Assesses URLs from multiple perspectives: content analysis, URL patterns, and host reputation using m" },
+    { name: "Joe Sandbox Url Analyzer", url: "https://www.url-analyzer.net/", tags: ["login", "api", "paid"], desc: "Deep URL and document analysis using real browser execution in isolated environments. Detects malware, phishing, and suspicious behavior with detailed system/ne" },
+    { name: "Deepviz Domain Search", url: "https://search.deepviz.com/", tags: ["login", "api", "paid"], desc: "Threat intelligence platform providing domain, IP, and malware sample search with daily threat feeds. Includes similar sample finding, malware family clustering" },
+    { name: "AVG Threat Labs", url: "https://www.avg.com/en/signal/website-safety", tags: ["open"], desc: "Website security analysis tool providing instant safety assessment of sites. Merges quantitative threat detection from 100M AVG users with LinkScanner technolog" },
+    { name: "Webroot BrightCloud URL/IP Lookup", url: "https://www.brightcloud.com/tools/url-ip-lookup.php", tags: ["api"], desc: "Web classification and reputation tool providing URL/IP threat and content analysis. Uses machine learning reputation scoring across 82 content categories with " },
+    { name: "vURL Online", url: "https://vurldissect.co.uk/", tags: ["open"], desc: "URL and domain dissection tool providing detailed reputation analysis and security assessment." },
+    { name: "AlienVault Open Threat Exchange", url: "https://otx.alienvault.com/browse/pulses/", tags: ["login", "api"], desc: "Community-driven threat intelligence platform enabling collaborative defense with 180K+ participants sharing 19M+ threats daily." },
+    { name: "Malware Domain List", url: "https://www.malwaredomainlist.com/mdl.php", tags: ["open"], desc: "Interactive malware domain reputation lookup providing verified malicious domain intelligence." },
+    { name: "Web Inspector Online Scan", url: "https://www.webinspector.com/website-malware-scanner/", tags: ["open"], desc: "Free cloud-based website malware scanner with daily automated scanning and blacklist checking capabilities." },
+    { name: "Google Safe Browsing API", url: "https://developers.google.com/safe-browsing/?csw=1", tags: ["login", "api"], desc: "Google's free API detecting malicious URLs and phishing sites with protection across billions of devices." },
+    { name: "Cisco Talos", url: "https://talosintelligence.com/", tags: ["open"], desc: "Cisco's comprehensive IP and domain reputation intelligence system with real-time threat detection spanning millions of sensors." },
+    { name: "Threatexpert.com Malicious URLs", url: "https://www.networksec.org/grabbho/block.txt", tags: ["open"], desc: "Malicious URL blacklist feed from abuse.ch's URL repository tracking malware distribution vectors." },
+    { name: "Zeus C2 Tracker", url: "https://zeustracker.abuse.ch/blocklist.php?download=domainblocklist", tags: ["open"], desc: "abuse.ch project tracking Zeus command and control servers with domain and IP blocklists." },
+    { name: "Malware Domains Blacklist", url: "https://mirror1.malwaredomains.com/files/domains.txt", tags: ["open"], desc: "Historical malware domains blocklist providing hosts file format malicious domain list." },
+    { name: "Blackweb", url: "https://github.com/maravento/blackweb", tags: ["install"], desc: "Open-source project consolidating public malware domain blacklists optimized for Squid-Cache compatibility." },
+    { name: "Critical Stack Intel", url: "https://intel.criticalstack.com/", tags: ["install", "login", "api"], desc: "Free threat intelligence feeds integrated with Bro/Zeek network security monitoring systems." },
+    { name: "DNS Sinkhole", url: "https://malc0de.com/bl/", tags: ["open"], desc: "Malware domain sinkhole from malc0de.com providing DNS-based threat blocking zones." },
+    { name: "DNS-BH Malware Domain Blocklist", url: "https://www.malwaredomains.com/wordpress/?page_id=66", tags: ["open"], desc: "Legacy malware domain blocklist from RiskAnalytics using Black Hole DNS sinkhole technology." },
+    { name: "Malware Domain List", url: "https://www.malwaredomainlist.com/hostslist/hosts.txt", tags: ["open"], desc: "Interactive malware domain reputation lookup providing verified malicious domain intelligence." },
+    { name: "MalwareURL", url: "https://www.malwareurl.com/index.php", tags: ["paid"], desc: "Commercial malware URL reputation checker and blocklist service protecting networks from known malicious websites." },
+    { name: "scumware.org", url: "https://www.scumware.org/", tags: ["open"], desc: "Free malware and spyware tracking domain blacklist maintained by security community for 18+ years." },
+    { name: "ZeuS Tracker", url: "https://zeustracker.abuse.ch/blocklist.php", tags: ["open"], desc: "abuse.ch project providing comprehensive tracking of Zeus botnet C2 infrastructure with domain and IP blocklists." },
+    { name: "Shadowserver Foundation", url: "https://www.shadowserver.org/", tags: ["api"], desc: "Nonprofit providing comprehensive IP reputation intelligence and automated abuse reporting through daily network scanning." },
+    { name: "Email Domain Validation", url: "https://www.mailboxvalidator.com/domain", tags: ["login", "api", "paid"], desc: "Free email domain validation tool checking DNS records, MX records, and mail server connectivity." },
+    { name: "DNS Twist", url: "https://github.com/elceef/dnstwist", tags: ["install"], desc: "Domain name permutation engine for detecting homograph phishing attacks and typosquatting with fuzzy hashing." },
+    { name: "URLCrazy", url: "https://www.morningstarsecurity.com/research/urlcrazy", tags: ["install"], desc: "Ruby-based typosquatting domain generator supporting 15 variation types and 8000+ common misspellings." },
+    { name: "dnstwister", url: "https://dnstwister.report/", tags: ["paid"], desc: "Web-based domain permutation tool with free lookup and paid monitoring plans for typosquatting detection." },
+    { name: "Catphish", url: "https://github.com/ring0lab/catphish", tags: ["install"], desc: "Red team tool for generating phishing domains using homoglyphs, punycode, and domain manipulation techniques." },
+    { name: "SiteSleuth", url: "https://www.sitesleuth.io/", tags: ["open"], desc: "OSINT domain analytics tool tracking Google Analytics, AdSense, and Stripe keys across 32+ million websites." },
+    { name: "SEMrush", url: "https://www.semrush.com/", tags: ["login", "api", "paid"], desc: "SEO intelligence platform for domain analytics, keyword intelligence, backlinks, and competitor profiling." },
+    { name: "Moonsearch", url: "https://moonsearch.com/", tags: ["open"], desc: "Legacy reverse-WHOIS style domain correlation service with unclear current availability." },
+    { name: "Ewhois", url: "https://www.ewhois.com/", tags: ["open"], desc: "Web WHOIS lookup utility for registration, registrar, and nameserver details." },
+    { name: "StatsCrop", url: "https://www.statscrop.com/", tags: ["open"], desc: "Website statistics portal with traffic rank snapshots and related metadata." },
+    { name: "Open Site Explorer", url: "https://moz.com/link-explorer", tags: ["login", "api", "paid"], desc: "Legacy Moz Open Site Explorer entry now represented by Moz Link Explorer for backlink analysis." },
+    { name: "SpyOnWeb", url: "https://www.spyonweb.com/", tags: ["login", "api", "paid"], desc: "Correlation tool that links domains by shared tracking and advertising identifiers." },
+    { name: "Keyword Density", url: "https://tools.seobook.com/general/keyword-density/", tags: ["open"], desc: "Text and page analyzer that measures keyword frequency and relative density." },
+    { name: "Alexa Site Statistics", url: "https://alexa.amazon.com/about", tags: ["open"], desc: "Historical Alexa Internet traffic-statistics entry; service was discontinued in 2022." },
+    { name: "Cisco Umbrella Popularity List", url: "https://s3-us-west-1.amazonaws.com/umbrella-static/index.html", tags: ["api"], desc: "Domain popularity ranking based on Cisco Umbrella DNS telemetry." },
+    { name: "Sitedossier", url: "https://www.sitedossier.com/", tags: ["open"], desc: "Domain dossier aggregator with WHOIS, DNS, and linked infrastructure context." },
+    { name: "Visual Site Mapper", url: "https://github.com/alentum/sitemapper-nodejs", tags: ["install"], desc: "Site-crawling mapper used to visualize website structure and page relationships." },
+    { name: "ClearWebStats.com", url: "https://www.clearwebstats.com/", tags: ["open"], desc: "Public site-statistics index showing traffic and rank snapshots for domains." },
+    { name: "PubDB", url: "https://pub-db.com/", tags: ["open"], desc: "Legacy public-database lookup entry with expired or unavailable service state." },
+    { name: "SimilarWeb", url: "https://www.similarweb.com/", tags: ["login", "api", "paid"], desc: "Digital intelligence platform for traffic estimates, referrals, and audience insights." },
+    { name: "Siteliner", url: "https://www.siteliner.com/", tags: ["login", "paid"], desc: "Website crawler that highlights duplicate content, broken links, and SEO quality issues." },
+    { name: "WhatWeb", url: "https://github.com/urbanadventurer/WhatWeb", tags: ["install"], desc: "Open-source fingerprinting scanner for identifying technologies, frameworks, and server-side indicators." },
+    { name: "Link Expander", url: "https://www.linkexpander.com/", tags: ["open"], desc: "Short-link expansion tool that resolves redirects to destination URLs." },
+    { name: "CheckShortURL", url: "https://checkshorturl.com/", tags: ["open"], desc: "Preview service for shortened URLs with destination and threat-check context." },
+    { name: "URL Expander", url: "https://urlex.org/", tags: ["open"], desc: "Link resolver for unshortening and inspecting redirect destination chains." },
+    { name: "Where Does This Link Go?", url: "https://wheregoes.com/", tags: ["open"], desc: "Redirect-chain inspector that traces and visualizes final destination paths." },
+    { name: "KnowURL", url: "https://www.knowurl.com/", tags: ["open"], desc: "Legacy URL intelligence entry with uncertain availability and reliability." },
+    { name: "VisualPing", url: "https://visualping.io/", tags: ["login", "api", "paid"], desc: "Website monitoring platform that alerts on page content or visual changes." },
+    { name: "Change Detection", url: "https://changedetection.io/", tags: ["install", "api"], desc: "Open-source change-monitoring system for tracking updates on websites over time." },
+    { name: "UPcheck", url: "https://upcheck.online/", tags: ["open"], desc: "Website uptime checker that tests if a site is currently accessible." },
+    { name: "Follow That Page", url: "https://www.followthatpage.com/", tags: ["login", "paid"], desc: "Website monitoring service that checks pages for changes and sends alerts when tracked content updates. Supports keyword-based notifications for focused monitor" },
+    { name: "Urlwatch", url: "https://github.com/thp/urlwatch", tags: ["install"], desc: "Open-source Python CLI tool for monitoring webpages and feeds for changes. Supports multiple filters, reporters, and scheduled checks via local automation." },
+    { name: "WatchThatPage", url: "https://watchthatpage.com/", tags: ["login", "paid"], desc: "Web-based page monitoring platform that detects content changes and notifies users by email. Useful for tracking updates on websites without RSS feeds." },
+    { name: "Google Trends", url: "https://trends.google.com/trends/", tags: ["open"], desc: "Google's search trend analysis tool for tracking keyword popularity and comparing search interest over time." },
+    { name: "DNSSEC Analyzer", url: "https://dnssec-analyzer.verisignlabs.com/", tags: ["open"], desc: "Verisign's DNSSEC validation tool that checks the DNSSEC chain of trust for a domain." },
+    { name: "DNSViz", url: "https://dnsviz.net/", tags: ["open"], desc: "DNS and DNSSEC analysis platform that visualizes delegation chains and cryptographic validation paths. Helps diagnose trust and signing issues in domain configu" },
+    { name: "Sn1per", url: "https://github.com/1N3/Sn1per", tags: ["install", "api"], desc: "Automated reconnaissance and penetration testing framework combining multiple scanning tools for full-scope target enumeration." },
+    { name: "Web Data Exposure Scanner", url: "https://github.com/eduardoit/web-data-exposure-scanner", tags: ["install"], desc: "Open-source scanner for detecting exposed web application data and sensitive file disclosures on web servers." },
+    { name: "Zone-H.org", url: "https://zone-h.org/archive", tags: ["open"], desc: "Archive of reported website defacements and related incident metadata maintained by the Zone-H community." },
+    { name: "RobotsDisallowed", url: "https://github.com/danielmiessler/RobotsDisallowed", tags: ["install"], desc: "Curated wordlist of top disallowed paths harvested from robots.txt files across high-traffic websites." },
+    { name: "Belati", url: "https://github.com/aancw/Belati", tags: ["install", "api"], desc: "Open-source OSINT data collection and automation framework for gathering information from multiple sources." },
+    { name: "Burp Suite", url: "https://portswigger.net/burp", tags: ["install", "api", "paid"], desc: "Industry-standard web application security testing platform for manual and automated vulnerability assessment." },
+    { name: "EyeWitness", url: "https://github.com/ChrisTruncer/EyeWitness", tags: ["install", "api"], desc: "Open-source tool for automated website screenshotting, service header collection, and default credential identification." },
+    { name: "Hunting-New-Registered-Domains", url: "https://github.com/gfek/Hunting-New-Registered-Domains", tags: ["install", "api"], desc: "Open-source tool for identifying newly registered domains matching patterns, useful for phishing and brand threat detection." },
+    { name: "International Domain Name Conversion Tool", url: "https://mct.verisign-grs.com/", tags: ["open"], desc: "Verisign's IDN/Punycode bidirectional converter for translating international domain names to and from ASCII-compatible encoding." },
+    { name: "Windows Defender Security Intelligence (WDSI)", url: "https://www.microsoft.com/en-us/wdsi", tags: ["api"], desc: "Microsoft's security intelligence portal for reporting malicious URLs and checking Windows Defender threat assessments." },
+    { name: "Google Safe Browsing", url: "https://safebrowsing.google.com/", tags: ["api", "dork"], desc: "Google's phishing and malware reporting portal for submitting suspicious URLs for review." },
+  ]},
+  { category: "Email Address", tools: [
+    { name: "ThatsThem", url: "https://thatsthem.com/reverse-email-lookup", tags: ["paid"], desc: "Reverse email lookup tool that searches a database of hundreds of millions of emails to reveal name, address, phone number, and public records associated with a" },
+    { name: "Hunter", url: "https://hunter.io/", tags: ["api", "paid"], desc: "Email finder and verifier that discovers business email addresses from company domains, names, and social profiles with up to 98% accuracy rate." },
+    { name: "Email to Address", url: "https://www.melissa.com/", tags: ["login", "api", "paid"], desc: "Melissa.com's data quality and verification service that validates and enriches email addresses with supplementary contact information." },
+    { name: "VoilaNorbert", url: "https://www.voilanorbert.com/", tags: ["api", "paid"], desc: "Email finder and verifier with 98% success rate that discovers business emails by company/domain, person name, or LinkedIn profile with bulk upload capability." },
+    { name: "GHunt", url: "https://github.com/mxrch/GHunt", tags: ["install"], desc: "Offensive Google framework that investigates Google accounts using email addresses to uncover YouTube channels, Google Photos, Maps reviews, and associated arti" },
+    { name: "OSINT Industries", url: "https://www.osint.industries/", tags: ["paid"], desc: "Account linking service that extracts all registered accounts tied to an email or phone across 500+ platforms including social media, messaging apps, and lifest" },
+    { name: "theHarvester", url: "https://github.com/laramies/theHarvester", tags: ["install"], desc: "Command-line tool for gathering emails, subdomains, IPs, and URLs from public sources." },
+    { name: "Infoga", url: "https://github.com/m4ll0k/infoga", tags: ["install", "dork"], desc: "Python-based email OSINT tool that gathers email account information (IP, hostname, country) from search engines, PGP servers, and Shodan, with breach checking " },
+    { name: "Skymem", url: "https://www.skymem.info/", tags: ["paid"], desc: "Email finder that discovers company and personal email addresses by domain or name, with bulk search, email list creation, and advanced filtering capabilities." },
+    { name: "Epieos Email Tool", url: "https://tools.epieos.com/email.php", tags: ["paid"], desc: "Freemium OSINT tool performing email reverse lookups to uncover associated social media profiles across 120+ websites and services with breach detection." },
+    { name: "breach.vip", url: "https://breach.vip/", tags: ["open"], desc: "Free database search engine providing access to 1000+ breach databases for research, email searching, and analysis of compromised credentials." },
+    { name: "Holehe", url: "https://github.com/megadose/holehe", tags: ["install"], desc: "Python-based email enumeration tool that checks if an email is registered across 120+ websites and services using password-reset mechanisms." },
+    { name: "Email Format", url: "https://www.email-format.com/", tags: ["open"], desc: "Tool for analyzing and discovering corporate email address patterns and formats to predict valid employee email addresses within an organization." },
+    { name: "Email Permutator", url: "https://metricsparrow.com/toolkit/email-permutator/", tags: ["open"], desc: "OSINT tool that generates all possible email address combinations from a person's name and domain(s) for reconnaissance and email guessing." },
+    { name: "Reacher Github", url: "https://github.com/reacherhq/check-if-email-exists", tags: ["install", "api"], desc: "Open-source Rust-based email verification API that checks email deliverability without sending messages, detecting catch-all and disposable addresses." },
+    { name: "Reacher Demo", url: "https://reacher.email", tags: ["open"], desc: "Hosted demo of the Reacher email verification API allowing free testing of email validation and deliverability checks online." },
+    { name: "MailScrap", url: "https://mailscrap.com/", tags: ["paid"], desc: "Email verification tool that connects to mail servers to verify mailbox existence and removes disposable email addresses from lists." },
+    { name: "Read Notify", url: "https://www.readnotify.com/", tags: ["paid"], desc: "Email tracking and read receipt service that monitors email opens and engagement, useful for confirming email validity through delivery." },
+    { name: "Email Reputation", url: "https://emailrep.io/", tags: ["api"], desc: "Tool that checks email reputation, risk scoring, and breach history to identify phishing emails, compromised accounts, and risky addresses." },
+    { name: "MailboxValidator", url: "https://www.mailboxvalidator.com/demo", tags: ["login", "api", "paid"], desc: "Email verification API that validates email deliverability, detects catch-all addresses, and provides risk scoring for bulk email list cleaning." },
+    { name: "VerifyEmail (R$)", url: "https://emailable.com/", tags: ["open"], desc: "" },
+    { name: "Disposable Email Domains", url: "https://github.com/disposable-email-domains/disposable-email-domains", tags: ["install"], desc: "Community-maintained blocklist of 5,000+ disposable email domains with allowlist support and multi-language implementation examples. Used by PyPI and other proj" },
+    { name: "Disposable Emails Registry", url: "https://disposable-emails.github.io/", tags: ["open"], desc: "Searchable registry of disposable email domains with bulk download support for threat intelligence integration." },
+    { name: "Burner Email Providers", url: "https://github.com/wesbos/burner-email-providers", tags: ["install"], desc: "Curated list of temporary email service domains with API references and detection library implementations across multiple languages." },
+    { name: "Have I been pwned?", url: "https://haveibeenpwned.com/", tags: ["login", "api", "paid"], desc: "Database of breached credentials and email addresses from known data breaches." },
+    { name: "Hudson Rock", url: "https://www.hudsonrock.com/threat-intelligence-cybercrime-tools", tags: ["api", "paid"], desc: "Infostealer threat intelligence platform that searches a database of compromised devices and stolen credentials to identify if emails have been exposed via malw" },
+    { name: "DeHashed", url: "https://dehashed.com/", tags: ["login", "api", "paid"], desc: "Modern breach search engine indexing historical breach data over a decade old, enabling searches by email, username, password, domain, phone, and IP address." },
+    { name: "Vigilante.pw", url: "https://www.vigilante.pw/", tags: ["open"], desc: "Breach database directory and search platform raising awareness of data breaches by aggregating publicly leaked database information and breach details." },
+    { name: "MxToolbox", url: "https://mxtoolbox.com/", tags: ["open"], desc: "Email deliverability diagnostics tool that checks MX records, SPF, DKIM, DMARC configuration, and server health to prevent email delivery issues." },
+  ]},
+  { category: "Encoding / Decoding", tools: [
+    { name: "ClearImage Barcode Reader", url: "https://online-barcode-reader.inliteresearch.com/", tags: ["open"], desc: "Web-based barcode and QR code recognition tool using Inlite Research ClearImage technology for common image and document formats." },
+    { name: "JS Beautifier", url: "https://beautifier.io/", tags: ["api"], desc: "Open-source JavaScript formatter that rewrites minified or obfuscated code into readable, consistently indented source." },
+    { name: "JS NICE", url: "https://jsnice.org/", tags: ["open"], desc: "Legacy JavaScript reverse-engineering service that previously improved variable names and recovered structure from minified code." },
+    { name: "Firebug", url: "https://getfirebug.com/downloads/", tags: ["install"], desc: "Former Firefox debugging extension that has been retired, with core functionality absorbed into modern Firefox Developer Tools." },
+    { name: "SpiderMonkey", url: "https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey", tags: ["install", "api"], desc: "Mozilla JavaScript engine used by Firefox and available for standalone execution and analysis in local environments." },
+    { name: "Kahu Revelo", url: "https://www.kahusecurity.com/tools/", tags: ["install", "login"], desc: "Windows-focused JavaScript deobfuscation utility that executes scripts in a controlled environment to reveal hidden logic." },
+    { name: "JavaScript Deobfuscator", url: "https://addons.mozilla.org/en-US/firefox/addon/javascript-deobfuscator/", tags: ["install"], desc: "Firefox add-on for inspecting and deobfuscating JavaScript in-browser during page analysis and script review." },
+    { name: "DDecode - PHP Decoder", url: "https://ddecode.com/phpdecoder/", tags: ["open"], desc: "Online decoder for layered PHP obfuscation chains such as eval, base64, gzinflate, and related encoding wrappers." },
+    { name: "XORSearch & XORStrings", url: "https://blog.didierstevens.com/programs/xorsearch/", tags: ["install"], desc: "Didier Stevens command-line utilities for locating XOR, ROL, ROT, and SHIFT-encoded strings in suspicious binaries." },
+    { name: "xortool", url: "https://github.com/hellman/xortool", tags: ["install"], desc: "Python-based XOR analysis tool that estimates key lengths and recovers likely multi-byte keys via frequency analysis." },
+    { name: "unxor", url: "https://github.com/tomchop/unxor", tags: ["install"], desc: "Known-plaintext XOR analysis utility for deriving keystreams and recovering original content from encoded samples." },
+    { name: "iheartxor.py", url: "https://hooked-on-mnemonics.blogspot.com/p/iheartxor.html", tags: ["install"], desc: "Python script for brute-forcing XOR-obfuscated strings within defined boundaries to reveal hidden text in malware samples." },
+    { name: "XORBruteForcer.py", url: "https://github.com/jesparza/scripts/blob/master/xorBruteForcer.py", tags: ["install"], desc: "Single-byte XOR brute-force Python script that iterates candidate key values and surfaces matching decoded output." },
+    { name: "NoMoreXOR.py", url: "https://github.com/hiddenillusion/NoMoreXOR", tags: ["install"], desc: "Python utility for recovering long XOR keys using character frequency heuristics and YARA-assisted pattern matching." },
+    { name: "Balbuzard", url: "https://github.com/decalage2/balbuzard", tags: ["install"], desc: "Python malware analysis toolkit that extracts indicators and brute-forces common obfuscation patterns including XOR and rotation transforms." },
+    { name: "CyberChef", url: "https://gchq.github.io/CyberChef/", tags: ["install", "api"], desc: "GCHQ-maintained browser workbench for chained encoding, decoding, hashing, crypto, and data transformation operations." },
+    { name: "Functions Online", url: "https://www.functions-online.com/", tags: ["open"], desc: "PHP-oriented online utility suite for common encoding, decoding, hashing, and string-manipulation function tests." },
+  ]},
+  { category: "Geolocation Tools / Maps", tools: [
+    { name: "Astrometry", url: "https://nova.astrometry.net/", tags: ["api"], desc: "Astrometry.net solves star-field images to estimate where and when a photo was taken." },
+    { name: "SunCalc", url: "https://suncalc.net/", tags: ["open"], desc: "Solar position calculator for estimating time and orientation from shadows in imagery." },
+    { name: "SunCalc", url: "https://suncalc.org/", tags: ["open"], desc: "Solar position calculator for estimating time and orientation from shadows in imagery." },
+    { name: "GeoSpy", url: "https://geospy.ai/", tags: ["login", "paid"], desc: "AI-assisted image geolocation tool for estimating where a photo was taken." },
+    { name: "GPSVisualizer", url: "https://www.gpsvisualizer.com/geocode", tags: ["open"], desc: "Coordinate and GPS utility for mapping, conversion, and geocoding operations." },
+    { name: "Military Grid Reference System Coordinates", url: "https://dominoc925-pages.appspot.com/mapplets/cs_mgrs.html", tags: ["open"], desc: "MGRS coordinate conversion utility for military-style grid references." },
+    { name: "Batch Geocoding", url: "https://www.doogal.co.uk/BatchGeocoding", tags: ["login", "api", "paid"], desc: "Bulk geocoding workflow that converts large address lists into latitude/longitude pairs." },
+    { name: "Batch Reverse Geocoding", url: "https://www.doogal.co.uk/BatchReverseGeocoding", tags: ["login", "api", "paid"], desc: "Bulk reverse-geocoding workflow that converts coordinate lists into human-readable addresses." },
+    { name: "Hyperlapse", url: "https://github.com/TeehanLax/Hyperlapse.js", tags: ["install", "api"], desc: "Open-source JavaScript library for creating Street View hyperlapse animations." },
+    { name: "Google Maps Streetview Player", url: "https://brianfolts.com/driver/", tags: ["open"], desc: "Street View path playback utility for reviewing route-level imagery sequences." },
+    { name: "ScribbleMaps", url: "https://www.scribblemaps.com/", tags: ["login"], desc: "Collaborative web map editor for annotations, overlays, and shared incident maps." },
+    { name: "Beholder", url: "https://beholder.infragard.io/", tags: ["open"], desc: "Real-time global event map aggregating public-source signals for situational awareness." },
+    { name: "LiveUaMap", url: "https://liveuamap.com/", tags: ["open"], desc: "Conflict/event mapping platform that geolocates incidents from public reporting." },
+    { name: "OpenSignal", url: "https://www.opensignal.com/", tags: ["api", "paid"], desc: "Crowdsourced mobile coverage and signal quality map from user telemetry." },
+    { name: "AntennaSearch", url: "https://www.antennasearch.com/", tags: ["open"], desc: "FCC-backed lookup for antenna structure and tower records used in RF and telecom investigations." },
+    { name: "beaconDB", url: "https://beacondb.net/", tags: ["api"], desc: "Open geolocation database for Wi-Fi/Bluetooth/cell beacons used in location inference." },
+    { name: "Google Maps", url: "https://www.google.com/maps/", tags: ["api"], desc: "Google web mapping suite with satellite, terrain, route, and place intelligence layers." },
+    { name: "Bing Maps", url: "https://www.bing.com/maps", tags: ["api"], desc: "Microsoft web mapping service with road, aerial, and route layers for location analysis." },
+    { name: "HERE Maps", url: "https://maps.here.com/", tags: ["api", "paid"], desc: "Enterprise-grade mapping platform with routing and global cartographic coverage." },
+    { name: "Dual Maps", url: "https://data.mashedworld.com/dualmaps/map.htm", tags: ["open"], desc: "Dual-pane map viewer for side-by-side comparison of basemaps and imagery." },
+    { name: "Instant Google Street View", url: "https://www.instantstreetview.com/", tags: ["paid"], desc: "Fast launcher for jumping directly into Google Street View at precise locations." },
+    { name: "Wikimapia", url: "https://wikimapia.org/#lang=en&lat=40.078071&lon=-100.458984&z=5&m=b", tags: ["open"], desc: "Crowdsourced landmark annotation layer with uneven maintenance and stale coverage in some regions." },
+    { name: "OpenStreetMap", url: "https://www.openstreetmap.org/", tags: ["api"], desc: "Open-source global map edited by the community and widely reused in OSINT workflows." },
+    { name: "Flash Earth", url: "https://zoom.earth/", tags: ["open"], desc: "Zoom Earth interface for rapidly reviewing weather and satellite imagery timelines." },
+    { name: "Historic Aerials", url: "https://www.historicaerials.com/?javascript=&", tags: ["login", "paid"], desc: "Historical aerial imagery archive for property and infrastructure change analysis." },
+    { name: "Google Maps Update Alerts", url: "https://followyourworld.appspot.com/", tags: ["login"], desc: "Follow Your World alert utility for notifications on map and imagery updates." },
+    { name: "Google Earth Overlays", url: "https://www.mgmaps.com/kml/", tags: ["api"], desc: "Overlay workflow for layering KML/KMZ data onto Google Earth views." },
+    { name: "Yandex.Maps", url: "https://yandex.com/maps/", tags: ["api"], desc: "Regional mapping service with strong coverage in Russia and surrounding regions." },
+    { name: "Google Earth", url: "https://earth.google.com/web/", tags: ["api"], desc: "3D globe and historical imagery platform for terrain and time-based visual analysis." },
+    { name: "Baidu Maps", url: "https://map.baidu.com/", tags: ["api", "paid"], desc: "Major Chinese mapping platform with strong POI and routing coverage in mainland China." },
+    { name: "Corona", url: "https://corona.cast.uark.edu/", tags: ["login"], desc: "Access point for historical CORONA-era satellite imagery used in long-range change analysis." },
+    { name: "Naver (Korean)", url: "https://map.naver.com/p/", tags: ["api", "paid"], desc: "Korea-focused mapping platform with strong local POI and transit coverage." },
+    { name: "Overpass Turbo", url: "https://overpass-turbo.eu/", tags: ["api"], desc: "Query interface for extracting targeted OpenStreetMap features via Overpass API." },
+    { name: "EarthExplorer", url: "https://earthexplorer.usgs.gov/", tags: ["login"], desc: "USGS portal for Landsat, Sentinel, and other earth observation datasets." },
+    { name: "OpenStreetCam", url: "https://kartaview.org/", tags: ["api"], desc: "KartaView crowdsourced street-level imagery platform for geospatial verification." },
+    { name: "Travel by Drone", url: "https://travelbydrone.com/", tags: ["open"], desc: "Drone-route and aerial exploration resource useful for planning vantage-aware terrain review." },
+    { name: "Hivemapper", url: "https://hivemapper.com/", tags: ["login", "api", "paid"], desc: "Decentralized, crowdsourced street imagery map network with expanding coverage." },
+    { name: "LandsatLook Viewer", url: "https://landsatlook.usgs.gov/", tags: ["api"], desc: "USGS viewer for browsing Landsat scenes and multispectral imagery." },
+    { name: "NEXRAD Data Inventory Search", url: "https://www.ncdc.noaa.gov/nexradinv/", tags: ["login", "api"], desc: "NOAA/NCDC index for searching archived NEXRAD radar datasets." },
+    { name: "MapQuest", url: "https://www.mapquest.com/", tags: ["api"], desc: "Web mapping and routing platform supporting multi-stop route planning." },
+    { name: "OpenInfrastructureMap", url: "https://openinframap.org/", tags: ["open"], desc: "OSM-derived map overlays for power, telecom, water, and industrial infrastructure." },
+    { name: "Hiking & Biking Map", url: "https://hikebikemap.org/", tags: ["open"], desc: "OSM-based map optimized for trails, cycling routes, and terrain context." },
+    { name: "US Nav Guide Zip Code Data", url: "https://www.usnaviguide.com/", tags: ["open"], desc: "Zip-code lookup resource for correlating US postal areas with map context." },
+    { name: "Wayback Imagery", url: "https://livingatlas.arcgis.com/wayback/", tags: ["api"], desc: "Esri Wayback archive for reviewing previous versions of world imagery basemaps." },
+    { name: "SkyFi.com - Satellite Open Data", url: "https://app.skyfi.com/explore/open", tags: ["login", "api", "paid"], desc: "Satellite imagery marketplace and open-data discovery interface for earth observation assets." },
+  ]},
+  { category: "IP & MAC Address", tools: [
+    { name: "MaxMind Demo", url: "https://www.maxmind.com/en/home", tags: ["open"], desc: "Web-based IP geolocation demo with location, ASN, and network data from MaxMind's GeoIP database." },
+    { name: "IPv4/IPv6 lists by country code", url: "https://github.com/ipverse/", tags: ["open"], desc: "Database of IPv4 and IPv6 address ranges organized by country for geographic IP filtering." },
+    { name: "IP2Location.com", url: "https://www.ip2location.com/demo", tags: ["login", "api", "paid"], desc: "Commercial IP geolocation service with free demo and database. Provides location, proxy detection, and network data." },
+    { name: "IP Fingerprints", url: "https://ipfingerprints.com/", tags: ["open"], desc: "Reverse IP lookup service identifying all domains hosted on a given IP address." },
+    { name: "DB-IP", url: "https://db-ip.com/", tags: ["api", "paid"], desc: "Lightweight IP geolocation API covering 46M+ IPv4/IPv6 blocks with city-level accuracy." },
+    { name: "IP Location Finder", url: "https://www.iplocation.net/", tags: ["open"], desc: "Web-based tool for IP geolocation with maps and detailed location information." },
+    { name: "Info Sniper", url: "https://www.infosniper.net/", tags: ["login", "paid"], desc: "Multi-field reverse OSINT tool for IP, email, phone lookups with social media enumeration." },
+    { name: "utrace", url: "https://en.utrace.de/", tags: ["open"], desc: "IP geolocation and reverse DNS lookup tool with network traceroute visualization." },
+    { name: "Spyse", url: "https://spyse.com/search/ip", tags: ["login", "api", "paid"], desc: "Internet assets search engine collecting and analyzing public data for attack surface management." },
+    { name: "Netlas.io", url: "https://netlas.io/", tags: ["login", "api", "paid"], desc: "Comprehensive internet scanning platform with OSINT, DNS, and WHOIS data. Free tier: 50 requests/day." },
+    { name: "Portmap", url: "https://portmap.com/", tags: ["open"], desc: "Port mapping tool that scans for open ports and services on target IP addresses." },
+    { name: "Scans.io", url: "https://scans.io/", tags: ["open"], desc: "Archive of internet-wide scan data including censys scans and other reconnaissance data." },
+    { name: "Nmap", url: "https://nmap.org/download.html", tags: ["install"], desc: "Open-source network mapping and port scanning tool with OS detection and service version identification." },
+    { name: "Online Port scanner", url: "https://portscanner.online/", tags: ["open"], desc: "Web-based port scanner checking open ports on target IP addresses without installation." },
+    { name: "Internet Census Search", url: "https://www.exfiltrated.com/querystart.php", tags: ["open"], desc: "Search interface for the Shodan-like internet census data and open services." },
+    { name: "Scanless", url: "https://github.com/vesche/scanless", tags: ["install"], desc: "Command-line tool for port scanning without leaving traces on target using third-party services." },
+    { name: "BinaryEdge", url: "https://www.binaryedge.io/", tags: ["login", "api", "paid"], desc: "Commercial security research platform with internet-wide scanning and module-based detection." },
+    { name: "Masscan", url: "https://github.com/robertdavidgraham/masscan", tags: ["install"], desc: "Ultra-fast TCP port scanner designed for scanning large IP ranges and entire networks." },
+    { name: "ASlookup.com", url: "https://aslookup.com/", tags: ["open"], desc: "BGP and autonomous system lookup tool for finding IP ranges and ownership information." },
+    { name: "Onyphe", url: "https://www.onyphe.io/", tags: ["login", "api", "paid"], desc: "Cyber defense search engine with internet scanning, threat intelligence, and attack surface management." },
+    { name: "IPv4 CIDR Report", url: "https://www.cidr-report.org/as2.0/", tags: ["open"], desc: "Tool for analyzing IPv4 CIDR blocks and finding contained IP addresses and subnets." },
+    { name: "Reverse.report", url: "https://reverse.report/", tags: ["login", "paid"], desc: "Comprehensive reverse lookup tool for IP to domain, email, and phone number associations." },
+    { name: "Team Cymru IP to ASN", url: "https://asn.cymru.com/", tags: ["api"], desc: "IP to ASN mapping tool providing autonomous system ownership and prefix information." },
+    { name: "IP to ASN DB", url: "https://iptoasn.com/", tags: ["api"], desc: "Database and API service for looking up which ASN owns a given IP address." },
+    { name: "Hacker Target - Reverse DNS", url: "https://hackertarget.com/reverse-dns-lookup/", tags: ["api", "paid"], desc: "Reverse DNS lookup tool and API finding domain names associated with IP addresses." },
+    { name: "IPv6 CIDR Report", url: "https://www.cidr-report.org/v6/as2.0/", tags: ["open"], desc: "CIDR block analysis tool for IPv6 address ranges and subnet enumeration." },
+    { name: "Hurricane Electric BGP Toolkit", url: "https://bgp.he.net/", tags: ["open"], desc: "BGP and network routing analysis tools including AS to prefix lookup and BGP prefix information." },
+    { name: "BGP Malicious Content Ranking", url: "https://bgpranking.circl.lu/", tags: ["open"], desc: "Platform ranking ASNs and BGP prefixes by malicious content and security threats." },
+    { name: "PeeringDB", url: "https://www.peeringdb.com/advanced_search", tags: ["api"], desc: "Database of internet exchange points, member networks, and AS relationships for network mapping." },
+    { name: "BGP Tools", url: "https://www.bgp4.as/tools", tags: ["open"], desc: "Collection of BGP analysis and AS number lookup tools for network intelligence." },
+    { name: "IP Void", url: "https://www.ipvoid.com/", tags: ["login", "paid"], desc: "IP reputation and threat intelligence service analyzing blacklist status and security risks." },
+    { name: "ExoneraTor", url: "https://exonerator.torproject.org/", tags: ["open"], desc: "Tool for checking if an IP address belonged to Tor at a specific date." },
+    { name: "Grey Noise", url: "https://viz.greynoise.io/", tags: ["login", "api", "paid"], desc: "Platform for analyzing internet background noise and identifying benign scanning activity." },
+    { name: "Blocklist.de", url: "https://www.blocklist.de/en/index.html", tags: ["api"], desc: "Community-contributed blocklist of IP addresses involved in attacks and malicious activity." },
+    { name: "DShield API", url: "https://isc.sans.edu/api/", tags: ["api"], desc: "API and database of security events and IPs involved in attacks monitored by SANS." },
+    { name: "FireHOL IP Lists", url: "https://iplists.firehol.org/", tags: ["api"], desc: "Collection of firewall-friendly IP lists for blocking malicious and spam sources." },
+    { name: "Project Honey Pot", url: "https://www.projecthoneypot.org/list_of_ips.php", tags: ["api", "paid"], desc: "Global honeypot network collecting spam and attack data with IP reputation service." },
+    { name: "IP Fingerprints - Reverse IP Lookup", url: "https://ipfingerprints.com/reverseip.php", tags: ["open"], desc: "Find all domains hosted on a shared IP address through reverse IP lookup." },
+    { name: "Bing IP Search", url: "https://www.bing.com/search?q=ip%3A8.8.8.8", tags: ["dork"], desc: "Bing search operator for finding domains and subdomains hosted on a specific IP address." },
+    { name: "TCP/IP Utils - Domain Neighbors", url: "https://dnslytics.com/", tags: ["open"], desc: "Find all domains on the same IP and subdomain information via reverse IP lookups." },
+    { name: "MyIPNeighbors", url: "https://www.my-ip-neighbors.com/", tags: ["open"], desc: "Reverse IP lookup tool for discovering all domains and subdomains on an IP address." },
+    { name: "CloudFlare Watch", url: "https://www.crimeflare.com/", tags: ["open"], desc: "Tool for identifying and analyzing websites protected by Cloudflare's CDN and security services." },
+    { name: "CloudFail", url: "https://github.com/m0rtem/CloudFail", tags: ["install"], desc: "Tool for finding origin IPs of Cloudflare-protected websites through enumeration techniques." },
+    { name: "WiGLE: Wireless Network Mapping", url: "https://wigle.net/", tags: ["login", "api", "paid"], desc: "Global database of wireless networks (WiFi, Bluetooth, cellular) with mapping and signal strength data." },
+    { name: "OpenCellid: Database of Cell Towers", url: "https://opencellid.org/", tags: ["api"], desc: "Open database of cellular tower locations and coverage for mobile network geolocation." },
+    { name: "Wireshark", url: "https://www.wireshark.org/download.html", tags: ["install"], desc: "Open-source network packet analyzer for deep packet inspection and network troubleshooting." },
+    { name: "NetworkMiner", url: "https://www.netresec.com/?page=Networkminer", tags: ["install"], desc: "Passive network forensics tool for extracting files and data from network traffic captures." },
+    { name: "Packet Total", url: "https://www.packettotal.com/", tags: ["login"], desc: "Online platform for uploading and analyzing network packet captures (PCAP files)." },
+    { name: "checkip", url: "https://github.com/jreisinger/checkip", tags: ["install"], desc: "Command-line utility for checking local machine IP address and network connectivity." },
+    { name: "Ki.tc", url: "https://ki.tc", tags: ["open"], desc: "IP logging service that generates trackable links for IP/browser info collection." },
+    { name: "Grabify", url: "https://grabify.link", tags: ["open"], desc: "URL shortener service that logs IP addresses and device information of link clickers." },
+    { name: "IP Logger", url: "https://iplogger.com/", tags: ["open"], desc: "IP logging and URL shortening service tracking visitor IP, location, and browser data." },
+  ]},
+  { category: "Images / Videos / Docs", tools: [
+    { name: "Google Images", url: "https://images.google.com/", tags: ["open"], desc: "Google's reverse image and visual search via Lens for finding matches, source pages, and related images across the web." },
+    { name: "Bing Images", url: "https://www.bing.com/images", tags: ["open"], desc: "Microsoft visual search engine with reverse image lookup and crop-based matching for partial-object analysis." },
+    { name: "FaceCheck Facial Recognition Search", url: "https://facecheck.id/", tags: ["login", "paid"], desc: "Facial recognition search engine that finds publicly indexed face matches across web and social sources." },
+    { name: "Surfface Face & People Search Engine", url: "https://surfface.com/", tags: ["login", "paid"], desc: "AI-based face and people search platform focused on open-source identity discovery and correlation." },
+    { name: "PimEyes Face Search Engine", url: "https://pimeyes.com/en", tags: ["login", "paid"], desc: "Commercial reverse face search engine for locating appearances of a face on publicly indexed websites." },
+    { name: "Yandex Images", url: "https://yandex.com/images/", tags: ["open"], desc: "Reverse image search engine with strong matching for Eastern European and Asian web sources." },
+    { name: "Baidu Images", url: "https://image.baidu.com/", tags: ["open"], desc: "Chinese reverse image search platform useful for discovering image reuse on China-centric websites." },
+    { name: "Twitter Image Search", url: "https://twitter.com/search?q=%3Csearchterm%3E&src=typd&vertical=default&f=images", tags: ["open"], desc: "Manual X/Twitter query template for finding tweets containing images for a target keyword or account." },
+    { name: "Imgur Search", url: "https://imgur.com/search", tags: ["paid"], desc: "Search interface for Imgur-hosted public images, albums, and community media posts." },
+    { name: "Photobucket", url: "https://photobucket.com/", tags: ["paid"], desc: "Long-running image hosting platform with public galleries and legacy web-hosted photo content." },
+    { name: "7Photos.net", url: "https://7photos.net/", tags: ["login"], desc: "Unclear image-related web service with an active domain but limited publicly verifiable functionality." },
+    { name: "Current Location", url: "https://current-location.com/", tags: ["open"], desc: "Location-based photo discovery tool that aggregates geotagged images from public platforms on an interactive map." },
+    { name: "Lenso.ai", url: "https://lenso.ai/", tags: ["login", "api", "paid"], desc: "AI reverse image and face matching platform designed to find similar or edited visual content." },
+    { name: "CC Search", url: "https://search.creativecommons.org/", tags: ["open"], desc: "Creative Commons search portal for discovering openly licensed and public-domain images." },
+    { name: "CamFind App", url: "https://camfindapp.com/", tags: ["paid"], desc: "Mobile visual search app that identifies objects, landmarks, and products from photos." },
+    { name: "RevEye Reverse Image Search", url: "https://github.com/steven2358/reveye", tags: ["install"], desc: "Open-source browser extension that launches reverse image searches across multiple engines from one menu." },
+    { name: "SmugMug Search", url: "https://www.smugmug.com/", tags: ["paid"], desc: "Photo hosting and portfolio platform with searchable public galleries and photographer profiles." },
+    { name: "ImageNet", url: "https://image-net.org/", tags: ["install"], desc: "Large-scale labeled image dataset used for computer vision and image classification research." },
+    { name: "Places2", url: "http://places2.csail.mit.edu/", tags: ["install"], desc: "MIT CSAIL scene-recognition dataset containing millions of place-labeled images for visual analysis." },
+    { name: "Image Identification Project", url: "https://www.imageidentify.com/", tags: ["paid"], desc: "Online image recognition service that labels uploaded images with machine-generated tags and confidence scores." },
+    { name: "SauceNAO", url: "https://saucenao.com/", tags: ["api", "paid"], desc: "Reverse image source finder widely used to trace artwork, anime frames, and reposted media to origin sites." },
+    { name: "Picarta", url: "https://picarta.ai/", tags: ["paid"], desc: "AI geolocation tool that estimates likely photo capture locations from visual scene analysis." },
+    { name: "FaceSeek Face Search Engine", url: "https://www.faceseek.online/", tags: ["paid"], desc: "Face-matching web tool for locating visually similar faces across indexed online content." },
+    { name: "Webstigram", url: "https://websta.me/search-engine-optimization/", tags: ["open"], desc: "Legacy Webstagram endpoint historically used for Instagram search workflows; currently not verifiable as a standalone active OSINT tool." },
+    { name: "Instagram", url: "https://www.instagram.com/", tags: ["login", "api", "paid"], desc: "Main Instagram platform used for public profile, hashtag, and location OSINT collection." },
+    { name: "Mini Instagram", url: "https://mini-for-instagram.en.softonic.com/", tags: ["install"], desc: "Lightweight Instagram client utility used to simplify media viewing and downloading workflows." },
+    { name: "Imgrab", url: "https://www.imgrab.com/", tags: ["install"], desc: "Image download utility family used for saving individual or batch media from web pages." },
+    { name: "Tofo.me", url: "https://tofo.me/", tags: ["open"], desc: "Legacy Instagram-related endpoint with unclear current functionality and limited verifiable OSINT value." },
+    { name: "Flickr", url: "https://www.flickr.com/", tags: ["api", "paid"], desc: "Photo hosting platform that often preserves useful image metadata and geotags for OSINT workflows." },
+    { name: "Flickr Map", url: "https://www.flickr.com/map/", tags: ["open"], desc: "Flickr map interface for browsing geotagged photos by area and time." },
+    { name: "My Pics Map", url: "https://www.mypicsmap.com/", tags: ["open"], desc: "Photo mapping utility reference with unclear present-day availability as a distinct OSINT tool." },
+    { name: "idGettr", url: "https://www.webfx.com/tools/idgettr/", tags: ["open"], desc: "Web utility for resolving Instagram usernames to numeric account IDs." },
+    { name: "Flickr Hive Mind", url: "https://flickrhivemind.net/", tags: ["api"], desc: "Advanced Flickr search and data-mining interface for tags, users, text, and date filters." },
+    { name: "ExifEditor", url: "https://exifeditor.io", tags: ["open"], desc: "Browser-based EXIF metadata viewer and editor for quick image metadata inspection or sanitization." },
+    { name: "ExifTool", url: "https://exiftool.org/", tags: ["install"], desc: "Widely used command-line toolkit for reading and writing EXIF, IPTC, XMP, and other metadata formats." },
+    { name: "ExifViewer", url: "https://www.exifviewer.org/", tags: ["open"], desc: "Online EXIF inspection utility for camera, location, and embedded image metadata fields." },
+    { name: "FOCA", url: "https://github.com/ElevenPaths/FOCA", tags: ["install"], desc: "Desktop reconnaissance tool that gathers public documents from target domains and extracts embedded metadata." },
+    { name: "GeoSetter", url: "https://geosetter.de/en/main-en/", tags: ["install"], desc: "Windows desktop utility for viewing and editing photo geotags and EXIF/XMP metadata fields in bulk." },
+    { name: "Jeffrey's Exif Viewer", url: "https://regex.info/blog/", tags: ["open"], desc: "Formerly popular EXIF web viewer that is now discontinued and kept as historical reference." },
+    { name: "JPEGsnoop", url: "https://www.impulseadventure.com/photo/jpeg-snoop.html", tags: ["install"], desc: "Windows forensic utility for deep JPEG structure analysis, recompression detection, and authenticity clues." },
+    { name: "Metapicz", url: "https://metapicz.com/#landing", tags: ["open"], desc: "Online EXIF parser historically used for quick camera and location metadata reads, now showing signs of limited maintenance." },
+    { name: "Search by Exif", url: "https://exif.osint-tool.com", tags: ["open"], desc: "Web EXIF inspection tool focused on extracting metadata and GPS clues from supplied images." },
+    { name: "xeuledoc - Fetch metadata about any public Google document", url: "https://github.com/Malfrats/xeuledoc", tags: ["install"], desc: "Python tool that extracts metadata from public Google Docs, Sheets, and Slides links." },
+    { name: "Exiv2", url: "https://exiv2.org/", tags: ["install", "api"], desc: "Cross-platform library and CLI for reading and modifying EXIF, IPTC, XMP, and ICC metadata." },
+    { name: "MediaInfo", url: "https://mediaarea.net/en/MediaInfo", tags: ["install"], desc: "Cross-platform utility for extracting technical metadata from video and audio media files." },
+    { name: "Apache Tika", url: "https://tika.apache.org/", tags: ["install", "api"], desc: "Apache content analysis framework for extracting metadata and text across a very broad set of file formats." },
+    { name: "oletools", url: "https://github.com/decalage2/oletools", tags: ["install"], desc: "Python toolkit for analyzing OLE and Office documents, including macro extraction and suspicious object detection." },
+    { name: "Hachoir", url: "https://hachoir.readthedocs.io/", tags: ["open"], desc: "" },
+    { name: "C2PA Verify", url: "https://c2paviewer.com/", tags: ["open"], desc: "" },
+    { name: "Metadata2Go", url: "https://www.metadata2go.com/", tags: ["open"], desc: "" },
+    { name: "Ghiro", url: "https://getghiro.org/", tags: ["open"], desc: "" },
+    { name: "Forensically", url: "https://29a.ch/photo-forensics/", tags: ["open"], desc: "" },
+    { name: "i2OCR", url: "https://www.i2ocr.com/", tags: ["open"], desc: "" },
+    { name: "New OCR", url: "https://www.newocr.com/", tags: ["open"], desc: "" },
+    { name: "Online OCR", url: "https://www.onlineocr.net/", tags: ["open"], desc: "" },
+    { name: "Creepy", url: "https://github.com/ilektrojohn/creepy", tags: ["open"], desc: "" },
+    { name: "Google Videos", url: "https://www.google.com/videohp", tags: ["open"], desc: "" },
+    { name: "Bing Videos", url: "https://www.bing.com/videos", tags: ["open"], desc: "" },
+    { name: "Internet Archive Videos", url: "https://archive.org/details/movies", tags: ["open"], desc: "" },
+    { name: "Vines", url: "https://www.google.com/search?q=site:vine.co+%3Csearchterm%3E", tags: ["open"], desc: "" },
+    { name: "Dogpile", url: "https://www.dogpile.com/", tags: ["open"], desc: "" },
+    { name: "Geo Search Tool", url: "https://youtube.github.io/geo-search-tool/", tags: ["open"], desc: "" },
+    { name: "blinkx Video Search", url: "https://blinkx.com/", tags: ["open"], desc: "" },
+    { name: "Facebook Live Map", url: "https://facebook.com/live", tags: ["open"], desc: "" },
+    { name: "LiveLeak", url: "https://www.liveleak.com/", tags: ["open"], desc: "" },
+    { name: "Metatube", url: "https://github.com/JVT038/MetaTube", tags: ["open"], desc: "" },
+    { name: "Yahoo Video Search", url: "https://video.search.yahoo.com/", tags: ["open"], desc: "" },
+    { name: "Search YouTube by Location", url: "https://mattw.io/youtube-geofind/", tags: ["open"], desc: "" },
+    { name: "Print YouTube StoryBoard Instructions", url: "https://www.labnol.org/internet/print-youtube-video/28217", tags: ["open"], desc: "" },
+    { name: "Print Storyboard from Youtube", url: "javascript:(function(){a=ytplayer.config.args.storyboard_spec;if(!a){alert(\"Sorry we cannot process this YouTube video. Could you please try another one\");exit();}b=a.split(\"|\");base=b[0].split(\"$\")[0]+\"2/M\";c=b[3].split(\"%23\");sigh=c[c.length-1];var imgs=\"\";t=ytplayer.config.args.length_seconds;n=Math.ceil(c[2]/(c[3]*c[4]));for(i=0;i<n;i++){imgs+=\"<PICTURE='\"+base+i+\".jpg%3Fsigh=\"+sigh+\"'><br/>\";}var title=ytplayer.config.args.title;msg=\"<body style='background-color:#444;color:#eee;margin:20px%20auto;width:90%;text-align:center'%3E%3Ch2%3ETITLE%3C/h2%3E%3Cdiv%3EIMAGES%3C/div%3E%3Cbr/%3E%3Cem%3E%3Ca%20href='http://labnol.org/?p=28217'%20style='text-decoration:none;color:#fff;font-style:bold'%3EPrinted%20using%20the%20YouTube%20bookmarklet.%3C/a%3E%3C/em%3E%3C/body%3E%22;msg=msg.replace(%22TITLE%22,title).replace(%22IMAGES%22,imgs).replace(/PICTURE/g,%22img%20src%22);var%20labnol=window.open();labnol.document.open();labnol.document.write(msg);labnol.document.close();})();", tags: ["open"], desc: "" },
+    { name: "Frame by Frame for YouTube", url: "https://chrome.google.com/webstore/detail/frame-by-frame-for-youtub/elkadbdicdciddfkdpmaolomehalghio?hl=en-GB", tags: ["open"], desc: "" },
+    { name: "TubeChop", url: "https://tubechop.com/", tags: ["open"], desc: "" },
+    { name: "YouTube Data Tools", url: "https://tools.digitalmethods.net/netvizz/youtube/", tags: ["open"], desc: "" },
+    { name: "Hooktube", url: "https://hooktube.com/", tags: ["open"], desc: "" },
+    { name: "yasiv-youtube", url: "https://yasiv.com/youtube/", tags: ["open"], desc: "" },
+    { name: "SeeAllTheThings", url: "https://github.com/baywolf88/seeallthethings", tags: ["open"], desc: "" },
+    { name: "Insecam", url: "https://insecam.org/", tags: ["open"], desc: "" },
+    { name: "EarthCam", url: "https://www.earthcam.com/", tags: ["open"], desc: "" },
+    { name: "GoogleDocs", url: "https://www.google.com/?q=site:docs.google.com+%3Csearchterm%3E", tags: ["open"], desc: "" },
+    { name: "GoogleDrive", url: "https://www.google.com/?q=site:drive.google.com+%3Csearchterm%3E", tags: ["open"], desc: "" },
+    { name: "Dropbox", url: "https://www.google.com/?q=site:dl.dropbox.com+%3Csearchterm%3E", tags: ["open"], desc: "" },
+    { name: "Amazon AWS", url: "https://www.google.com/search?q=site:s3.amazonaws.com+%3Csearchterm%3E", tags: ["open"], desc: "" },
+    { name: "OneDrive", url: "https://www.google.com/search?safe=off&q=site:onedrive.live.com+%3Csearchterm%3E", tags: ["open"], desc: "" },
+    { name: "Cryptome", url: "https://www.google.com/search?q=site:cryptome.org+%3Csearchterm%3E", tags: ["open"], desc: "" },
+    { name: "Scribd", url: "https://www.scribd.com/", tags: ["open"], desc: "" },
+    { name: "WikiLeaks Search", url: "https://search.wikileaks.org/advanced", tags: ["open"], desc: "" },
+    { name: "RECAP Court Doc Repo", url: "https://archive.recapthelaw.org/", tags: ["open"], desc: "" },
+    { name: "filessoo.com", url: "https://filessoo.com/", tags: ["open"], desc: "" },
+    { name: "Leaked Cables", url: "https://search.wikileaks.org/plusd/", tags: ["open"], desc: "" },
+    { name: "Pastebin OSINT Harvester", url: "https://github.com/needmorecowbell/sniff-paste", tags: ["open"], desc: "" },
+    { name: "What The Font", url: "https://www.myfonts.com/pages/whatthefont", tags: ["open"], desc: "" },
+    { name: "Font Squirrel", url: "https://www.fontsquirrel.com/matcherator", tags: ["open"], desc: "" },
+    { name: "IdentiFont", url: "https://www.identifont.com/index.html", tags: ["open"], desc: "" },
+    { name: "What Font Is", url: "https://www.whatfontis.com/", tags: ["api", "paid"], desc: "AI-powered font identification tool that analyzes images against a database of 1.2M+ typefaces to identify fonts." },
+  ]},
+  { category: "Instant Messaging", tools: [
+    { name: "Comms Analyzer Toolbox", url: "https://github.com/bitsofinfo/comms-analyzer-toolbox", tags: ["install"], desc: "Open-source toolkit for forensic analysis of communication archives with Elasticsearch/Kibana dashboards for message timelines and pattern analysis." },
+    { name: "Disboard", url: "https://disboard.org/", tags: ["open"], desc: "Public Discord server discovery platform used to find communities by topic, language, and popularity." },
+    { name: "DiscordOSINT", url: "https://github.com/husseinmuhaisen/DiscordOSINT", tags: ["open"], desc: "GitHub repository of Discord investigation techniques, queries, and tooling references for OSINT workflows." },
+    { name: "Awesome OSINT", url: "https://github.com/jivoi/awesome-osint", tags: ["open"], desc: "Large curated OSINT resource list covering investigation tools, techniques, and training references." },
+    { name: "SlackPirate", url: "https://github.com/emtunc/SlackPirate", tags: ["install", "login", "api"], desc: "Security testing tool for Slack workspaces that enumerates channels and extracts accessible messages/files from authenticated sessions." },
+    { name: "slack-intelbot", url: "https://github.com/pun1sh3r/slack-intelbot", tags: ["install", "login", "api"], desc: "Slack bot that enriches indicators such as domains, IPs, and hashes by querying external threat intelligence services." },
+    { name: "slack-web-scraper", url: "https://github.com/iulspop/slack-web-scraper", tags: ["install", "login"], desc: "Automation script for collecting Slack channel history and metadata from accessible workspaces." },
+    { name: "Google CSE for Telegram links", url: "https://cse.google.com/cse?cx=006368593537057042503:efxu7xprihg", tags: ["open"], desc: "Preconfigured Google Custom Search Engine focused on public Telegram links and channel discovery." },
+    { name: "Telegago", url: "https://tools.osintnewsletter.com/osint-tools/telegago-telegram", tags: ["open"], desc: "Telegram-focused search interface built on Google CSE to discover public channels, groups, and related pages." },
+    { name: "Telegram-OSINT", url: "https://github.com/The-Osint-Toolbox/Telegram-OSINT", tags: ["open"], desc: "Curated Telegram OSINT repository linking tools, techniques, and investigative references." },
+    { name: "TGStat", url: "https://tgstat.com/", tags: ["login", "api", "paid"], desc: "Telegram analytics platform indexing public channels and chats with growth, engagement, and content metrics." },
+    { name: "Tosint", url: "https://github.com/drego85/tosint", tags: ["install", "api"], desc: "Telegram OSINT script for profiling bots, extracting public metadata, and correlating related infrastructure clues." },
+    { name: "Sogou WeChat Search", url: "https://weixin.sogou.com/", tags: ["open"], desc: "Chinese search portal indexing publicly accessible WeChat articles and official account content." },
+    { name: "WechatSogou", url: "https://github.com/Chowency/WechatSogou", tags: ["install"], desc: "Python package for automating Sogou WeChat searches and parsing returned article/account results." },
+    { name: "wechat-dump", url: "https://github.com/ppwwyyxx/wechat-dump", tags: ["install"], desc: "Tool for exporting WeChat chat data from rooted Android devices for forensic examination and recovery." },
+    { name: "wechat-text-backup", url: "https://github.com/zhaofeng-shu33/wechat-text-backup", tags: ["install"], desc: "WeChat database decryption and backup utility for exporting local message history into readable text formats." },
+    { name: "linelog2py", url: "https://github.com/jyu0414/linelog2py", tags: ["install"], desc: "Python parser for processing exported LINE chat logs into structured records for analysis." },
+    { name: "line-message-analyzer", url: "https://github.com/chonyy/line-message-analyzer", tags: ["install"], desc: "Local analysis utility for LINE chat exports that computes message statistics and conversational activity patterns." },
+    { name: "Email2WhatsApp", url: "https://github.com/dsonbaker/email2whatsapp", tags: ["install"], desc: "OSINT utility for correlating email addresses to potential WhatsApp identifiers and account traces." },
+    { name: "WhatsApp-OSINT", url: "https://github.com/kinghacker0/WhatsApp-OSINT", tags: ["install", "login", "api", "paid"], desc: "WhatsApp reconnaissance toolchain using API-backed lookups for account and device-related intelligence collection." },
+  ]},
+  { category: "Language Translation", tools: [
+    { name: "Bing Translate", url: "https://translator.bing.com/", tags: ["api"], desc: "Microsoft's neural translation service for text and web content across 100+ languages." },
+    { name: "Cambridge Dictionary", url: "https://dictionary.cambridge.org/", tags: ["open"], desc: "Dictionary and learner reference platform with translation support across multiple language pairs." },
+    { name: "DeepL Translator", url: "https://www.deepl.com/en/translator", tags: ["api", "paid"], desc: "AI-powered machine translation service focused on high-quality translation with document support." },
+    { name: "Free Translation", url: "https://translation2.paralink.com/", tags: ["open"], desc: "Multi-provider web translator for quick text translation across many language pairs." },
+    { name: "Google Input Tools", url: "https://www.google.com/inputtools/", tags: ["open"], desc: "Google input method utility for typing and transliteration across many scripts and languages." },
+    { name: "Google Translate", url: "https://translate.google.com/", tags: ["api"], desc: "Google's web translation platform covering hundreds of languages for text and website translation." },
+    { name: "Slang Dictionary & Translator", url: "https://www.noslang.com/", tags: ["open"], desc: "NoSlang provides internet slang definitions and reverse translation for common texting shorthand." },
+    { name: "Slangit - The Slang Dictionary", url: "https://slang.net/", tags: ["open"], desc: "Online slang dictionary focused on modern internet and texting terminology with usage context." },
+    { name: "Urban Dictionary", url: "https://www.urbandictionary.com/", tags: ["open"], desc: "Crowdsourced slang reference that tracks contemporary colloquialisms and culture-specific definitions." },
+    { name: "Wiktionary", url: "https://en.wiktionary.org/", tags: ["open"], desc: "Collaborative multilingual dictionary and translation reference hosted by the Wikimedia ecosystem." },
+    { name: "Word Reference", url: "https://www.wordreference.com/", tags: ["open"], desc: "Bilingual dictionary platform with conjugation tables, forum context, and language-pair references." },
+    { name: "Online OCR (SodaPDF)", url: "https://www.sodapdf.com/pdf-tools/ocr-pdf/", tags: ["paid"], desc: "SodaPDF's online OCR workflow for converting scanned PDFs and images into searchable text output." },
+  ]},
+  { category: "Malicious File Analysis", tools: [
+    { name: "Decalage Malware Search", url: "https://decalage.info/en/mwsearch", tags: ["open"], desc: "Custom metasearch engine that indexes malware analysis databases to find malware samples containing specific strings, filenames, hashes, or IOCs." },
+    { name: "VirusShare.com", url: "https://virusshare.com/", tags: ["login"], desc: "Repository of 111+ million live malware samples provided for security researchers, incident responders, forensic analysts, and researchers." },
+    { name: "#totalhash", url: "https://totalhash.cymru.com/", tags: ["api"], desc: "Malware Hash Registry that searches against 30+ antivirus databases to validate malware hashes with detection percentage results. Updated daily." },
+    { name: "VX Vault", url: "https://vxvault.net/ViriList.php", tags: ["open"], desc: "Active collection of malware samples and related data shared among security researchers and malware analysts for threat intelligence." },
+    { name: "ID Ransomware", url: "https://id-ransomware.malwarehunterteam.com/", tags: ["open"], desc: "Free ransomware identification tool that analyzes ransom notes and encrypted file samples to identify variants and provide decryption guidance. Detects 1181+ ra" },
+    { name: "National Software Reference Library", url: "https://nsrl.hashsets.com/national_software_reference_library1_search.php", tags: ["open"], desc: "NIST-maintained repository of cryptographic hash values for known, legitimate software to identify known-good files during digital forensics investigations." },
+    { name: "TYLabs QuickSand Framework", url: "https://scan.tylabs.com/", tags: ["install", "paid"], desc: "Python-based malware analysis framework for analyzing Office documents and PDFs to identify exploits in decoded streams using YARA signatures." },
+    { name: "JoeSandbox Document Analyzer", url: "https://www.joesandbox.com/", tags: ["api", "paid"], desc: "Hosted automated malware analysis service that performs dynamic and static analysis of files including Office documents, PDFs, and executables with comprehensiv" },
+    { name: "Akana Android Malware", url: "https://akana.mobiseclab.org/", tags: ["open"], desc: "Online Android Interactive Analysis Environment with plugins for analyzing malicious Android applications and APKs for suspicious behavior and malware character" },
+    { name: "Joe APK Analyzer", url: "https://www.apk-analyzer.net/", tags: ["api", "paid"], desc: "Part of Joe Sandbox suite; performs dynamic and static analysis of Android Application Packages to detect malicious behavior and generate detailed analysis repo" },
+    { name: "VirusTotal", url: "https://www.virustotal.com/gui/", tags: ["login", "api", "paid"], desc: "Multi-engine file and URL scanner that aggregates results from 70+ antivirus engines and threat feeds." },
+    { name: "OPSWAT Meta Defender", url: "https://metadefender.opswat.com/#!/", tags: ["api", "paid"], desc: "Multi-engine malware scanning service using 20+ antivirus engines with advanced threat analysis, content disarm & reconstruction, and emulation-based detection " },
+    { name: "Hybrid Analysis", url: "https://hybrid-analysis.com/", tags: ["api", "paid"], desc: "Free automated malware analysis service powered by CrowdStrike Falcon Sandbox. Combines runtime data with memory dump analysis to extract execution pathways and" },
+    { name: "Malware Config", url: "https://malwareconfig.com/", tags: ["open"], desc: "Database for searching and analyzing extracted malware configurations by hash, domain, or IP address to track C2 infrastructure and malware attributes." },
+    { name: "MetaDefender", url: "https://metadefender.opswat.com/", tags: ["api", "paid"], desc: "OPSWAT's cloud-based multi-engine malware scanning platform with advanced threat detection using 30+ antivirus engines, CDR technology, and behavioral analysis." },
+    { name: "Ether", url: "https://ether.gtisc.gatech.edu/web_unpack/", tags: ["open"], desc: "Georgia Tech malware analysis framework using Intel VT hardware virtualization for transparent, stealthy malware analysis resistant to anti-analysis techniques." },
+    { name: "Jotti's Malware Scanner", url: "https://virusscan.jotti.org/en-US/scan-file", tags: ["api"], desc: "Free multi-scanner malware analysis service that submits files for analysis against 14+ antivirus engines. No installation or account setup required." },
+    { name: "Valkyrie File Analysis", url: "https://consumer.valkyrie.comodo.com/", tags: ["api", "paid"], desc: "Cloud-based verdict-driven malware analysis platform from Comodo using static analysis (450+ unpackers), dynamic analysis, and optional human expert analysis fo" },
+    { name: "detux Linux Sandbox", url: "https://detux.org/", tags: ["install"], desc: "Open-source multiplatform Linux sandbox for analyzing Linux malware across multiple CPU architectures (x86, x86-64, ARM, MIPS) using QEMU emulation and traffic " },
+    { name: "Joe File Analyzer", url: "https://www.file-analyzer.net/", tags: ["api", "paid"], desc: "Part of Joe Sandbox suite; performs hybrid code analysis of PE files on Windows with detailed behavioral and system interaction reporting." },
+    { name: "Pikker.ee Cuckoo Sandbox", url: "https://sandbox.pikker.ee/", tags: ["open"], desc: "Public instance of Cuckoo Sandbox malware analysis system hosted in Estonia. Provides automated dynamic analysis with detailed result reporting for submitted fi" },
+    { name: "Koodous", url: "https://koodous.com", tags: ["api", "paid"], desc: "Collaborative platform for Android malware research and analysis with community-driven database of 70+ million Android applications with crowd-sourced malware d" },
+    { name: "Any Run", url: "https://app.any.run/", tags: ["api", "paid"], desc: "Interactive malware analysis sandbox allowing real-time manual interaction with Windows, macOS, Linux, and Android environments. Fast report generation with MIT" },
+    { name: "Uncover It", url: "https://www.uncoverit.org/", tags: ["open"], desc: "Static malware configuration extractor that quickly analyzes files without execution to extract malware configurations, C2 infrastructure, and IOCs in under 5 s" },
+    { name: "Office Mal Scanner", url: "https://www.reconstructer.org/", tags: ["open"], desc: "Malicious Office document analysis tool for analyzing and reconstructing Office documents to identify exploits and malicious content." },
+    { name: "OffVis", url: "https://download.microsoft.com/download/1/2/7/127ba59a-4fe1-4acd-ba47-513ceef85a85/OffVis.zip", tags: ["install"], desc: "Microsoft Office Visualization Tool for analyzing Office binary files to identify exploits and malicious structures. Displays hex and object tree views." },
+    { name: "PDF Tools", url: "https://blog.didierstevens.com/programs/pdf-tools/", tags: ["install"], desc: "Free suite of PDF analysis tools by Didier Stevens including pdfid (keyword scanning) and pdf-parser.py for analyzing malicious PDF documents and extracting emb" },
+    { name: "Origami Framework", url: "https://code.google.com/archive/p/origami-pdf/", tags: ["install"], desc: "Ruby framework for parsing, analyzing, and forging PDF documents. Includes PDF Walker GUI and PDFcop heuristic checker for detecting dangerous PDF content." },
+    { name: "Malware-Traffic-Analysis.net", url: "https://www.malware-traffic-analysis.net/index.html", tags: ["open"], desc: "Training resource and PCAP repository providing network traffic captures from malware infections since 2013. Includes tutorials and exercises for malware traffi" },
+    { name: "Ghidra", url: "https://github.com/NationalSecurityAgency/ghidra", tags: ["install", "api"], desc: "Free and open-source reverse engineering framework from NSA for analyzing compiled software. Includes disassembly, decompilation, scripting, and interactive gra" },
+    { name: "Malware Analysis Tools", url: "https://malwareanalysis.tools/", tags: ["open"], desc: "Curated resource and reference guide for malware analysis tools with recommendations for virtualization, safety practices, and tool selection for analysis scena" },
+    { name: "virustotal", url: "https://www.virustotal.com/gui/home/upload", tags: ["login", "api", "paid"], desc: "Free online service that analyzes files and URLs for viruses, trojans and malicious content detected by 70+ antivirus engines and URL/domain reputation services" },
+  ]},
+  { category: "Mobile OSINT", tools: [
+    { name: "Genymotion", url: "https://www.genymotion.com/", tags: ["install", "login", "api", "paid"], desc: "Cloud-based and desktop Android emulator platform for app testing and forensic analysis. Supports multi-instance deployment and integration with security testin" },
+    { name: "BlueStacks 2", url: "https://www.bluestacks.com/", tags: ["install"], desc: "Free, lightweight Android emulator for desktop. Includes built-in forensic capabilities for data extraction from installed apps." },
+    { name: "Nox App Player", url: "https://www.bignox.com/", tags: ["install"], desc: "Free Android emulator with support for multiple Android versions and root access. Used for app analysis and testing." },
+    { name: "Apk Online", url: "https://apk.online/", tags: ["open"], desc: "Browser-based tool for analyzing and downloading APK files. Allows viewing app permissions, features, and metadata without installation." },
+    { name: "Facebook", url: "https://www.facebook.com/", tags: ["login", "api", "dork"], desc: "Major social network with over 2 billion users. Primary target for social OSINT and profile reconnaissance." },
+    { name: "Twitter", url: "https://www.twitter.com/", tags: ["login", "api", "dork"], desc: "Microblogging platform with 500M+ users. Extensive public data, real-time information, and relationship networks." },
+    { name: "Pinterest", url: "https://www.pinterest.com/", tags: ["login", "api", "dork"], desc: "Visual discovery platform with 460M+ users. Used for lifestyle, location, and interest-based profiling." },
+    { name: "Signal Private Messenger", url: "https://signal.org/", tags: ["install", "login"], desc: "End-to-end encrypted messaging app with 40M+ users. Limited OSINT value due to privacy-first design." },
+    { name: "Riot.im - Communicate, your way", url: "https://riot.im/", tags: ["install", "api"], desc: "Open-source Matrix client for decentralized messaging. Limited public data but useful for community monitoring." },
+    { name: "Telegram", url: "https://telegram.org/", tags: ["install", "login", "api"], desc: "Messaging platform with 700M+ users. Extensive public data through public channels, groups, and user searches." },
+    { name: "Snapchat", url: "https://www.snapchat.com/", tags: ["install", "login"], desc: "Ephemeral messaging app with 400M+ users. Limited historical data due to auto-deletion, but real-time activity visible." },
+    { name: "WhatsApp Messenger", url: "https://www.whatsapp.com/", tags: ["install", "login"], desc: "Messaging platform with 2B+ users. End-to-end encrypted, but profile data and metadata are accessible." },
+    { name: "Kik", url: "https://www.kik.com/", tags: ["install", "login"], desc: "Messaging app with 300M+ registered users. Public username search and profile visibility." },
+    { name: "Yik Yak", url: "https://www.yikyak.com/", tags: ["install", "login"], desc: "Anonymous location-based social network. Public posts visible by location, useful for community sentiment and event tracking." },
+    { name: "LINE", url: "https://line.me/", tags: ["install", "login", "api"], desc: "Messaging app with 200M+ users, dominant in Asia. User search and public profile visibility." },
+    { name: "Periscope", url: "https://www.periscope.tv/", tags: ["install", "login"], desc: "Live video streaming app merged into Twitter. Limited standalone value; functionality integrated into Twitter." },
+    { name: "Meerkat", url: "https://meerkatapp.co/", tags: ["install", "login"], desc: "Live streaming social app. Currently dormant with minimal active users; historical value for archived streams." },
+    { name: "Vine", url: "https://vine.co/", tags: ["open"], desc: "Short-form video platform shut down by Twitter in January 2017. No longer operational." },
+    { name: "APKLeaks", url: "https://github.com/dwisiswant0/apkleaks", tags: ["install"], desc: "Open-source tool that scans APK files for hardcoded secrets, API endpoints, and sensitive information." },
+    { name: "APKtool", url: "https://apktool.org/", tags: ["install"], desc: "Open-source tool for reverse engineering Android apps. Decompiles APKs to extract resources and bytecode." },
+    { name: "JADX", url: "https://github.com/skylot/jadx", tags: ["install"], desc: "Open-source decompiler (47k+ GitHub stars) that converts DEX bytecode to Java source code. GUI and CLI available." },
+    { name: "MobSF", url: "https://github.com/MobSF/Mobile-Security-Framework-MobSF", tags: ["install", "api"], desc: "Open-source mobile security framework for static and dynamic analysis. Comprehensive vulnerability scanning and artifact extraction." },
+    { name: "Autopsy", url: "https://www.autopsy.com/", tags: ["install"], desc: "Open-source digital forensics platform. Extracts and analyzes data from mobile devices and disk images." },
+    { name: "Frida", url: "https://frida.re/", tags: ["install", "api"], desc: "Open-source dynamic instrumentation toolkit. Injects JavaScript to intercept and modify app behavior at runtime." },
+    { name: "Charles Proxy", url: "https://www.charlesproxy.com/", tags: ["install", "login", "paid"], desc: "Commercial HTTP/HTTPS proxy for traffic analysis. Captures and analyzes network traffic between apps and servers." },
+    { name: "Lynxio OSINT", url: "https://lynxio.io/", tags: ["login", "paid"], desc: "Mobile OSINT search tool for multi-identifier reconnaissance. Searches across phone numbers, email addresses, usernames, and social platforms." },
+    { name: "OSINT Researcher", url: "https://apps.apple.com/us/app/osint-researcher/id6747302251", tags: ["install"], desc: "iOS app for GitHub organization reconnaissance and open-source intelligence. Limited to App Store distribution." },
+  ]},
+  { category: "Online Communities", tools: [
+    { name: "Live Journal Seek", url: "https://ljseek.com/", tags: ["open"], desc: "Search tool for LiveJournal journals and communities across public entries that are indexed." },
+    { name: "Blog Search Engine", url: "https://www.blogsearchengine.org/", tags: ["open"], desc: "Blog-focused search engine for discovering blog posts, directories, and RSS-connected content." },
+    { name: "Discord Bot List", url: "https://discord.bots.gg/", tags: ["api"], desc: "Searchable directory of Discord bots with listings, categories, and discovery metadata." },
+    { name: "ReconXplorer", url: "https://github.com/root7am/ReconXplorer", tags: ["install", "api"], desc: "Open-source reconnaissance toolkit with modules for IP, email, and Discord-focused lookups." },
+    { name: "Top.gg", url: "https://top.gg/", tags: ["api"], desc: "Large Discord bot and app discovery platform with ranking, filtering, and listing data." },
+    { name: "BoardReader", url: "https://boardreader.com/", tags: ["dork"], desc: "Forum search engine that indexes discussions across message boards and community platforms." },
+    { name: "Omgili", url: "https://webz.io/", tags: ["api", "paid", "dork"], desc: "Forum and discussion search capability operated through Webz.io infrastructure and data products." },
+    { name: "Craigslist Forums", url: "https://forums.craigslist.org/", tags: ["dork"], desc: "Craigslist-hosted forum system for public community discussions and region-oriented threads." },
+    { name: "Delphi Forum Search", url: "https://www.delphiforums.com/", tags: ["paid"], desc: "Forum platform with searchable user communities across niche interest categories." },
+    { name: "Google Groups Search", url: "https://groups.google.com/forum/#!overview", tags: ["api", "dork"], desc: "Search interface for Google Groups and archived discussion content, including historical threads." },
+    { name: "Mibbit", url: "https://search.mibbit.com/", tags: ["open"], desc: "Former web IRC client and channel search service that is no longer operational." },
+    { name: "IRCP", url: "https://github.com/internet-relay-chat/IRCP", tags: ["install"], desc: "Python-based IRC probing utility for scanning servers and collecting network/channel metadata." },
+    { name: "ircsnapshot", url: "https://github.com/bwall/ircsnapshot", tags: ["install"], desc: "IRC data collection tool that connects bots to servers for user and channel mapping." },
+    { name: "netsplit.de", url: "https://netsplit.de/channels/search.php", tags: ["dork"], desc: "IRC directory and search portal for channel listings, network stats, and discovery workflows." },
+    { name: "Arctic Shift", url: "https://arctic-shift.photon-reddit.com/", tags: ["api", "paid"], desc: "Search and access layer for Reddit datasets with tools for historical content retrieval and analysis." },
+    { name: "Cama's Reddit Search", url: "https://camas.github.io/reddit-search/", tags: ["open"], desc: "Web tool for searching Reddit posts and comments by author, subreddit, text, and time filters." },
+    { name: "Reveddit", url: "https://www.reveddit.com/", tags: ["open"], desc: "Interface for viewing Reddit content removals using archived and moderation-related visibility signals." },
+  ]},
+  { category: "OpSec", tools: [
+    { name: "Fake Name Generator", url: "https://www.fakenamegenerator.com/", tags: ["open"], desc: "Generates realistic synthetic identities including names, addresses, SSNs, and biographical details for persona creation during OSINT operations." },
+    { name: "Fake Identity Generator", url: "https://backgroundchecks.org/justdeleteme/fake-identity-generator/", tags: ["open"], desc: "Generates random fake identities including names, addresses, and personal details for use in anonymous account creation and persona testing." },
+    { name: "This Person Does Not Exist", url: "https://thispersondoesnotexist.com/", tags: ["open"], desc: "Generates photorealistic AI-synthesized human faces using StyleGAN2; each page load produces a unique, non-existent person\u2019s portrait." },
+    { name: "Random User Generator", url: "https://randomuser.me/", tags: ["api"], desc: "Open-source API that generates randomized user profiles including names, photos, addresses, and credentials for development and OSINT persona building." },
+    { name: "Faker.js", url: "https://cdn.rawgit.com/Marak/faker.js/master/examples/browser/index.html", tags: ["install"], desc: "JavaScript library for generating massive amounts of fake data including names, addresses, companies, and more; browser demo now hosted at fakerjs.dev." },
+    { name: "Freenet Project", url: "https://freenetproject.org/pages/download.html", tags: ["install"], desc: "Decentralized, censorship-resistant peer-to-peer network (rebranded Hyphanet) for anonymous file sharing and publishing without central servers." },
+    { name: "I2P Anonymous Network", url: "https://geti2p.net/en/", tags: ["install"], desc: "Garlic-routing overlay network designed for anonymous internal communications and services, with support for email, torrents, and web browsing." },
+    { name: "VPN Comparisons - That One Privacy Site", url: "https://thatoneprivacysite.net/", tags: ["open"], desc: "Comprehensive VPN and email provider comparison charts evaluating privacy policies, jurisdiction, logging, and security features; original site no longer active" },
+    { name: "UserAgentString.com", url: "https://www.useragentstring.com/pages/useragentstring.php", tags: ["open"], desc: "Database of known user agent strings for browsers, bots, and devices; helps identify what browser/OS a user agent string represents or find strings to spoof." },
+    { name: "WhatIsMyBrowser.com", url: "https://www.whatismybrowser.com/", tags: ["open"], desc: "Detects and reports your current browser, operating system, and plugins as seen by websites; useful for verifying anonymization and user-agent spoofing effectiv" },
+    { name: "User Agent String Decoder", url: "https://tools.tracemyip.org/user-agent-string-decoder/", tags: ["open"], desc: "Parses and decodes user agent strings into human-readable browser, OS, and device information components." },
+    { name: "IP / DNS Leak Detection", url: "https://ipleak.net/", tags: ["open"], desc: "Comprehensive leak detection tool that tests for IP, DNS, WebRTC, and IPv6 leaks to verify VPN or Tor anonymization is working correctly." },
+    { name: "JonDonym", url: "https://ip-check.info/?lang=en", tags: ["open"], desc: "Anonymization verification tool from the JonDonym project that checks IP, browser headers, cookies, and other identifiers for privacy leaks." },
+    { name: "DNS leak test", url: "https://www.dnsleaktest.com/", tags: ["open"], desc: "Tests whether DNS queries are leaking outside a VPN tunnel by checking which DNS servers resolve your lookups, potentially exposing your ISP." },
+    { name: "DNS Leak Tests", url: "https://dnsleak.com/", tags: ["open"], desc: "Alternative DNS leak testing service that identifies whether DNS requests bypass your VPN tunnel and expose your real ISP\u2019s DNS servers." },
+    { name: "IPv6 Leak Tests", url: "https://ipv6leak.com/", tags: ["open"], desc: "Tests whether IPv6 connectivity is leaking your real IP address outside a VPN tunnel that only routes IPv4 traffic." },
+    { name: "Email Leak Tests", url: "https://emailipleak.com/", tags: ["open"], desc: "Tests whether your email client or webmail service leaks your real IP address in email headers when sending messages." },
+    { name: "Perfect Privacy", url: "https://www.perfect-privacy.com/check-ip/", tags: ["open"], desc: "IP and anonymization check tool from the Perfect Privacy VPN service that verifies visible IP, DNS servers, and WebRTC status." },
+    { name: "WebRTC Leak Test", url: "https://www.perfect-privacy.com/webrtc-leaktest/", tags: ["open"], desc: "Tests whether WebRTC is exposing your real IP address even when using a VPN, as WebRTC can bypass VPN tunnels and reveal local and public IPs." },
+    { name: "LetMeCheck.it", url: "https://letmecheck.it/", tags: ["open"], desc: "Multi-protocol anonymization test that checks IP, DNS, WebRTC, and browser fingerprinting for VPN and proxy users." },
+    { name: "Trace My IP", url: "https://www.tracemyip.org/", tags: ["open"], desc: "IP address lookup and geolocation tool that reveals current IP, ISP, location, and additional network metadata visible to websites." },
+    { name: "Browser Statistics", url: "https://www.w3schools.com/browsers/default.asp", tags: ["open"], desc: "W3Schools browser market share statistics showing usage distribution across browser types and versions to help craft believable user agent strings." },
+    { name: "WhatsMyBrowser.org", url: "https://www.whatsmybrowser.org/", tags: ["open"], desc: "Identifies your current browser version and settings, providing a shareable link that displays your full browser fingerprint to others." },
+    { name: "What browser am I using.co", url: "https://www.whatbrowseramiusing.co/", tags: ["open"], desc: "Simple browser detection page that identifies your current browser name, version, and operating system." },
+    { name: "What Browser?", url: "https://whatbrowser.org/", tags: ["open"], desc: "Browser detection service that identifies your browser and offers guidance on updating to current versions; useful for fingerprint verification." },
+    { name: "IP2Proxy", url: "https://www.ip2proxy.com/", tags: ["api", "paid"], desc: "Database and lookup service that detects whether an IP address belongs to a proxy, VPN, Tor exit node, or hosting provider to assess anonymization visibility." },
+    { name: "NoScript", url: "https://noscript.net/", tags: ["install"], desc: "Firefox/Chrome security extension that blocks JavaScript, Java, Flash, and other active content by default to prevent browser fingerprinting and code execution " },
+    { name: "Firefox-debloat", url: "https://github.com/amq/firefox-debloat", tags: ["install"], desc: "Collection of Firefox configuration tweaks and policies to disable telemetry, enhance privacy, and reduce browser fingerprinting surface." },
+    { name: "Browser Leaks", url: "https://browserleaks.com/", tags: ["open"], desc: "Comprehensive browser privacy and security testing suite covering IP, DNS, WebRTC, canvas fingerprinting, font enumeration, and dozens of other browser data lea" },
+    { name: "Self-Destructing Cookies", url: "https://addons.mozilla.org/en-US/firefox/addon/self-destructing-cookies/", tags: ["install"], desc: "Firefox extension that automatically deletes cookies when a tab is closed to prevent persistent tracking; functionality now largely covered by Firefox\u2019s built-i" },
+    { name: "BrowserSpy.dk", url: "https://browserspy.dk/", tags: ["open"], desc: "Danish browser information and fingerprinting test site that reveals detailed browser capabilities including plugins, fonts, screen properties, and other identi" },
+    { name: "LocaBrowser.com", url: "https://www.locabrowser.com/", tags: ["open"], desc: "Browser geolocation testing tool that checks what location data your browser exposes via the HTML5 Geolocation API to websites." },
+    { name: "Privacy Guides", url: "https://www.privacyguides.org/en/", tags: ["open"], desc: "Community-maintained guide recommending privacy-respecting software, services, and best practices; covers VPNs, browsers, operating systems, email, and more." },
+    { name: "Just Delete Me", url: "https://backgroundchecks.org/justdeleteme/", tags: ["open"], desc: "Directory of direct links to account deletion pages for hundreds of online services, rated by deletion difficulty to help with digital footprint removal." },
+    { name: "OptOut Credit Prescreen", url: "https://www.optoutprescreen.com/?rf=t", tags: ["open"], desc: "Official US consumer opt-out service operated by major credit bureaus to remove yourself from pre-screened credit and insurance offer lists." },
+    { name: "Credit Freeze", url: "https://inteltechniques.com/blog/2018/09/28/complete-credit-freeze-tutorial-update/", tags: ["open"], desc: "Intel Techniques tutorial covering the complete process for freezing credit at all major and specialty bureaus to prevent identity theft and data broker access." },
+    { name: "Fake US Identities", url: "https://xdd2.org/", tags: ["open"], desc: "Generates fake US identity data including names, addresses, SSNs, and driver\u2019s license numbers for test and persona creation purposes." },
+    { name: "Social Media Fingerprint", url: "https://robinlinus.github.io/socialmedia-leak/", tags: ["open"], desc: "Browser-based tool that detects which social media platforms you are currently logged into by exploiting cross-origin image loading timing differences." },
+    { name: "Privacy Tools", url: "https://www.privacytools.io/", tags: ["open"], desc: "Privacy-focused tool recommendation site covering encrypted messaging, VPNs, browsers, operating systems, and email providers; now largely redirects to Privacy " },
+    { name: "Panopticlick", url: "https://panopticlick.eff.org/", tags: ["open"], desc: "EFF browser fingerprinting test (now Cover Your Tracks at coveryourtracks.eff.org) that measures how uniquely identifiable your browser is across the web." },
+    { name: "Intel Techniques - Hiding from the Internet", url: "https://inteltechniques.com/data/workbook.pdf", tags: ["open"], desc: "Michael Bazzell\u2019s OSINT workbook covering comprehensive personal data removal, digital footprint reduction, and operational security techniques." },
+    { name: "The Many Hats Club - Privacy Resources", url: "https://themanyhats.club/centralised-place-for-privacy-resources/", tags: ["open"], desc: "Curated community resource list from The Many Hats Club security community aggregating privacy tools, guides, and operational security resources." },
+    { name: "The Hitchhiker\u2019s Guide to Online Anonymity", url: "https://anonymousplanet.org/guide/", tags: ["open"], desc: "Comprehensive, community-maintained guide to online anonymity covering threat modeling, Tor, VMs, operational security, and plausible deniability techniques." },
+    { name: "Awesome Opt-Out Guide 2026", url: "https://github.com/thumpersecure/opt-out-manual-2026", tags: ["open"], desc: "Community GitHub repository compiling data broker opt-out procedures, privacy request templates, and removal links for 2026." },
+    { name: "Anonymouth - Document Anonymization", url: "https://github.com/psal/anonymouth", tags: ["install"], desc: "Java-based authorship anonymization tool that analyzes and modifies writing style features to reduce stylometric identification of document authors." },
+    { name: "MAT2", url: "https://0xacab.org/jvoisin/mat2", tags: ["install"], desc: "Metadata Anonymisation Toolkit v2 \u2014 command-line tool that strips metadata from documents, images, audio files, and archives before sharing to prevent inadverte" },
+  ]},
+  { category: "People Search Engines", tools: [
+    { name: "InfoFlow Public People Search In Chilean", url: "https://infoflow.cloud/", tags: ["login", "paid"], desc: "Chilean public records lookup service for vehicle registrations, personal ID numbers (RUN), company information, and reverse name-to-RUN lookups via web portal," },
+    { name: "ThatsThem", url: "https://thatsthem.com/name-address-search", tags: ["paid"], desc: "Free people search engine with 2.2 billion indexed names. Provides reverse phone, email, address, and IP lookups alongside standard name searches." },
+    { name: "PeekYou", url: "https://www.peekyou.com/", tags: ["api"], desc: "Free people search engine indexing over 300 million profiles. Aggregates social media accounts, public records, and web presence into unified profiles." },
+    { name: "Webmii", url: "https://webmii.com/", tags: ["open"], desc: "Free people search engine that calculates a web visibility score based on online presence across social networks, news, and web pages." },
+    { name: "Snitch.name", url: "https://snitch.name/", tags: ["open"], desc: "People profile search engine checking approximately 40 social networks including Facebook, Twitter, LinkedIn, Xing, and government databases." },
+    { name: "Yasni", url: "https://www.yasni.com/", tags: ["open"], desc: "Free people search engine allowing searches by name, location, profession, company, or skills. Also offers professional Expose profile pages." },
+    { name: "findmypast.com", url: "https://www.findmypast.com/discover", tags: ["login", "paid"], desc: "UK-focused genealogy and historical records platform with billions of records covering census, birth, marriage, death, military, and immigration documents." },
+    { name: "IDCrawl", url: "https://www.idcrawl.com/", tags: ["open"], desc: "Free people search aggregator that finds social media profiles, photos, and public records across major platforms including Instagram, Facebook, and LinkedIn." },
+    { name: "FamilySearch.org", url: "https://familysearch.org/search/", tags: ["api"], desc: "Free genealogy platform operated by The Church of Jesus Christ of Latter-day Saints with billions of historical records, family trees, and digitized documents w" },
+    { name: "Ancestry.com", url: "https://www.ancestry.com/search/", tags: ["api", "paid"], desc: "World's largest genealogy platform with over 40 billion historical records including census, immigration, military, and vital records across 80+ countries." },
+    { name: "AnyWho", url: "https://www.anywho.com/whitepages", tags: ["open"], desc: "Free white pages directory providing people search by name, reverse phone lookup, and address lookup for US-based contacts." },
+    { name: "Addresses.com", url: "https://www.addresses.com/", tags: ["paid"], desc: "Free people search engine for name, phone, and address lookups. Basic results are free; detailed reports redirect to Intelius (paid)." },
+    { name: "usa-people-search.com", url: "https://www.usa-people-search.com/", tags: ["login", "paid"], desc: "US people search and background check service accessing public records. Reports are paid with significant consumer complaints about billing." },
+    { name: "The Knot", url: "https://www.theknot.com/registry/couplesearch", tags: ["open"], desc: "Wedding registry search allowing lookup of couples' wedding registries by name. Part of The Knot comprehensive wedding planning platform." },
+    { name: "Registry Finder", url: "https://registryfinder.com:443/", tags: ["open"], desc: "Gift registry search aggregator searching across partner retailers including Amazon, Target, and Zola for wedding, baby, birthday, and other registries." },
+    { name: "My Registry", url: "https://www.myregistry.com/", tags: ["api"], desc: "Universal gift registry platform allowing users to add gifts from any store worldwide into one shareable registry for weddings, babies, and other occasions." },
+    { name: "Amazon Registry Search", url: "https://www.amazon.com/registries", tags: ["open"], desc: "Amazon gift registry search for wedding, baby, and other registries." },
+    { name: "The Bump", url: "https://registry.thebump.com/babyregistrysearch", tags: ["open"], desc: "Baby registry finder from The Bump parenting platform. Search for baby registries by name to find gift lists." },
+  ]},
+  { category: "Public Records", tools: [
+    { name: "Melissa Data - Property Viewer", url: "https://melissa-data.com", tags: ["login", "api", "paid"], desc: "Commercial property lookup and real estate information provider with verified tax assessor data. Requires registration and payment for detailed property records" },
+    { name: "Regrid (US Only)", url: "https://regrid.com", tags: ["api", "paid"], desc: "Interactive property mapping and parcel data tool covering most US counties. Provides parcel boundaries, assessment data, and ownership information." },
+    { name: "Emporis", url: "https://www.emporis.com/", tags: ["paid"], desc: "Buildings database and information portal. DEPRECATED - closed September 2022 by CoStar Group." },
+    { name: "Neighbor Report", url: "https://neighbor.report/", tags: ["open"], desc: "Neighborhood and property statistics including crime data, schools, and community information. Aggregates public data into neighborhood profiles." },
+    { name: "Redfin", url: "https://redfin.com", tags: ["open"], desc: "Real estate marketplace with comprehensive property history, MLS data, and market analytics. Includes tax history and public records." },
+    { name: "Nationwide County Court Records", url: "https://www.publicrecordcenter.com/onlinecourtrecords.htm", tags: ["open"], desc: "Directory and aggregator linking to county court record systems across the United States. Provides navigation to local court databases." },
+    { name: "World Legal Information Institute", url: "https://worldlii.org", tags: ["open"], desc: "International legal database aggregating laws, regulations, and court decisions from 140+ countries. Free access to legal documents." },
+    { name: "Most Wanted Criminal Pages", url: "https://www.fbi.gov/wanted/fugitives", tags: ["open"], desc: "FBI's official wanted fugitives database featuring the Ten Most Wanted list and expanded fugitive database with photos and details." },
+    { name: "Black Book Online - Criminal Search", url: "https://www.blackbookonline.info/", tags: ["open"], desc: "Free public records search portal covering 37,000+ types of records including criminal records, court records, property records, and background checks." },
+    { name: "CrimeReports.com", url: "https://crimereports.com", tags: ["open"], desc: "Real-time crime reporting map aggregating incident data from law enforcement agencies. Interactive map with searchable crime statistics." },
+    { name: "Familywatchdog - Sex Offender Search", url: "https://www.familywatchdog.us/", tags: ["open"], desc: "Free sex offender registry aggregator combining data from all US state registries. Interactive mapping of registered offenders." },
+    { name: "The Inmate Locator", url: "https://www.bop.gov/inmateloc/", tags: ["open"], desc: "Federal Bureau of Prisons official inmate search tool. Covers federal inmates incarcerated from 1982 to present with daily updates." },
+    { name: "National Sex Offender Search", url: "https://www.nsopw.gov/", tags: ["open"], desc: "Official National Sex Offender Public Website aggregating state registry data. Comprehensive multi-state sex offender search tool." },
+    { name: "Mugshots.com", url: "https://mugshots.com", tags: ["open"], desc: "Searchable mugshot database aggregating arrest records and booking photos from law enforcement agencies nationwide." },
+    { name: "judyrecords", url: "https://www.judyrecords.com/", tags: ["open"], desc: "Free nationwide court case search engine with 760M+ US court cases. Covers federal and state courts with 10x more cases than PACER." },
+    { name: "Caselaw Access Project", url: "https://case.law/", tags: ["api"], desc: "Harvard-hosted comprehensive free legal database with 6M+ court opinions. Digitized legal decisions from centuries of US case law." },
+    { name: "CourtListener", url: "https://courtlistener.com/", tags: ["api"], desc: "Free legal research platform with millions of opinions, dockets, and RECAP data from US federal and appellate courts." },
+    { name: "Docket Alarm", url: "https://docketalarm.com", tags: ["api", "paid"], desc: "Federal and state litigation docket tracking and analysis. Free PACER alternative with real-time docket updates and case tracking." },
+    { name: "Google Scholar Case Law", url: "https://scholar.google.com/scholar_courts", tags: ["open"], desc: "Google's free legal research tool indexing millions of court opinions from US federal and state courts." },
+    { name: "PACER", url: "https://pacer.uscourts.gov/", tags: ["login", "paid"], desc: "Public Access to Court Electronic Records. Official US federal court records system with fee-based access to documents." },
+    { name: "Free Law RECAP Archive", url: "https://www.courtlistener.com/recap/", tags: ["api"], desc: "Free archive of PACER documents crowdsourced by Free Law Project. Contains millions of federal court documents without per-page fees." },
+    { name: "UniCourt", url: "https://unicourt.com/", tags: ["api", "paid"], desc: "Free nationwide litigation database and docket analyzer. Aggregates state and federal court records with smart search and case tracking." },
+    { name: "Epstein Exposed", url: "https://epsteinexposed.com/", tags: ["open"], desc: "Comprehensive searchable database of Epstein case documents including court records, flight logs, emails, and financial records." },
+    { name: "NC Salary DB", url: "https://www.ncosc.gov/public-information/state-employee-salary-database", tags: ["open"], desc: "Official North Carolina state employee salary database. Published by Office of State Controller for transparency." },
+    { name: "Gov Data Canada", url: "https://open.canada.ca/data/en/dataset", tags: ["open"], desc: "Government of Canada Open Data Portal. Federal open data including demographics, business info, and statistics." },
+    { name: "CA Salary DB", url: "https://transparentcalifornia.com/", tags: ["open"], desc: "Comprehensive California government salary database covering state, local, schools, universities, and special districts." },
+    { name: "BIN Base", url: "https://www.buybindatabase.binbase.com/", tags: ["paid"], desc: "Business Identification Number database for company registration lookups. Provides business registration and compliance information." },
+    { name: "VAT Research", url: "https://www.belastingdienst.nl/", tags: ["open"], desc: "Netherlands tax authorities (Belastingdienst) database. Allows VAT number verification through VIES system." },
+    { name: "NETR Online", url: "https://publicrecords.netronline.com/", tags: ["open"], desc: "Nationwide property records portal linking to county assessors and county recorders. Provides property tax, deed, and parcel data." },
+    { name: "Death Check", url: "https://www.deathindexes.com/", tags: ["open"], desc: "Directory of online death indexes, obituaries, and cemetery records. Aggregates links to state and national obituary databases." },
+    { name: "Find A Grave", url: "https://www.findagrave.com/", tags: ["open"], desc: "Largest online cemetery database with 615M+ grave records from 250M+ graves in 500K+ cemeteries worldwide." },
+    { name: "GraveInfo", url: "https://billiongraves.com/", tags: ["paid"], desc: "Cemetery records database with GPS-marked grave locations and gravestone photos. Aggregates cemetery information with mobile crowdsourcing." },
+    { name: "NACo County Explorer", url: "https://explorer.naco.org/", tags: ["open"], desc: "Interactive mapping tool with 1000+ demographic and economic indicators for all 3,069 US counties. National Association of Counties data portal." },
+    { name: "Voter Registration Data", url: "https://www.sos.secretary.state.gov/", tags: ["open"], desc: "State-level voter registration databases. Varies significantly by state in coverage and access methods." },
+    { name: "US Patent Office Search", url: "https://www.uspto.gov/patents/search", tags: ["api"], desc: "Official US Patent and Trademark Office searchable patent database. Covers US patents and applications." },
+    { name: "Google Patent Search", url: "https://patents.google.com/", tags: ["open"], desc: "Google's searchable patent database covering US, EU, WIPO and other international patents. Full-text search with categorization." },
+    { name: "Political MoneyLine", url: "https://www.opensecrets.org/", tags: ["api"], desc: "Campaign finance and political money database aggregating federal election contributions and lobbying data." },
+    { name: "Influence Explorer", url: "https://influenceexplorer.com/", tags: ["api"], desc: "Campaign finance, lobbying, and political data aggregator. Part of OpenSecrets ecosystem with federal and state data." },
+    { name: "US Federal Election Commission", url: "https://fec.gov/data", tags: ["api"], desc: "Official Federal Election Commission data portal. Searchable federal campaign finance disclosures and election data." },
+    { name: "Every Politician", url: "https://everypolitician.org/", tags: ["api"], desc: "Open data project aggregating politician information globally. Structured data on politicians, positions, and affiliations." },
+    { name: "Public Records?", url: "https://www.brbpublications.com/", tags: ["open"], desc: "Ambiguous entry - likely refers to BRB Publications' public records portal or aggregator. See BRB Public Records below for clarification." },
+    { name: "The World Bank Open Data Catalog", url: "https://datacatalog.worldbank.org/", tags: ["api"], desc: "World Bank open development data portal with datasets on economics, demographics, and global development indicators." },
+    { name: "GOVDATA - Das Datenportal f\u00fcr Deutschland (German)", url: "https://www.govdata.de/", tags: ["open"], desc: "Official German government open data portal with 120K+ datasets. Centralized access to federal, state, and local administrative data." },
+    { name: "Open-Data-Portal M\u00fcnchen (German)", url: "https://opendata.muenchen.de/", tags: ["open"], desc: "City of Munich open data portal with 331+ datasets. Provides administrative data from Munich government at city level." },
+    { name: "Searchable FCC ID Database", url: "https://www.fcc.gov/oet/ea/fccid", tags: ["open"], desc: "Official FCC database for electronic device certification. Searchable by FCC ID with product specs, manuals, and test reports." },
+  ]},
+  { category: "Search Engines", tools: [
+    { name: "Google", url: "https://www.google.com/?gws_rd=ssl", tags: ["api", "dork"], desc: "World's most popular search engine with advanced indexing capabilities and support for extensive search operators (Google dorks). Used for passive OSINT researc" },
+    { name: "Bing", url: "https://www.bing.com/", tags: ["api", "dork"], desc: "Microsoft's search engine with advanced search operators and API capabilities. Supports many of the same operators as Google, providing alternative search cover" },
+    { name: "DuckDuckGo", url: "https://duckduckgo.com/", tags: ["open"], desc: "Privacy-focused search engine that doesn't track users or store personal data. Processes ~3 billion queries monthly with enhanced privacy protections and tracke" },
+    { name: "Yahoo Advanced Web Search", url: "https://search.yahoo.com/web/advanced", tags: ["api", "dork"], desc: "Yahoo's advanced search interface with support for search operators including site:, intitle:, filetype:, AND, OR, NOT. Provides real-time search results data w" },
+    { name: "StartPage", url: "https://www.startpage.com/", tags: ["dork"], desc: "Privacy-centric proxy search engine that strips identifying data before querying Google/Bing and provides anonymous view to visited websites through proxy serve" },
+    { name: "Yandex", url: "https://yandex.com/", tags: ["api", "dork"], desc: "Russian search engine with excellent coverage of post-Soviet digital spaces. Supports 20+ advanced operators and provides faster indexing of Russian forums and " },
+    { name: "Baidu", url: "https://www.baidu.com/", tags: ["api", "dork"], desc: "China's dominant search engine with support for advanced search operators and knowledge graph data. Used for Chinese language and regional OSINT research." },
+    { name: "Google Advanced Search", url: "https://www.google.com/advanced_search", tags: ["dork"], desc: "Dedicated interface to Google's advanced search operators. Makes complex queries easier to construct without memorizing dork syntax through visual form-based in" },
+    { name: "iZito", url: "https://www.izito.com/", tags: ["open"], desc: "Metasearch engine aggregating results from multiple sources including Wikipedia, videos, news, and products. Designed to support non-linear search behavior with" },
+    { name: "Advangle", url: "https://advangle.com/", tags: ["dork"], desc: "Advanced search query builder for Google and Bing. Allows construction of complex multi-parameter search queries without memorizing operator syntax." },
+    { name: "Instya", url: "https://www.instya.com/", tags: ["open"], desc: "eCommerce product search engine and shopping discovery platform. NOT suitable for general web OSINT research - category mismatch with Search Engines." },
+    { name: "Hulbee", url: "https://hulbee.com/de", tags: ["open"], desc: "Corporate site and product page for Hulbee AG. NOT a search engine itself - Hulbee is the company behind Swisscows. URL/category mismatch issue." },
+    { name: "Mojeek", url: "https://mojeek.com/", tags: ["api", "dork"], desc: "Independent UK-based search engine with its own crawler and index. Privacy-focused with no user tracking since 2006. Supports advanced search operators." },
+    { name: "Swisscows", url: "https://swisscows.com/en", tags: ["open"], desc: "Swiss privacy-focused search engine using semantic AI. Stores all data in Swiss Alps facility. No cookies, no tracking, no user profiles. Includes family-safe f" },
+    { name: "Brave", url: "https://search.brave.com/", tags: ["api"], desc: "Privacy-focused search engine with independent index. Offers Goggles for custom search result ranking. First search API with zero data retention option." },
+    { name: "Stract", url: "https://stract.com/", tags: ["install", "dork"], desc: "Open source search engine built by developers for developers. Features customizable Optics for result filtering and ranking. Independent index with web crawler." },
+    { name: "iSEEK", url: "https://iseek.com/iseek/home.page", tags: ["open"], desc: "Meta search engine that aggregated results from multiple sources. Service offline - URL returns 404 error. No longer operational." },
+    { name: "eTools.ch", url: "https://www.etools.ch/", tags: ["open"], desc: "Swiss privacy-focused metasearch engine aggregating 14+ sources (Google, Bing, Brave, DuckDuckGo, Yandex, etc.) simultaneously. Fast results averaging 0.83 seco" },
+    { name: "PublicWWW", url: "https://publicwww.com/", tags: ["api"], desc: "Source code search engine for HTML, JavaScript, CSS, and plaintext across 509+ million web pages. Find websites using specific analytics IDs, ad accounts, or co" },
+    { name: "Searchcode", url: "https://searchcode.com/", tags: ["api", "paid"], desc: "Code search engine that indexes public source code from GitHub, GitLab, Bitbucket, and other repositories; useful for finding code examples and identifying tech" },
+    { name: "NerdyData", url: "https://www.nerdydata.com/reports/new", tags: ["login", "paid"], desc: "Source code search engine for website technology reconnaissance that indexes HTML, CSS, and JavaScript across millions of live websites to identify technology a" },
+    { name: "Gitrob", url: "https://github.com/michenriksen/gitrob", tags: ["install"], desc: "CLI tool for reconnaissance on GitHub organizations and users; clones repositories and scans commit history for sensitive files, exposed credentials, and config" },
+    { name: "Github-Dorks", url: "https://github.com/techgaun/github-dorks", tags: ["install", "dork"], desc: "Collection of GitHub advanced search operators and a CLI tool that automates searching GitHub for exposed credentials, API keys, configuration files, and other " },
+    { name: "GitLeaks", url: "https://github.com/gitleaks/gitleaks", tags: ["install"], desc: "Open-source SAST tool for detecting hardcoded secrets, API keys, passwords, and credentials in git repositories and file systems using customizable regex-based " },
+    { name: "GlobalFile", url: "https://globalfilesearch.com/", tags: ["open"], desc: "FTP file search engine that indexes publicly accessible FTP servers; allows searching for specific file types including images, videos, software, and archives." },
+    { name: "FTP Google Dork", url: "https://www.google.com/search?q=inurl%3Aftp+-inurl%3Ahttp+-inurl%3Ahttps+ftpsearchterm", tags: ["dork"], desc: "Google dork technique using inurl:ftp operators to discover publicly indexed FTP server directories and files through Google's web index." },
+    { name: "Napalm FTP", url: "https://www.searchftps.net/", tags: ["open"], desc: "FTP indexer and search engine with over 329 million files indexed across 1,200+ FTP servers; supports advanced filtering by file type, size, and server location" },
+    { name: "PubPeer", url: "https://pubpeer.com/", tags: ["open"], desc: "Post-publication peer review platform where researchers comment on and flag issues with published scientific papers; useful for identifying retracted or problem" },
+    { name: "Bielefeld Academic Search Engine", url: "https://www.base-search.net/Search/Advanced", tags: ["api"], desc: "Academic search engine indexing over 400 million documents from 12,000+ content providers including institutional repositories, open-access journals, and resear" },
+    { name: "Google Scholar", url: "https://scholar.google.com/", tags: ["open"], desc: "Multidisciplinary academic search engine indexing journal articles, theses, books, conference papers, and patents; includes citation counts and related work dis" },
+    { name: "PubMed - National Center for Biotechnology Information", url: "https://pubmed.ncbi.nlm.nih.gov/", tags: ["api"], desc: "Free biomedical and life sciences literature database maintained by the NCBI with over 40 million citations; includes abstracts and links to full-text articles." },
+    { name: "Open Library", url: "https://openlibrary.org/", tags: ["api"], desc: "Internet Archive's open catalog of over 3 million books with borrowable digital editions; provides bibliographic data and full-text access for many out-of-print" },
+    { name: "JURN", url: "https://www.jurn.org/", tags: ["open"], desc: "Multidisciplinary search engine indexing freely accessible academic articles; covers arts, humanities, ecology, and social sciences with a focus on open-access " },
+    { name: "UK National Archives", url: "https://discovery.nationalarchives.gov.uk/", tags: ["open"], desc: "Official online catalog for the UK National Archives providing access to over 32 million records spanning 1,000 years of UK government, legal, and historical do" },
+    { name: "OpenGrey EU Papers", url: "https://opengrey.eu/", tags: ["open"], desc: "Former European grey literature database maintained by INIST-CNRS that indexed non-conventional scientific and technical documents; archived in 2020 and no long" },
+    { name: "US Gov Publishing Office - FDsys", url: "https://www.gpo.gov/fdsys/", tags: ["open"], desc: "Legacy US Government Publishing Office document system (FDsys) that has been superseded by GovInfo (govinfo.gov); the URL now redirects to the modernized GovInf" },
+    { name: "OpenDOAR", url: "https://www.opendoar.org/search.php", tags: ["open"], desc: "Global directory of open-access repositories with over 6,000 academic repositories from 130+ countries; useful for locating institutional repositories and disci" },
+    { name: "Microsoft Academic", url: "https://academic.microsoft.com/", tags: ["open"], desc: "Microsoft's academic search service indexing hundreds of millions of research papers; note that the original Microsoft Academic service was discontinued in Dece" },
+    { name: "Science Direct", url: "https://www.sciencedirect.com/", tags: ["paid"], desc: "Elsevier's platform for peer-reviewed scientific literature with access to over 2,900 journals and 30,000 e-books; freely searchable with full-text access requi" },
+    { name: "Think Tank Search", url: "https://guides.library.harvard.edu/hks/think_tank_search", tags: ["open"], desc: "Harvard Kennedy School Library guide for searching think tank research and policy reports; the referenced Think Tank Search service was deprecated in February 2" },
+    { name: "Library Databases", url: "https://guides.uflib.ufl.edu/az.php", tags: ["open"], desc: "University of Florida Library's A-Z database directory providing access to hundreds of academic databases covering all disciplines; useful as a reference for lo" },
+    { name: "Copyscape Plagiarism Checker", url: "https://www.copyscape.com/", tags: ["api", "paid"], desc: "Online plagiarism detection service that searches the web for copies of submitted text or URLs; useful for verifying content originality or tracing where text h" },
+    { name: "Lazy Scholar", url: "https://lazyscholar.org/", tags: ["install"], desc: "Browser extension that automatically finds free legal full-text versions of academic papers when viewing paywalled content; checks open-access repositories and " },
+    { name: "Open Access Scholarly Journals", url: "https://www.pagepress.org/", tags: ["open"], desc: "PAGEPress open-access publisher hosting peer-reviewed journals across biomedical, natural, and social sciences; provides free access to published research artic" },
+    { name: "The Open Syllabus Project", url: "https://www.opensyllabus.org/", tags: ["open"], desc: "" },
+    { name: "Science Publications", url: "https://www.thescipub.com/", tags: ["open"], desc: "" },
+    { name: "arXiv.org", url: "https://arxiv.org/", tags: ["open"], desc: "" },
+    { name: "Google News Search", url: "https://news.google.com/news/advanced_news_search?", tags: ["open"], desc: "" },
+    { name: "Flipboard", url: "https://flipboard.com/", tags: ["open"], desc: "" },
+    { name: "YouGotTheNews", url: "https://yougotthenews.com/", tags: ["open"], desc: "" },
+    { name: "NewspaperARCHIVE.com", url: "https://newspaperarchive.com/", tags: ["open"], desc: "" },
+    { name: "PressReader.com", url: "https://www.pressreader.com/", tags: ["open"], desc: "" },
+    { name: "Newspaper Map", url: "https://newspapermap.com/", tags: ["open"], desc: "" },
+    { name: "NewsBrief", url: "https://emm.newsbrief.eu/NewsBrief/clusteredition/en/latest.html", tags: ["open"], desc: "" },
+    { name: "AllYouCanRead.com", url: "https://www.allyoucanread.com/", tags: ["open"], desc: "" },
+    { name: "World News", url: "https://wn.com/#/search", tags: ["open"], desc: "" },
+    { name: "NewsNow.co.uk", url: "https://www.newsnow.co.uk/h/", tags: ["open"], desc: "" },
+    { name: "Hubii", url: "https://hubii.com/", tags: ["open"], desc: "" },
+    { name: "Inshorts", url: "https://inshorts.com/en/read", tags: ["open"], desc: "" },
+    { name: "NewsBot", url: "https://getnewsbot.com/", tags: ["open"], desc: "" },
+    { name: "Colossus International Engine List", url: "https://www.searchenginecolossus.com/", tags: ["open"], desc: "" },
+    { name: "Zenodo", url: "https://zenodo.org/", tags: ["open"], desc: "" },
+    { name: "EntityCube", url: "https://entitycube.research.microsoft.com/", tags: ["open"], desc: "" },
+    { name: "FindTheData A Research Engine", url: "https://www.findthedata.com/", tags: ["open"], desc: "" },
+    { name: "wayparam", url: "https://github.com/aleff-github/wayparam", tags: ["open"], desc: "" },
+    { name: "SearchDiggity", url: "https://bishopfox.com/resources", tags: ["open"], desc: "" },
+    { name: "Scanner-inurlbr", url: "https://github.com/googleinurl/SCANNER-INURLBR", tags: ["open"], desc: "" },
+    { name: "Google Alerts", url: "https://www.google.com/alerts", tags: ["open"], desc: "" },
+    { name: "Google Custom Search Engine", url: "https://cse.google.com/cse/", tags: ["open"], desc: "" },
+    { name: "pagodo - Passive Google Dork", url: "https://github.com/opsdisk/pagodo", tags: ["install", "dork"], desc: "Python CLI tool that automates passive Google dork searches using the Google Hacking Database (GHDB), supporting HTTP/SOCKS5 proxies to avoid rate-limiting." },
+    { name: "dorksearch.com", url: "https://www.dorksearch.com/", tags: ["api", "dork"], desc: "Web-based Google dork builder and search tool that integrates with Shodan, Censys, and GitHub for comprehensive OSINT searches." },
+    { name: "dorkgenerator.pages.dev", url: "https://dorkgenerator.pages.dev/", tags: ["dork"], desc: "Online dork generator for creating custom Google search parameter queries to assist in OSINT and security research." },
+    { name: "dorksearch.netlify.app", url: "https://dorksearch.netlify.app/", tags: ["dork"], desc: "Lightweight web interface for building and executing Google dork searches with minimal dependencies." },
+    { name: "Google Hacking Database", url: "https://www.exploit-db.com/google-hacking-database", tags: ["dork"], desc: "Offensive Security's curated database of Google dork queries, organized by category, used for finding sensitive information exposed on the web." },
+    { name: "Google Search Operators Guide", url: "https://www.googleguide.com/advanced_operators_reference.html", tags: ["open"], desc: "Official Google documentation covering all supported search operators, syntax, and advanced search techniques." },
+    { name: "Google Guide Cheat Sheet", url: "https://www.googleguide.com/help/calculator.html", tags: ["open"], desc: "Quick-reference cheat sheet for Google search operators and advanced search syntax from Google Guide." },
+  ]},
+  { category: "Social Networks", tools: [
+    { name: "FB Email Search", url: "https://www.facebook.com/public?query=email@gmail.com&nomc=0", tags: ["open"], desc: "Facebook public search pattern used to test whether an email identifier resolves to matching profiles. Useful for quick account existence checks with manually e" },
+    { name: "Recover FB Account", url: "https://www.facebook.com/login/identify?ctx=recover", tags: ["open"], desc: "Facebook account recovery endpoint that confirms whether an email or phone number is linked to an account and presents recovery options." },
+    { name: "Facebook Photos by ID", url: "https://www.facebook.com/photo.php?fbid=PHOTO-ID-HERE", tags: ["open"], desc: "Direct Facebook photo permalink format that retrieves a specific image when the photo ID is known." },
+    { name: "FB Lookup ID", url: "https://lookup-id.com/", tags: ["open"], desc: "Web utility that resolves Facebook profile, page, or group URLs into numeric Facebook IDs for downstream investigation tools." },
+    { name: "FB Identify (Requires Logout)", url: "https://www.facebook.com/login/identify", tags: ["open"], desc: "Facebook identify endpoint used in recovery workflows to resolve account records from submitted identifiers; typically works best when not logged in." },
+    { name: "Fedifinder", url: "https://fedifinder.glitch.me/", tags: ["login"], desc: "Web tool that scanned Twitter profiles to find Fediverse/Mastodon handles among your contacts and exported them as CSV. The hosted instance now returns HTTP 410" },
+    { name: "Fediverse Observer", url: "https://fediverse.observer/", tags: ["api"], desc: "Real-time dashboard tracking Fediverse instances across Mastodon, Pleroma, Misskey, PeerTube, and other ActivityPub platforms with server statistics and geograp" },
+    { name: "Fediverse_OSINT", url: "https://github.com/cyfinoid/fediverse_osint", tags: ["install"], desc: "Python CLI tool for checking whether a domain belongs to the Fediverse and hunting usernames across discoverable Fediverse servers." },
+    { name: "Masto", url: "https://github.com/C3n7ral051nt4g3ncy/Masto", tags: ["install", "api"], desc: "Python-based Mastodon OSINT tool for investigating user accounts across instances. Retrieves profile details, toots, followers, and account metadata." },
+    { name: "Inflact Instagram Viewer (Anonymous)", url: "https://inflact.com/instagram-viewer/profile/", tags: ["paid"], desc: "Anonymous Instagram viewer for browsing public profiles, stories, and posts without authenticating to Instagram directly." },
+    { name: "Osintgram", url: "https://github.com/Datalux/Osintgram", tags: ["install", "login", "api"], desc: "Python-based Instagram OSINT toolkit for extracting data from public accounts, including posts, hashtags, and follower relationships." },
+    { name: "Twitter Advanced Search", url: "https://twitter.com/search-advanced", tags: ["open"], desc: "Built-in X/Twitter advanced search interface supporting operator-based filtering for users, terms, dates, and engagement constraints." },
+    { name: "Twitter Location Search", url: "https://twitter.com/search?q=geocode%3A36.1143855%2C-115.1727518%2C1km&src=typd", tags: ["open"], desc: "Operator-based X/Twitter search workflow for geotagged content using `geocode:` and location-focused query parameters." },
+    { name: "Twitter Date Search", url: "https://twitter.com/search?q=SearchTerm%20since:2016-03-01%20until:2016-03-02", tags: ["open"], desc: "Date-bounded X/Twitter search pattern using `since:` and `until:` operators to isolate tweets in a specific time window." },
+    { name: "Followerwonk", url: "https://followerwonk.com/", tags: ["login", "api", "paid"], desc: "Follower analytics platform (now under Fedica) for examining X/Twitter audience demographics, account overlaps, and engagement trends." },
+    { name: "Twopcharts", url: "https://twopcharts.com/", tags: ["open"], desc: "Legacy Twitter statistics site for ranking active users by geography and language; coverage appears limited and stale." },
+    { name: "TweeterID", url: "https://tweeterid.com/", tags: ["open"], desc: "Bidirectional converter between X/Twitter usernames and numeric account IDs for correlation and API-ready pivots." },
+    { name: "Tweepsect", url: "https://tweepsect.com/", tags: ["open"], desc: "Former Twitter overlap analysis tool for intersecting followers and following lists between accounts; no longer operational under current API limits." },
+    { name: "Twitonomy", url: "https://www.twitonomy.com/", tags: ["login"], desc: "Twitter analytics platform for profile activity, hashtag usage, and follower/following behavior over time." },
+    { name: "Foller.me Analytics", url: "https://foller.me/", tags: ["open"], desc: "Web analytics tool for summarizing public Twitter profile behavior, including hashtags, mentions, topics, and activity cadence." },
+    { name: "X0rz Tweets_analyzer", url: "https://github.com/x0rz/tweets_analyzer", tags: ["install", "login", "api"], desc: "Python CLI analyzer for profiling Twitter user behavior, including posting rhythm, language distribution, and source-client usage." },
+    { name: "RiteTag", url: "https://ritetag.com/", tags: ["login", "api", "paid"], desc: "Hashtag intelligence platform that scores and recommends social tags based on trend velocity and engagement potential." },
+    { name: "TAGSExplorer", url: "https://tags.hawksey.info/tagsexplorer/", tags: ["open"], desc: "Browser-based visualization layer for TAGS archives that maps mentions, replies, and retweet relationships from collected Twitter datasets." },
+    { name: "Tweet Metadata", url: "https://www.wsj.com/public/resources/documents/TweetMetadata.pdf", tags: ["open"], desc: "Reference document and workflow aid for interpreting metadata fields embedded in tweet payloads and exports." },
+    { name: "Birdwatcher", url: "https://github.com/michenriksen/birdwatcher", tags: ["install", "login", "api"], desc: "Open-source Twitter data harvesting and analysis framework for collecting tweets and producing offline analytical artifacts." },
+    { name: "Tinfoleak Web", url: "https://tinfoleak.com/", tags: ["login", "api", "paid"], desc: "Web-based platform for Twitter/X intelligence analysis, user profiling, and geolocation-oriented review of public activity." },
+    { name: "Tinfoleak.py", url: "https://github.com/vaguileradiaz/tinfoleak", tags: ["install"], desc: "Python command-line tool for collecting Twitter/X account intelligence and metadata from target profiles." },
+    { name: "DMI-TCAT", url: "https://github.com/digitalmethodsinitiative/dmi-tcat", tags: ["install", "login", "api"], desc: "Twitter Capture and Analysis Toolset for collecting and analyzing Twitter datasets using self-hosted infrastructure." },
+    { name: "Twint", url: "https://github.com/twintproject/twint", tags: ["install"], desc: "Open-source Twitter scraping utility for collecting public tweet and user data without official API usage." },
+    { name: "GeoSocial Footprint", url: "https://geosocialfootprint.com/", tags: ["login", "paid"], desc: "Geolocation-focused social media analysis service for mapping public location traces and movement patterns." },
+    { name: "One Million Tweet Map", url: "https://onemilliontweetmap.com/", tags: ["open"], desc: "Interactive map for viewing recent geolocated tweets and filtering by keyword and region." },
+    { name: "Fedica", url: "https://fedica.com/", tags: ["login", "api", "paid"], desc: "Social analytics platform with audience and engagement insights across multiple social networks." },
+    { name: "All My Tweets", url: "https://www.allmytweets.net/", tags: ["open"], desc: "Twitter/X account history viewer for reviewing public tweet timelines in a single interface." },
+    { name: "Spoonbill", url: "https://spoonbill.io/", tags: ["login", "paid"], desc: "Service that tracks Twitter/X profile changes such as bios, names, and avatars over time." },
+    { name: "TweetVacuum", url: "https://github.com/UberKitten/TweetVacuum", tags: ["install", "login"], desc: "Tool for extracting larger Twitter/X timeline archives beyond default on-platform browsing constraints." },
+    { name: "Reddit Metis", url: "https://redditmetis.com/", tags: ["open"], desc: "Reddit user analyzer summarizing posting behavior, language patterns, and subreddit activity." },
+    { name: "Reddit Archive", url: "https://www.redditarchive.com/", tags: ["open"], desc: "Archive-oriented Reddit lookup resource for historical post and comment discovery workflows." },
+    { name: "subreddits", url: "https://subreddits.org/", tags: ["open"], desc: "Subreddit discovery index for identifying communities by topic and interest area." },
+    { name: "Reddit Comment History", url: "https://roadtolarissa.com/javascript/reddit-comment-visualizer/", tags: ["open"], desc: "Visualization utility for reviewing Reddit account comment history and timing patterns." },
+    { name: "LinkedInt - LinkedIn Recon Tool", url: "https://github.com/vysecurity/LinkedInt", tags: ["install", "login"], desc: "LinkedIn reconnaissance script for enumerating employee profiles and organization-linked data points." },
+    { name: "ScrapedIn", url: "https://github.com/dchrastil/ScrapedIn", tags: ["install", "login"], desc: "Open-source LinkedIn scraping utility for extracting profile and contact-style data from search results." },
+    { name: "InSpy", url: "https://github.com/jobroche/InSpy", tags: ["install", "login", "api"], desc: "LinkedIn-focused reconnaissance tool that combines profile discovery with email pattern generation." },
+    { name: "raven", url: "https://github.com/0x09AL/raven", tags: ["install", "login"], desc: "LinkedIn information gathering utility for automated employee enumeration and role filtering." },
+    { name: "TikTok", url: "https://www.tiktok.com/@username", tags: ["open"], desc: "Manual TikTok profile URL pattern for direct lookup of public account pages." },
+    { name: "TikTok-OSINT", url: "https://github.com/Omicron166/TikTok-OSINT", tags: ["install"], desc: "Python tool for extracting TikTok profile metadata and video-linked OSINT artifacts." },
+    { name: "Unfurl", url: "https://github.com/obsidianforensics/unfurl", tags: ["install"], desc: "Forensic parser that extracts and visualizes metadata components embedded in URLs." },
+    { name: "yt-dlp", url: "https://github.com/yt-dlp/yt-dlp", tags: ["install"], desc: "Actively maintained command-line downloader for collecting video content and metadata from many platforms." },
+    { name: "Treeverse", url: "https://treeverse.app/", tags: ["open"], desc: "Thread visualization tool for exploring conversation trees on supported social platforms." },
+    { name: "Bellingcat Meta Content Library", url: "https://bellingcat.gitbook.io/toolkit/more/all-tools/meta-content-library", tags: ["login", "api"], desc: "Guide to Meta Content Library access for researching public Facebook, Instagram, and Threads content." },
+    { name: "Threads Dashboard", url: "https://www.threadsdashboard.com/", tags: ["login", "api", "paid"], desc: "Analytics and insights platform for Threads accounts using the official API. Tracks audience demographics, engagement metrics, and historical posting data." },
+    { name: "Threads-Scraper", url: "https://github.com/Zeeshanahmad4/Threads-Scraper", tags: ["install"], desc: "Python browser automation tool that scrapes public Threads posts and profiles without authentication, outputting structured data in JSON, CSV, or XML. Last upda" },
+    { name: "ThreadsRecon", url: "https://github.com/offseq/threadsrecon", tags: ["install"], desc: "Python OSINT tool for Threads profile analysis including sentiment analysis, network visualization, and automated PDF reporting." },
+    { name: "SteamOSINT", url: "https://github.com/Frontline-Femmes/Steam-OSINT", tags: ["install", "api"], desc: "Python tool for OSINT on Steam user profiles. Collects public profile data including games owned, achievements, playtime, and trade history." },
+    { name: "Ask FM", url: "https://ask.fm/%3Cusername%3E", tags: ["open"], desc: "Q&A social network where users answer anonymous and public questions. Supports direct profile lookup via URL manipulation." },
+    { name: "Myspace", url: "https://myspace.com/", tags: ["open"], desc: "Legacy social network originally used for profile sharing. Still operational with archived data, music discovery, and profile search capabilities." },
+    { name: "Tumblr", url: "https://www.tumblr.com/tagged/search", tags: ["open"], desc: "Blogging and social network platform with tagging system. Supports keyword and tag-based content search." },
+    { name: "BlackPlanet.com - Member Find", url: "https://www.blackplanet.com/user_search/index.html", tags: ["open"], desc: "Dedicated member search tool for BlackPlanet, a social network primarily serving the African-American community. Supports direct user lookup." },
+    { name: "MiGente (Latino)", url: "https://migente.com/wp-login.php?redirect_to=https%3A%2F%2Fmigente.com%2Fuser_search%2Findex.html&bp-auth=1&action=bpnoaccess", tags: ["login"], desc: "Legacy social network for Latino communities with archived profiles. May require login or have limited accessibility." },
+    { name: "Asian Avenue", url: "https://blackplanet.com/", tags: ["open"], desc: "Former social network for Asian communities, now redirects to BlackPlanet. Archived historical data may still be searchable." },
+    { name: "Orkut (Brazil)", url: "https://orkut.google.com/", tags: ["open"], desc: "Former Google social network that shut down in September 2014. URL now returns error. Historical archives may exist on the Wayback Machine." },
+    { name: "Odnoklassniki", url: "https://ok.ru/", tags: ["open"], desc: "Russian social network with millions of users. Supports direct user search by username and profile lookup." },
+    { name: "VK", url: "https://vk.com/", tags: ["api"], desc: "Largest Russian-language social network with features similar to Facebook. Supports user search and direct profile access." },
+    { name: "Delicious", url: "https://del.icio.us/", tags: ["api"], desc: "Social bookmarking platform where users share and discover web links with tags. Supports user profile and bookmark search." },
+    { name: "TheHoodUp (NSFW)", url: "https://thehoodup.com/board/", tags: ["open"], desc: "Urban community forum and message board with discussion threads, media sharing, and user profiles. Contains NSFW content." },
+    { name: "Share Secret Feedback", url: "https://secreto.site/en/%3Cuser_id%3E", tags: ["open"], desc: "Anonymous feedback and messaging platform where users collect candid messages from friends and coworkers. Supports 30+ languages and integrates with WhatsApp, I" },
+    { name: "Social Searcher", url: "https://www.social-searcher.com/", tags: ["api", "paid"], desc: "Multi-platform social media search engine aggregating content from Twitter, Facebook, Instagram, Tumblr, and other networks. Supports real-time and historical s" },
+    { name: "Google Social Search", url: "https://www.social-searcher.com/google-social-search/", tags: ["dork"], desc: "Google-powered social media search using advanced operators. Provided through Social Searcher's integration." },
+    { name: "Talkwalker Social Media Search", url: "https://www.talkwalker.com/social-media-analytics-search", tags: ["login", "api", "paid"], desc: "Enterprise social media monitoring and search platform. Tracks mentions across social networks, forums, and news sources with sentiment analysis." },
+    { name: "PinGroupie", url: "https://pingroupie.com/", tags: ["open"], desc: "Pinterest group analysis and discovery tool. Tracks Pinterest user statistics, board content, and group discussions." },
+  ]},
+  { category: "Telephone Numbers", tools: [
+    { name: "Slydial", url: "https://www.slydial.com/", tags: ["login", "api", "paid"], desc: "Voicemail drop service that connects directly to a recipient voicemail box without ringing the handset." },
+    { name: "Numbering Plans", url: "https://www.numberingplans.com/?page=analysis&sub=phonenr", tags: ["open"], desc: "International numbering reference for E.164 plans, carrier codes, and dialing metadata." },
+    { name: "Numberway", url: "https://www.numberway.com/", tags: ["api", "paid"], desc: "Reverse phone lookup resource used to resolve ownership and location context from a phone number." },
+    { name: "WhoCalld", url: "https://whocalld.com/", tags: ["login", "api", "paid"], desc: "Legacy reverse-caller-ID listing retained for historical continuity in this category." },
+    { name: "CallerID Test", url: "https://calleridtest.com/", tags: ["api", "paid"], desc: "Caller ID and number-validation utility for checking formatting and telecom metadata responses." },
+    { name: "Twilio Lookup", url: "https://www.twilio.com/lookup", tags: ["login", "api", "paid"], desc: "Twilio API endpoint for phone intelligence including line type, carrier, and validation data." },
+    { name: "Fone Finder", url: "https://www.fonefinder.net/", tags: ["login", "paid"], desc: "Legacy reverse phone lookup entry preserved for historical coverage in the framework." },
+    { name: "True Caller", url: "https://www.truecaller.com/", tags: ["login", "api", "paid"], desc: "Caller identification platform and mobile app for reverse lookup and spam-call context." },
+    { name: "Reverse Genie", url: "https://www.reversegenie.com/phone.php", tags: ["open"], desc: "Reverse phone lookup service that returns publicly aggregated ownership and location hints." },
+    { name: "SpyDialer", url: "https://www.spydialer.com:443/default.aspx", tags: ["login", "api", "paid"], desc: "Reverse phone lookup platform with caller intelligence and voicemail-related lookup features." },
+    { name: "Phone Validator", url: "https://www.phonevalidator.com/index.aspx", tags: ["api"], desc: "Number-validation utility focused on format, line-type, and carrier checks." },
+    { name: "Phonerator", url: "https://www.martinvigo.com/phonerator/", tags: ["open"], desc: "Phone number generation and testing utility for telephony research workflows." },
+    { name: "Mr. Number", url: "https://www.hiya.com/products/apps/hiya-spam-blocker", tags: ["login", "paid"], desc: "Mr. Number functionality has been consolidated under Hiya; retained as a legacy reference entry." },
+    { name: "Next Caller", url: "https://nextcaller.com/", tags: ["login", "api", "paid"], desc: "Caller-identification and spam intelligence service for reverse lookup workflows." },
+    { name: "Data24-7", url: "https://www.data24-7.com/signup.php", tags: ["login", "api", "paid"], desc: "Commercial data enrichment provider supporting phone-based identity and risk intelligence lookups." },
+    { name: "HLR Lookup Portal", url: "https://www.hlr-lookups.com/en/start", tags: ["login", "api", "paid"], desc: "HLR lookup service for telecom reachability, network, and carrier status checks." },
+    { name: "OpenCNAM API", url: "https://api.opencnam.com/v2/phone/+19073372323", tags: ["login", "api", "paid"], desc: "CNAM lookup API for resolving caller-name metadata from North American numbers." },
+    { name: "Numspy-Api", url: "https://numspy.pythonanywhere.com/", tags: ["login", "api", "paid"], desc: "API wrapper for Numspy-style phone intelligence queries and automation use cases." },
+    { name: "Family Tree Now", url: "https://www.familytreenow.com/search/genealogy/results?phoneno=(555)555-5555", tags: ["paid"], desc: "People-search aggregator that can pivot from phone numbers to identity and relationship records." },
+    { name: "Whitepages Reverse Phone", url: "https://www.whitepages.com/reverse-phone", tags: ["api", "paid"], desc: "Reverse phone lookup product from Whitepages for US-focused identity and contact attribution." },
+    { name: "Hiya (R$)", url: "https://www.hiya.com/", tags: ["login", "api", "paid"], desc: "Caller-ID and spam-protection platform with reverse lookup capabilities and mobile integrations." },
+  ]},
+  { category: "Tools", tools: [
+    { name: "Vector", url: "https://github.com/thesaderror/vector", tags: ["install"], desc: "Python-based OSINT tool that gathers social media accounts, finds locations, contact information, and performs leak database searches with graph-based data visu" },
+    { name: "DataSploit", url: "https://github.com/datasploit/datasploit/", tags: ["install", "login", "api"], desc: "OSINT framework that performs reconnaissance on domains, emails, usernames, and phone numbers by aggregating data from multiple sources into consolidated intell" },
+    { name: "Omnibus", url: "https://github.com/InQuest/omnibus", tags: ["install", "login", "api"], desc: "Interactive CLI OSINT tool for investigating artifacts (IPs, domains, emails, usernames, hashes, Bitcoin addresses) with over 25 integrated OSINT modules." },
+    { name: "Photon", url: "https://github.com/s0md3v/Photon", tags: ["install"], desc: "Fast Python web crawler designed for OSINT that extracts URLs, emails, social media accounts, files, API keys, JavaScript endpoints, and DNS records from websit" },
+    { name: "ReconDog", url: "https://github.com/s0md3v/ReconDog", tags: ["install", "login"], desc: "Reconnaissance Swiss Army Knife that performs passive API-based reconnaissance on targets including DNS lookups, Censys queries, CMS detection, and subdomain en" },
+    { name: "IFTTT", url: "https://ifttt.com/", tags: ["login", "api", "paid"], desc: "No-code automation platform connecting 900+ apps and services with trigger-action applets for automating workflows and data collection." },
+    { name: "Slash", url: "https://github.com/redc86/slash", tags: ["install"], desc: "Automated OSINT tool for username enumeration across 187+ social media platforms, forums, and pastebin searches with phone/email extraction." },
+    { name: "Stringify", url: "https://www.stringify.com/", tags: ["login", "api"], desc: "IoT home automation and smart home workflow platform with automation capabilities." },
+    { name: "OSRFramework", url: "https://github.com/i3visio/osrframework", tags: ["install", "api"], desc: "GNU AGPLv3+ OSINT framework with modular tools for username enumeration, email searching, domain checking, and DNS analysis across multiple platforms." },
+    { name: "Inquisitor", url: "https://github.com/penafieljlm/inquisitor", tags: ["install"], desc: "Organization-centric OSINT footprinting tool that automates asset discovery, ownership correlation, and relationship visualization." },
+    { name: "AutoOSINT", url: "https://github.com/bharshbarger/AutOSINT", tags: ["install", "login", "api"], desc: "Python automation tool integrating multiple OSINT modules (whois, DNS, HIBP, Shodan, Pastebin) with docx report generation." },
+    { name: "IntRec-Pack", url: "https://github.com/NullArray/IntRec-Pack", tags: ["install"], desc: "Bash script bundle for automated download, installation, and deployment of 14 OSINT and recon tools." },
+    { name: "OSINT-SPY", url: "https://github.com/SharadKumar97/OSINT-SPY", tags: ["install", "login", "api"], desc: "Python multi-target OSINT reconnaissance tool supporting email, domain, IP, organization, and blockchain analysis with SSL/TLS testing." },
+    { name: "Microsoft Flow", url: "https://flow.microsoft.com/en-us/", tags: ["login", "api", "paid"], desc: "Microsoft cloud workflow automation platform enabling complex multi-step processes with 1000+ pre-built connectors for integrating OSINT workflows." },
+    { name: "PhoneInfoga", url: "https://github.com/sundowndev/PhoneInfoga", tags: ["install", "api"], desc: "Go-based phone number reconnaissance framework validating numbers and aggregating metadata from phone directories, search engines, and reputation databases." },
+    { name: "IntelligenceX", url: "https://intelx.io/", tags: ["login", "api", "paid"], desc: "Web-based intelligence search platform aggregating pastes, leaks, darknet content, stealer logs, and public records across Tor, I2P, and surface web." },
+    { name: "Scrummage", url: "https://github.com/matamorphosis/Scrummage", tags: ["install", "login"], desc: "Python/Flask OSINT aggregator centralizing search plugins for blockchain, domains, breaches, darkweb, threat intelligence, IP geolocation, and social media." },
+    { name: "Analyst Research Tools", url: "https://analystresearchtools.com", tags: ["open"], desc: "Comprehensive web-based OSINT platform with 40+ integrated tools for people search, social media analysis, username enumeration, and archive searching." },
+    { name: "MIDINS TITAN", url: "https://github.com/Med0-n/Midins_Titan-Osint_Tool", tags: ["open"], desc: "Unable to verify; URL unresponsive. Possible connection refusal or offline status." },
+    { name: "Low Hanging Fruit", url: "https://github.com/blindfuzzy/LHF", tags: ["install"], desc: "Modular Python penetration testing reconnaissance tool automating Nmap, Arachni, load balancer detection, and domain scanning." },
+    { name: "VMware Workstation Player", url: "https://www.vmware.com/products/player/playerpro-evaluation.html", tags: ["install"], desc: "Free lightweight desktop virtualization application for running multiple operating systems on a single computer without rebooting." },
+    { name: "VirtualBox", url: "https://www.virtualbox.org/", tags: ["install"], desc: "Open-source, general-purpose full virtualization software supporting x86_64 hardware across laptops, desktops, servers, and embedded systems." },
+    { name: "Buscador OS", url: "https://inteltechniques.com/buscador/index.html", tags: ["install"], desc: "Specialized OSINT-focused Linux virtual machine pre-configured with dozens of OSINT tools for online investigations." },
+    { name: "Kali Linux OS", url: "https://www.kali.org/", tags: ["install"], desc: "Open-source Debian-based distribution with 600+ pre-installed security tools for penetration testing, security research, and reverse engineering." },
+    { name: "ParrotSec OS", url: "https://www.parrotsec.org/", tags: ["install"], desc: "Efficient, lightweight security-focused Linux distribution with strong privacy and anonymity features for penetration testing and privacy-conscious computing." },
+    { name: "Microsoft Edge Development OS VMs", url: "https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/", tags: ["install"], desc: "Free virtual machines provided by Microsoft for testing Edge browser and web standards across different Windows versions." },
+    { name: "Subgraph OS", url: "https://subgraph.com/index.en.html", tags: ["install"], desc: "Adversary-resistant alpha-stage operating system featuring hardened kernel, application sandboxing, built-in Tor integration, and memory-safe Golang application" },
+    { name: "Tails Live OS", url: "https://tails.boum.org/", tags: ["install"], desc: "Portable Debian-based operating system designed for anonymous communication and privacy protection, running entirely from USB with no traces left after shutdown" },
+    { name: "Whonix", url: "https://www.whonix.org/wiki/Main_Page", tags: ["install"], desc: "Anonymous operating system using two virtual machines (Gateway/Workstation) enforcing network isolation, making DNS leaks impossible." },
+    { name: "CeWL", url: "https://github.com/digininja/CeWL", tags: ["install"], desc: "Ruby-based web spider that generates custom wordlists by crawling target websites to specified depth and extracting unique words for password cracking." },
+    { name: "Cupp", url: "https://github.com/Mebus/cupp", tags: ["install"], desc: "Python utility that generates targeted password wordlists by profiling personal information to create customized password candidates for security testing." },
+    { name: "OWASP D4N155", url: "https://github.com/OWASP/D4N155", tags: ["install"], desc: "Intelligent OSINT-based wordlist generator that analyzes website content and metadata to create dynamic, context-aware wordlists for penetration testing." },
+    { name: "W Generator", url: "https://app.wgen.io/", tags: ["open"], desc: "Frontend-based wordlist generator for penetration testing that creates customized password dictionaries based on publicly available information using language-s" },
+    { name: "Paterva / Maltego", url: "https://www.maltego.com/", tags: ["login", "api", "paid"], desc: "Enterprise-grade OSINT and cyber investigations platform that visualizes relationships between data entities across multiple sources for threat intelligence and" },
+    { name: "Overview", url: "https://www.overviewdocs.com/", tags: ["install"], desc: "Self-hosted document analysis and management platform for investigating large document collections through search, tagging, and plugin-based analysis with full " },
+  ]},
+  { category: "Training", tools: [
+    { name: "GeoGuesser", url: "https://www.geoguessr.com/", tags: ["login", "api", "paid"], desc: "Geography game for geolocation OSINT training; users observe visual clues in Street View panoramas to guess locations worldwide." },
+    { name: "Verif!cation Quiz Bot", url: "https://x.com/quiztime", tags: ["login"], desc: "Daily OSINT verification challenges posted on X (Twitter), using a community-driven quiz format for image geolocation and source verification." },
+    { name: "Forensic OSINT KB Guides", url: "https://www.forensicosint.com/osint-guide", tags: ["login", "paid"], desc: "Knowledge base of digital forensics guides for evidence capture and court-admissible documentation, including web capture and metadata analysis." },
+    { name: "Open Source Intelligence Techniques", url: "https://inteltechniques.com/", tags: ["login", "paid"], desc: "Professional OSINT training and certification by IntelTechniques with extensive video modules, documentation, and practical investigative exercises." },
+    { name: "Plessas", url: "https://plessas.net/online-training", tags: ["login", "paid"], desc: "Expert-led OSINT training courses by Plessas Experts Network, from fundamentals to intensive hands-on investigation programs." },
+    { name: "The OSINTion", url: "https://www.theosintion.com/courses", tags: ["login", "paid"], desc: "Affordable OSINT training courses by Joe Gray, including people OSINT, business investigations, and blockchain-focused instruction." },
+    { name: "Smart Questions", url: "https://www.catb.org/esr/faqs/smart-questions.html", tags: ["open"], desc: "Foundational guide by Eric S. Raymond on asking effective technical questions in open-source and technical communities." },
+  ]},
+  { category: "Transportation", tools: [
+    { name: "MyAccident - traffic accident map", url: "https://myaccident.org/", tags: ["open"], desc: "Free database of redacted US traffic accident reports with searchable crash records and location details." },
+    { name: "NHTSA Vehicle API", url: "https://vpic.nhtsa.dot.gov/api/", tags: ["api"], desc: "Official US government VIN decoder API with vehicle specification and manufacturer data for model years 1981 onward." },
+    { name: "FindByPlate", url: "https://findbyplate.com/", tags: ["paid"], desc: "US license plate lookup service for basic vehicle identification and ownership-related investigation leads." },
+    { name: "carVertical VIN Decoder", url: "https://www.carvertical.com/vin-decoder", tags: ["login", "paid"], desc: "International VIN and registration decoder with vehicle history reporting across accident, theft, and ownership datasets." },
+    { name: "autoDNA VIN Lookup", url: "https://www.autodna.com/", tags: ["login", "paid"], desc: "Vehicle history lookup platform with records from European and North American markets and paid report expansion." },
+    { name: "VinDecodr", url: "https://vindecodr.com/", tags: ["open"], desc: "Free VIN decoder for quick extraction of standard vehicle characteristics from 17-character VIN values." },
+    { name: "AutoRef (EU)", url: "https://www.autoref.eu/en", tags: ["login", "paid"], desc: "European VIN and plate intelligence service with free and paid tiers for technical vehicle profile data." },
+    { name: "Carnet.ai", url: "https://carnet.ai/", tags: ["api", "paid"], desc: "AI vehicle image recognition platform that identifies make/model/generation from submitted photos." },
+    { name: "Finnik (NL)", url: "https://finnik.nl/en", tags: ["login", "paid"], desc: "Dutch license plate intelligence service using official RDW-linked records for vehicle profile and APK history." },
+    { name: "Flightradar24.com", url: "https://www.flightradar24.com/", tags: ["paid"], desc: "Global real-time flight tracking platform built on ADS-B and radar feeds with airport and route intelligence views." },
+    { name: "World Aeronautical Database", url: "https://worldaerodata.com/", tags: ["api", "paid"], desc: "Reference database for airport, airline, and aircraft metadata to support aviation intelligence lookups." },
+    { name: "ADS-B Exchange", url: "https://www.adsbexchange.com/", tags: ["api", "paid"], desc: "Large community-driven unfiltered ADS-B flight tracking network with broad global aircraft coverage." },
+    { name: "ADS-B.NL", url: "https://www.ads-b.nl/index.php?pageno=9999", tags: ["open"], desc: "Netherlands-focused ADS-B tracking portal with emphasis on military and regional aviation movements." },
+    { name: "OpenAIP World Aeronautical Database", url: "https://www.openaip.net/", tags: ["api"], desc: "Open, community-maintained aeronautical dataset for airfields, airspace, navaids, and runway metadata." },
+    { name: "Vessel Tracker", url: "https://www.vesseltracker.com/", tags: ["api", "paid"], desc: "Commercial maritime tracking platform combining AIS and satellite feeds for global vessel movement intelligence." },
+    { name: "Ship AIS", url: "https://shipais.uk/", tags: ["open"], desc: "UK-centered AIS ship tracker with live map views, movement details, and vessel identification data." },
+    { name: "OpenSeaMap - The free nautical chart", url: "https://www.openseamap.org", tags: ["open"], desc: "Open nautical chart map built on collaborative maritime data for ports, aids to navigation, and coastal context." },
+    { name: "Vessel Finder", url: "https://www.vesselfinder.com/", tags: ["api", "paid"], desc: "Global AIS vessel tracking service for ship positions, voyage progress, and historical movement review." },
+    { name: "Global Fishing Watch", url: "https://globalfishingwatch.org", tags: ["api"], desc: "Nonprofit maritime transparency platform that maps global fishing activity from AIS/VMS-derived signals." },
+    { name: "Deutsche Bahn Open-Data-Portal (German)", url: "https://data.deutschebahn.com/opendata", tags: ["api"], desc: "German rail open-data portal for station, network, timetable, and real-time transportation datasets." },
+    { name: "OpenRailwayMap", url: "https://www.openrailwaymap.org/", tags: ["api"], desc: "OpenStreetMap-based global railway map visualizing rail lines, infrastructure characteristics, and operations context." },
+    { name: "Satellite Tracking", url: "https://www.n2yo.com/", tags: ["api"], desc: "Satellite orbit tracking entry point for monitoring spacecraft position, trajectory, and pass predictions." },
+    { name: "Track-Trace", url: "https://www.track-trace.com/", tags: ["open"], desc: "Multi-carrier shipment tracking aggregator for parcel and freight status across global postal and logistics providers." },
+  ]},
+  { category: "Username", tools: [
+    { name: "WhatsMyName Web", url: "https://whatsmyname.app/", tags: ["open"], desc: "Free web-based OSINT username enumeration tool that searches for a specified username across 1500+ websites and platforms simultaneously, returning direct links" },
+    { name: "WhatsMyName", url: "https://github.com/WebBreacher/WhatsMyName", tags: ["open"], desc: "OSINT project maintaining a curated JSON database of website detection patterns for username enumeration. Web interface available at whatsmyname.app." },
+    { name: "Sylva Identity Discovery", url: "https://sylva.pfeister.dev/", tags: ["install", "api"], desc: "Open-source CLI tool for username and identity discovery with branch discovery to expand searches as additional linked identities are uncovered." },
+    { name: "Sherlock", url: "https://github.com/sherlock-project/sherlock", tags: ["install"], desc: "Python CLI tool that hunts down social media accounts by username across 400+ social networks. Supports Tor routing, proxy configuration, and CSV/XLSX export." },
+    { name: "Namechk", url: "https://namechk.com/", tags: ["open"], desc: "Web-based username and domain availability checker that searches 100+ social media platforms and 36 domain extensions simultaneously." },
+    { name: "Thats Them", url: "https://thatsthem.com/", tags: ["paid"], desc: "Free people search engine aggregating data from 50+ sources. Supports lookups by name, address, phone number, or email." },
+    { name: "NameCheckup", url: "https://namecheckup.com/", tags: ["api"], desc: "Free web-based username and domain availability checker that searches across 20+ social media platforms and 40+ domain extensions with WHOIS lookup support." },
+    { name: "FootprintIQ", url: "https://footprintiq.app", tags: ["paid"], desc: "Ethical digital footprint scanner that searches usernames, emails, and phone numbers across 500+ platforms. Includes breach detection, data broker scanning, and" },
+    { name: "GitFive", url: "https://github.com/mxrch/GitFive", tags: ["install", "login"], desc: "OSINT CLI tool for investigating GitHub profiles. Tracks username/name history, maps emails to accounts, extracts SSH public keys, and exports findings as JSON." },
+    { name: "Names Directory", url: "https://namesdir.com/", tags: ["open"], desc: "Searchable database of 1B+ name combinations collected from public sources. Allows bidirectional lookup to find first names by surname or surnames by first name" },
+    { name: "Lullar", url: "https://com.lullar.com", tags: ["open"], desc: "Free people search and username lookup tool that searches across 148+ social media platforms including Instagram, TikTok, Facebook, and LinkedIn." },
+    { name: "Amazon Usernames", url: "https://www.google.com/search?q=site:amazon.com+%3Cusername%3E", tags: ["dork"], desc: "Google dork that searches Amazon.com for pages associated with a specific username, surfacing public profiles, wishlists, and reviews." },
+    { name: "Github User", url: "https://api.github.com/users/%3Cusername%3E/events/public", tags: ["api"], desc: "Queries the GitHub public Events API to retrieve a user's recent public activity, including pushes, pull requests, issues, and other repository events." },
+    { name: "Tinder Usernames", url: "https://www.gotinder.com/@%3Cusername%3E", tags: ["open"], desc: "Accesses a Tinder user's public web profile via their username. The gotinder.com domain redirects to tinder.com." },
+    { name: "Keybase", url: "https://keybase.io/", tags: ["api"], desc: "Platform for cryptographic identity verification, linking social media accounts, PGP keys, and cryptocurrency addresses to a single profile. Acquired by Zoom in" },
+    { name: "MIT PGP Key Server", url: "https://pgp.mit.edu/", tags: ["api"], desc: "MIT PGP Public Key Server for searching, submitting, and removing PGP public keys. Look up keys by name, email, or key ID to find associated cryptographic ident" },
+    { name: "ProtonMail users", url: "https://api.protonmail.ch/pks/lookup?op=index&search=<username>@protonmail.com", tags: ["api"], desc: "Queries ProtonMail's HKP-compatible PGP key server to look up the public key for a ProtonMail username. A successful response confirms the account exists." },
+    { name: "ProtonMail Domains", url: "https://api.protonmail.ch/pks/lookup?op=index&search=<email_address>", tags: ["api"], desc: "Queries ProtonMail's HKP key server with a full email address to check for a PGP public key. Useful for identifying ProtonMail users on custom domains." },
+  ]},
 ];
+// ── App State ─────────────────────────────────────────────────────────────────
+const STORAGE_KEY = 'justOsintV3';
+let appState = { favorites: [], profiles: [], activeProfileId: null };
 
-const body = document.body;
-const cardsRoot = document.getElementById("cardsRoot");
-const categoryNav = document.getElementById("categoryNav");
-const searchInput = document.getElementById("searchInput");
-const resultsMeta = document.getElementById("resultsMeta");
-const actionStatus = document.getElementById("actionStatus");
-const themeToggle = document.getElementById("themeToggle");
-const interactiveTree = document.getElementById("interactiveTree");
-const treeStage = document.getElementById("treeStage");
-const boardTitle = document.getElementById("boardTitle");
-const zoomLabel = document.getElementById("zoomLabel");
-const treeBadge = document.querySelector(".tree-badge");
-
-const homeBtn = document.getElementById("homeBtn");
-const knowledgeBtn = document.getElementById("knowledgeBtn");
-const flowBtn = document.getElementById("flowBtn");
-const statsBtn = document.getElementById("statsBtn");
-const workspaceBtn = document.getElementById("workspaceBtn");
-const foldersModeBtn = document.getElementById("foldersModeBtn");
-const tagsModeBtn = document.getElementById("tagsModeBtn");
-const expandAllBtn = document.getElementById("expandAllBtn");
-const collapseAllBtn = document.getElementById("collapseAllBtn");
-const zoomOutBtn = document.getElementById("zoomOutBtn");
-const zoomInBtn = document.getElementById("zoomInBtn");
-const boardActions = document.querySelector(".board-actions");
-
-const workspacePanel = document.getElementById("workspacePanel");
-const profileForm = document.getElementById("profileForm");
-const profileList = document.getElementById("profileList");
-const exportProfilesBtn = document.getElementById("exportProfilesBtn");
-const importProfilesInput = document.getElementById("importProfilesInput");
-const clearWorkspaceBtn = document.getElementById("clearWorkspaceBtn");
-const favoritesList = document.getElementById("favoritesList");
-
-const submitScoreBtn = document.getElementById("submitScoreBtn");
-const sendFeedbackBtn = document.getElementById("sendFeedbackBtn");
-const issueDead = document.getElementById("issueDead");
-const issuePaywalled = document.getElementById("issuePaywalled");
-const issueIncorrect = document.getElementById("issueIncorrect");
-
-let activeCategory = "all";
-let query = "";
-let navMode = "folders";
-let treeZoom = 1;
-let boardMode = "home";
-
-const appStorageKey = "justOsintAppStateV2";
-const appState = {
-  favorites: [],
-  profiles: [],
-  activeProfileId: null,
-  profileDraft: {}
-};
-
-const expandedCategories = new Set(["Search Engines", "Public Records", "Domain Name"]);
-const expandedFlowNodes = new Set(["root"]);
-let draggedProfileId = null;
-
-function uniqueTags(data) {
-  return new Set(data.flatMap((group) => group.tools.map((tool) => tool.tag))).size;
-}
-
-function normalizedQuery() {
-  return query.trim().toLowerCase();
-}
-
-function setStatus(text) {
-  actionStatus.textContent = text;
-}
-
-function safeId() {
-  return typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `id-${Date.now()}-${Math.random()}`;
-}
-
-function updateTreeBadge() {
-  treeBadge.textContent = String(osintData.length);
-}
-
-function saveAppState() {
-  localStorage.setItem(appStorageKey, JSON.stringify(appState));
-}
-
-function loadAppState() {
+function loadState() {
   try {
-    const parsed = JSON.parse(localStorage.getItem(appStorageKey) || "{}");
-    appState.favorites = Array.isArray(parsed.favorites) ? parsed.favorites : [];
-    appState.profiles = Array.isArray(parsed.profiles) ? parsed.profiles : [];
-    appState.activeProfileId = typeof parsed.activeProfileId === "string" ? parsed.activeProfileId : null;
-    appState.profileDraft = parsed.profileDraft && typeof parsed.profileDraft === "object" ? parsed.profileDraft : {};
-  } catch (_error) {
-    appState.favorites = [];
-    appState.profiles = [];
-    appState.activeProfileId = null;
-    appState.profileDraft = {};
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      appState = { favorites: [], profiles: [], activeProfileId: null, ...parsed };
+    }
+  } catch (e) { /* ignore */ }
+}
+
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(appState)); } catch (e) { /* ignore */ }
+}
+
+// ── View State ────────────────────────────────────────────────────────────────
+let activeCategory = 'all';
+let activeReqFilter = 'all';
+let searchQuery = '';
+let searchDebounce = null;
+
+// ── DOM Refs (populated on DOMContentLoaded) ──────────────────────────────────
+let elCatNav, elToolGrid, elSearchInput, elResultMeta, elEmptyState,
+    elSearchClear, elProfilePanel, elFavPanel, elOverlay,
+    elProfileList, elProfileListSection, elProfileFormSection,
+    elProfileFormTitle, elFavList;
+
+// ── Sidebar: Render Categories ────────────────────────────────────────────────
+function renderSidebar() {
+  elCatNav.innerHTML = '';
+
+  // "All" item
+  const allBtn = makeCatItem('all', '★ All Tools', getTotalToolCount(), true);
+  elCatNav.appendChild(allBtn);
+
+  // "Favorites" item
+  const favBtn = makeCatItem('favorites', '★ Favorites', appState.favorites.length, false, true);
+  elCatNav.appendChild(favBtn);
+
+  // Category items
+  osintData.forEach(group => {
+    const item = makeCatItem(group.category, group.category, group.tools.length);
+    elCatNav.appendChild(item);
+  });
+}
+
+function makeCatItem(key, label, count, isAll = false, isFav = false) {
+  const el = document.createElement('div');
+  el.className = 'cat-item' + (isAll ? ' all-item' : '') + (isFav ? ' fav-item' : '') + (activeCategory === key ? ' active' : '');
+  el.innerHTML = `<span class="cat-name">${escHtml(label)}</span><span class="cat-count">${count}</span>`;
+  el.addEventListener('click', () => {
+    activeCategory = key;
+    searchQuery = '';
+    elSearchInput.value = '';
+    elSearchClear.classList.add('hidden');
+    renderSidebar();
+    renderGrid();
+  });
+  return el;
+}
+
+function getTotalToolCount() {
+  return osintData.reduce((s, g) => s + g.tools.length, 0);
+}
+
+// ── Tool Grid: Render Tools ───────────────────────────────────────────────────
+function renderGrid() {
+  elToolGrid.innerHTML = '';
+  elEmptyState.classList.add('hidden');
+
+  const q = searchQuery.trim().toLowerCase();
+  let rendered = 0;
+
+  if (activeCategory === 'favorites') {
+    const favSet = new Set(appState.favorites.map(f => f.url));
+    const favTools = [];
+    osintData.forEach(group => {
+      group.tools.forEach(tool => {
+        if (favSet.has(tool.url)) {
+          favTools.push({ tool, category: group.category });
+        }
+      });
+    });
+
+    const filtered = favTools.filter(({ tool }) => matchesSearch(tool, q) && matchesReq(tool));
+    filtered.forEach(({ tool, category }) => {
+      elToolGrid.appendChild(makeToolCard(tool, category));
+      rendered++;
+    });
+
+  } else if (activeCategory === 'all') {
+    osintData.forEach(group => {
+      const matchingTools = group.tools.filter(t => matchesSearch(t, q) && matchesReq(t));
+      if (matchingTools.length === 0) return;
+
+      if (!q && activeReqFilter === 'all') {
+        // Show category header in "all" view
+        const hdr = document.createElement('div');
+        hdr.className = 'cat-section-title';
+        hdr.innerHTML = `<h2>${escHtml(group.category)}</h2><span>${matchingTools.length} tools</span>`;
+        elToolGrid.appendChild(hdr);
+      }
+
+      matchingTools.forEach(tool => {
+        elToolGrid.appendChild(makeToolCard(tool, group.category));
+        rendered++;
+      });
+    });
+
+  } else {
+    const group = osintData.find(g => g.category === activeCategory);
+    if (group) {
+      const matchingTools = group.tools.filter(t => matchesSearch(t, q) && matchesReq(t));
+      matchingTools.forEach(tool => {
+        elToolGrid.appendChild(makeToolCard(tool, group.category));
+        rendered++;
+      });
+    }
+  }
+
+  // Update result meta
+  const total = getTotalToolCount();
+  if (q || activeReqFilter !== 'all') {
+    elResultMeta.textContent = `${rendered.toLocaleString()} result${rendered !== 1 ? 's' : ''}`;
+  } else if (activeCategory === 'all') {
+    elResultMeta.textContent = `${total.toLocaleString()} tools across ${osintData.length} categories`;
+  } else if (activeCategory === 'favorites') {
+    elResultMeta.textContent = `${rendered.toLocaleString()} favorite${rendered !== 1 ? 's' : ''}`;
+  } else {
+    elResultMeta.textContent = `${rendered.toLocaleString()} tool${rendered !== 1 ? 's' : ''}`;
+  }
+
+  // Show empty state
+  if (rendered === 0) {
+    elEmptyState.classList.remove('hidden');
   }
 }
 
-function profileSummaryText() {
-  return `Profiles: ${appState.profiles.length} total, Favorites: ${appState.favorites.length} pinned tool(s).`;
-}
-
-function setActiveRail(button) {
-  [homeBtn, knowledgeBtn, flowBtn, statsBtn, workspaceBtn].forEach((btn) => btn.classList.remove("active"));
-  button.classList.add("active");
-}
-
-function setZoom(value) {
-  treeZoom = Math.max(0.55, Math.min(2, value));
-  interactiveTree.style.transform = `scale(${treeZoom})`;
-  zoomLabel.textContent = `${Math.round(treeZoom * 100)}%`;
-}
-
-function matchesNode(text) {
-  const q = normalizedQuery();
+function matchesSearch(tool, q) {
   if (!q) return true;
-  return text.toLowerCase().includes(q);
+  return tool.name.toLowerCase().includes(q) ||
+    (tool.desc && tool.desc.toLowerCase().includes(q)) ||
+    (tool.url && tool.url.toLowerCase().includes(q));
 }
 
-function inferRequirements(category, tool) {
-  const lowerName = tool.name.toLowerCase();
-  const lowerTag = tool.tag.toLowerCase();
-  const lowerCategory = category.toLowerCase();
-  const markers = new Set();
-
-  if (
-    lowerTag.includes("cli") ||
-    lowerTag.includes("self hosted") ||
-    lowerTag.includes("automation") ||
-    lowerTag.includes("tooling") ||
-    lowerTag.includes("opsec") ||
-    lowerName.includes("project") ||
-    lowerName.includes("ghunt") ||
-    lowerName.includes("sherlock") ||
-    lowerName.includes("maigret") ||
-    lowerName.includes("nexfil") ||
-    lowerName.includes("holehe") ||
-    lowerName.includes("phoneinfoga") ||
-    lowerName.includes("onionscan") ||
-    lowerName.includes("ffmpeg")
-  ) {
-    markers.add("install");
-  }
-
-  if (
-    lowerCategory.includes("dating") ||
-    lowerCategory.includes("social") ||
-    lowerCategory.includes("employment") ||
-    lowerCategory.includes("messaging") ||
-    lowerName.includes("linkedin") ||
-    lowerName.includes("discord") ||
-    lowerName.includes("telegram") ||
-    lowerName.includes("reddit") ||
-    lowerName.includes("xing") ||
-    lowerName.includes("glassdoor")
-  ) {
-    markers.add("login");
-  }
-
-  if (
-    lowerTag.includes("api") ||
-    lowerName.includes("lookup") ||
-    lowerName.includes("whoxy") ||
-    lowerName.includes("securitytrails") ||
-    lowerName.includes("zoominfo") ||
-    lowerName.includes("hunter") ||
-    lowerName.includes("rocketreach")
-  ) {
-    markers.add("api");
-  }
-
-  if (
-    lowerTag.includes("premium") ||
-    lowerTag.includes("company intel") ||
-    lowerTag.includes("pay") ||
-    lowerName.includes("pacer") ||
-    lowerName.includes("spokeo") ||
-    lowerName.includes("intelius") ||
-    lowerName.includes("truthfinder") ||
-    lowerName.includes("beenverified") ||
-    lowerName.includes("zoominfo")
-  ) {
-    markers.add("paid");
-  }
-
-  if (!markers.size) {
-    markers.add("open");
-  }
-
-  return Array.from(markers);
+function matchesReq(tool) {
+  if (activeReqFilter === 'all') return true;
+  return Array.isArray(tool.tags) && tool.tags.includes(activeReqFilter);
 }
 
-function requirementLabels(category, tool) {
-  const labels = {
-    install: "install",
-    login: "login",
-    api: "api",
-    paid: "paid",
-    open: "open"
-  };
-  return inferRequirements(category, tool).map((marker) => labels[marker]);
+function makeToolCard(tool, category) {
+  const isFav = appState.favorites.some(f => f.url === tool.url);
+  const card = document.createElement('div');
+  card.className = 'tool-card';
+
+  const badges = (tool.tags || []).map(t =>
+    `<span class="req-badge ${t}">${badgeLabel(t)}</span>`
+  ).join('');
+
+  const descHtml = tool.desc
+    ? `<div class="card-desc">${escHtml(tool.desc)}</div>`
+    : '';
+
+  // Show category label only in All or Favorites view
+  const catLabel = (activeCategory === 'all' || activeCategory === 'favorites')
+    ? `<div class="card-category">${escHtml(category)}</div>`
+    : '';
+
+  card.innerHTML = `
+    <div class="card-top">
+      <div class="card-title"><a href="${escHtml(tool.url)}" target="_blank" rel="noopener noreferrer" title="${escHtml(tool.name)}">${escHtml(tool.name)}</a></div>
+      <button class="card-fav${isFav ? ' pinned' : ''}" data-url="${escHtml(tool.url)}" aria-label="${isFav ? 'Unpin' : 'Pin'} ${escHtml(tool.name)}">${isFav ? '★' : '☆'}</button>
+    </div>
+    <div class="card-badges">${badges}</div>
+    ${descHtml}
+    ${catLabel}
+  `;
+
+  card.querySelector('.card-fav').addEventListener('click', e => {
+    e.stopPropagation();
+    toggleFav(tool, category);
+    // Re-render the card in place
+    const newCard = makeToolCard(tool, category);
+    card.replaceWith(newCard);
+    renderSidebar();
+    renderFavPanel();
+    saveState();
+    // If in favorites view and unfavorited, remove
+    if (activeCategory === 'favorites') renderGrid();
+  });
+
+  return card;
 }
 
-function requirementBadgeHtml(category, tool) {
-  return requirementLabels(category, tool)
-    .map((label) => `<span class="req-badge">${label}</span>`)
-    .join("");
+function badgeLabel(tag) {
+  return { open: 'Open', login: 'Login', api: 'API', paid: 'Paid', install: 'Install', dork: 'Dork' }[tag] || tag;
 }
 
-function toolKey(category, tool) {
-  return `${category}::${tool.name}`;
-}
-
-function isFavorited(category, tool) {
-  const id = toolKey(category, tool);
-  return appState.favorites.some((entry) => entry.id === id);
-}
-
-function toggleFavorite(category, tool) {
-  const id = toolKey(category, tool);
-  const idx = appState.favorites.findIndex((entry) => entry.id === id);
+function toggleFav(tool, category) {
+  const idx = appState.favorites.findIndex(f => f.url === tool.url);
   if (idx >= 0) {
     appState.favorites.splice(idx, 1);
-    setStatus(`Removed favorite: ${tool.name}`);
   } else {
-    appState.favorites.push({ id, category, name: tool.name, url: tool.url, tag: tool.tag, requirements: inferRequirements(category, tool) });
-    setStatus(`Pinned favorite: ${tool.name}`);
-  }
-  saveAppState();
-  renderFavorites();
-  renderSidebar();
-  if (boardMode === "knowledge") {
-    renderKnowledgeMode(filterData());
+    appState.favorites.push({ url: tool.url, name: tool.name, category });
   }
 }
 
-function createPinButton(category, tool, className = "pin-btn") {
-  const pinBtn = document.createElement("button");
-  pinBtn.type = "button";
-  pinBtn.className = className;
-  pinBtn.textContent = isFavorited(category, tool) ? "★" : "+";
-  pinBtn.title = isFavorited(category, tool) ? "Unpin favorite" : "Pin favorite";
-  pinBtn.classList.toggle("active", isFavorited(category, tool));
-  pinBtn.addEventListener("click", (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    toggleFavorite(category, tool);
-  });
-  return pinBtn;
-}
-
-function renderFavorites() {
-  favoritesList.innerHTML = "";
-  if (!appState.favorites.length) {
-    favoritesList.innerHTML = '<p class="workspace-empty">No pinned tools yet.</p>';
+// ── Favorites Panel ───────────────────────────────────────────────────────────
+function renderFavPanel() {
+  elFavList.innerHTML = '';
+  if (appState.favorites.length === 0) {
+    elFavList.innerHTML = '<div class="empty-fav">No favorites yet. Click ☆ on any tool to pin it here.</div>';
     return;
   }
-
-  appState.favorites.forEach((item) => {
-    const row = document.createElement("div");
-    row.className = "tool-row";
-
-    const link = document.createElement("a");
-    link.className = "tree-leaf";
-    link.href = item.url;
-    link.target = "_blank";
-    link.rel = "noreferrer noopener";
-    link.innerHTML = `<span class="tree-leaf-name">${item.name}</span><span class="tree-item-meta">${item.category}</span>`;
-    link.title = `Requirements: ${(item.requirements || ["open"]).join(", ")}`;
-
-    const removeBtn = document.createElement("button");
-    removeBtn.type = "button";
-    removeBtn.className = "pin-btn active";
-    removeBtn.textContent = "×";
-    removeBtn.title = "Remove favorite";
-    removeBtn.addEventListener("click", () => {
-      appState.favorites = appState.favorites.filter((entry) => entry.id !== item.id);
-      saveAppState();
-      renderFavorites();
-      renderSidebar();
-      if (boardMode === "knowledge") {
-        renderKnowledgeMode(filterData());
-      }
-    });
-
-    row.appendChild(link);
-    row.appendChild(removeBtn);
-    favoritesList.appendChild(row);
-  });
-}
-
-function renderSidebarFolders() {
-  categoryNav.innerHTML = "";
-  const q = normalizedQuery();
-
-  const allBtn = document.createElement("button");
-  allBtn.className = "tree-root-btn";
-  allBtn.innerHTML = '<span class="tree-item-label">All Categories</span><span class="tree-item-meta">all</span>';
-  allBtn.classList.toggle("active", activeCategory === "all");
-  allBtn.addEventListener("click", () => {
-    activeCategory = "all";
-    renderAll();
-  });
-  categoryNav.appendChild(allBtn);
-
-  osintData.forEach((group) => {
-    const toolMatches = group.tools.filter((tool) => matchesNode(`${tool.name} ${tool.tag}`));
-    const categoryMatch = matchesNode(group.category);
-    if (q && !categoryMatch && toolMatches.length === 0) return;
-
-    const node = document.createElement("div");
-    node.className = "tree-node";
-
-    const row = document.createElement("div");
-    row.className = "tree-row";
-
-    const toggleBtn = document.createElement("button");
-    toggleBtn.type = "button";
-    toggleBtn.className = "tree-toggle";
-    const shouldOpen = (q && (categoryMatch || toolMatches.length > 0)) || expandedCategories.has(group.category);
-    toggleBtn.textContent = shouldOpen ? "▾" : "▸";
-    toggleBtn.addEventListener("click", () => {
-      if (expandedCategories.has(group.category)) expandedCategories.delete(group.category);
-      else expandedCategories.add(group.category);
-      renderSidebarFolders();
-    });
-
-    const categoryBtn = document.createElement("button");
-    categoryBtn.className = "tree-category-btn";
-    categoryBtn.innerHTML = `<span class="tree-item-label">${group.category}</span><span class="tree-item-meta">${group.tools.length}</span>`;
-    categoryBtn.classList.toggle("active", activeCategory === group.category);
-    categoryBtn.addEventListener("click", () => {
-      activeCategory = group.category;
-      renderAll();
-    });
-
-    row.appendChild(toggleBtn);
-    row.appendChild(categoryBtn);
-    node.appendChild(row);
-
-    if (shouldOpen) {
-      const children = document.createElement("div");
-      children.className = "tree-children";
-
-      (q ? toolMatches : group.tools).forEach((tool) => {
-        const toolRow = document.createElement("div");
-        toolRow.className = "tool-row";
-
-        const leaf = document.createElement("a");
-        leaf.className = "tree-leaf";
-        leaf.href = tool.url;
-        leaf.target = "_blank";
-        leaf.rel = "noreferrer noopener";
-        const req = requirementLabels(group.category, tool).join("/");
-        leaf.innerHTML = `<span class="tree-leaf-name">${tool.name}</span><span class="tree-item-meta">${tool.tag} · ${req}</span>`;
-        leaf.title = `Requirements: ${req}`;
-
-        toolRow.appendChild(leaf);
-        toolRow.appendChild(createPinButton(group.category, tool));
-        children.appendChild(toolRow);
-      });
-      node.appendChild(children);
-    }
-
-    categoryNav.appendChild(node);
-  });
-}
-
-function tagMapFromData() {
-  const map = new Map();
-  osintData.forEach((group) => {
-    group.tools.forEach((tool) => {
-      if (!map.has(tool.tag)) map.set(tool.tag, []);
-      map.get(tool.tag).push({ ...tool, category: group.category });
-    });
-  });
-
-  return Array.from(map.entries())
-    .map(([tag, tools]) => ({ tag, tools }))
-    .sort((a, b) => a.tag.localeCompare(b.tag));
-}
-
-function renderSidebarTags() {
-  categoryNav.innerHTML = "";
-  const grouped = tagMapFromData();
-  const q = normalizedQuery();
-
-  grouped.forEach((entry) => {
-    const tools = entry.tools.filter((tool) => !q || matchesNode(`${entry.tag} ${tool.name} ${tool.category}`));
-    if (!tools.length) return;
-
-    const node = document.createElement("div");
-    node.className = "tree-node";
-    const row = document.createElement("div");
-    row.className = "tree-row";
-
-    const tagId = `tag:${entry.tag}`;
-    const isOpen = q ? true : expandedCategories.has(tagId);
-
-    const toggleBtn = document.createElement("button");
-    toggleBtn.type = "button";
-    toggleBtn.className = "tree-toggle";
-    toggleBtn.textContent = isOpen ? "▾" : "▸";
-    toggleBtn.addEventListener("click", () => {
-      if (expandedCategories.has(tagId)) expandedCategories.delete(tagId);
-      else expandedCategories.add(tagId);
-      renderSidebarTags();
-    });
-
-    const tagBtn = document.createElement("button");
-    tagBtn.className = "tree-category-btn";
-    tagBtn.innerHTML = `<span class="tree-item-label">#${entry.tag}</span><span class="tree-item-meta">${entry.tools.length}</span>`;
-
-    row.appendChild(toggleBtn);
-    row.appendChild(tagBtn);
-    node.appendChild(row);
-
-    if (isOpen) {
-      const children = document.createElement("div");
-      children.className = "tree-children";
-
-      tools.forEach((tool) => {
-        const toolRow = document.createElement("div");
-        toolRow.className = "tool-row";
-
-        const leaf = document.createElement("a");
-        leaf.className = "tree-leaf";
-        leaf.href = tool.url;
-        leaf.target = "_blank";
-        leaf.rel = "noreferrer noopener";
-        const req = requirementLabels(tool.category, tool).join("/");
-        leaf.innerHTML = `<span class="tree-leaf-name">${tool.name}</span><span class="tree-item-meta">${tool.category} · ${req}</span>`;
-        leaf.title = `Requirements: ${req}`;
-
-        toolRow.appendChild(leaf);
-        toolRow.appendChild(createPinButton(tool.category, tool));
-        children.appendChild(toolRow);
-      });
-      node.appendChild(children);
-    }
-
-    categoryNav.appendChild(node);
-  });
-}
-
-function createNodeRow(node, hasChildren) {
-  const row = document.createElement("div");
-  row.className = "flow-row";
-
-  const toggle = document.createElement("button");
-  toggle.type = "button";
-  toggle.className = `flow-toggle${hasChildren ? "" : " hidden"}`;
-  const isOpen = expandedFlowNodes.has(node.id);
-  toggle.textContent = isOpen ? "▾" : "▸";
-
-  const label = hasChildren ? document.createElement("button") : document.createElement("a");
-  label.className = `flow-pill ${node.kind}`;
-  if (node.kind === "tool") {
-    label.href = node.url;
-    label.target = "_blank";
-    label.rel = "noreferrer noopener";
-  } else {
-    label.type = "button";
-  }
-
-  let detail = node.count !== undefined ? `<span class="tree-item-meta">${node.count}</span>` : "";
-  if (node.kind === "tool") {
-    detail += `<span class="req-badges">${requirementBadgeHtml(node.category, { name: node.label, tag: node.tag, url: node.url })}</span>`;
-  }
-  label.innerHTML = `${node.label}${detail}`;
-
-  if (hasChildren) {
-    toggle.addEventListener("click", () => {
-      if (expandedFlowNodes.has(node.id)) expandedFlowNodes.delete(node.id);
-      else expandedFlowNodes.add(node.id);
-      renderFlowMode();
-    });
-  }
-
-  if (node.kind === "folder") {
-    label.addEventListener("click", () => {
-      activeCategory = node.category;
-      setActiveRail(knowledgeBtn);
-      setBoardMode("knowledge");
-      setStatus(`Focused category: ${node.category}`);
-    });
-  }
-
-  row.appendChild(toggle);
-  row.appendChild(label);
-
-  if (node.kind === "tool") {
-    row.appendChild(createPinButton(node.category, { name: node.label, url: node.url, tag: node.tag }, "flow-pin"));
-  }
-  return { row, isOpen };
-}
-
-function buildFlowTree() {
-  const q = normalizedQuery();
-  const root = {
-    id: "root",
-    kind: "root",
-    label: "OSINT Framework",
-    count: osintData.length,
-    children: []
-  };
-
-  osintData.forEach((group) => {
-    if (activeCategory !== "all" && group.category !== activeCategory) return;
-
-    const bucket = new Map();
-    group.tools.forEach((tool) => {
-      if (!bucket.has(tool.tag)) bucket.set(tool.tag, []);
-      bucket.get(tool.tag).push(tool);
-    });
-
-    const tagNodes = Array.from(bucket.entries()).map(([tag, tools]) => ({
-      id: `tag:${group.category}:${tag}`,
-      kind: "tag",
-      label: `#${tag}`,
-      count: tools.length,
-      children: tools.map((tool) => ({
-        id: `tool:${group.category}:${tool.name}`,
-        kind: "tool",
-        label: tool.name,
-        category: group.category,
-        tag: tool.tag,
-        url: tool.url
-      }))
-    }));
-
-    root.children.push({
-      id: `cat:${group.category}`,
-      kind: "folder",
-      label: group.category,
-      category: group.category,
-      count: group.tools.length,
-      children: tagNodes
-    });
-  });
-
-  if (!q) return root;
-
-  function filterNode(node) {
-    const nodeMatch = matchesNode(node.label);
-    if (!node.children) return nodeMatch ? { ...node } : null;
-    const filteredChildren = node.children.map((child) => filterNode(child)).filter(Boolean);
-    if (!nodeMatch && filteredChildren.length === 0) return null;
-    return { ...node, children: filteredChildren };
-  }
-
-  return filterNode(root) || { ...root, children: [] };
-}
-
-function renderFlowNode(node, container) {
-  const hasChildren = Array.isArray(node.children) && node.children.length > 0;
-  const wrapper = document.createElement("div");
-  wrapper.className = "flow-node";
-
-  const { row, isOpen } = createNodeRow(node, hasChildren);
-  wrapper.appendChild(row);
-
-  if (hasChildren && isOpen) {
-    const childrenWrap = document.createElement("div");
-    childrenWrap.className = "flow-children";
-    node.children.forEach((child) => renderFlowNode(child, childrenWrap));
-    wrapper.appendChild(childrenWrap);
-  }
-
-  container.appendChild(wrapper);
-}
-
-function filterData() {
-  const q = normalizedQuery();
-  return osintData
-    .filter((group) => activeCategory === "all" || group.category === activeCategory)
-    .map((group) => {
-      const tools = group.tools.filter((tool) => !q || `${group.category} ${tool.name} ${tool.tag}`.toLowerCase().includes(q));
-      return { ...group, tools };
-    })
-    .filter((group) => group.tools.length > 0);
-}
-
-function renderHomeMode(groups) {
-  interactiveTree.innerHTML = "";
-  interactiveTree.classList.remove("graph-view");
-
-  const totalTools = osintData.reduce((sum, group) => sum + group.tools.length, 0);
-  const totalTags = uniqueTags(osintData);
-  const topCategories = [...osintData].sort((a, b) => b.tools.length - a.tools.length).slice(0, 3);
-
-  const wrap = document.createElement("div");
-  wrap.className = "home-grid";
-  wrap.innerHTML = `
-    <article class="home-card"><h3>Categories</h3><div class="metric-value">${osintData.length}</div><p class="workspace-hint">Knowledge buckets indexed</p></article>
-    <article class="home-card"><h3>Tools</h3><div class="metric-value">${totalTools}</div><p class="workspace-hint">Curated external resources</p></article>
-    <article class="home-card"><h3>Tags</h3><div class="metric-value">${totalTags}</div><p class="workspace-hint">Filter dimensions</p></article>
-  `;
-
-  topCategories.forEach((category) => {
-    const card = document.createElement("article");
-    card.className = "home-card";
-    card.innerHTML = `<h3>${category.category}</h3><div class="metric-value">${category.tools.length}</div><p class="workspace-hint">Largest category</p>`;
-    wrap.appendChild(card);
-  });
-
-  if (appState.favorites.length) {
-    const favCard = document.createElement("article");
-    favCard.className = "home-card";
-    favCard.innerHTML = `<h3>Pinned Tools</h3><div class="metric-value">${appState.favorites.length}</div><p class="workspace-hint">Use these from the right rail</p>`;
-    wrap.appendChild(favCard);
-  }
-
-  if (!groups.length) {
-    const emptyCard = document.createElement("article");
-    emptyCard.className = "home-card";
-    emptyCard.innerHTML = '<h3>No Matches</h3><p class="workspace-hint">Try a broader query.</p>';
-    wrap.appendChild(emptyCard);
-  }
-
-  interactiveTree.appendChild(wrap);
-  resultsMeta.textContent = "Home dashboard overview.";
-}
-
-function renderKnowledgeMode(groups) {
-  cardsRoot.innerHTML = "";
-  if (!groups.length) {
-    cardsRoot.innerHTML = '<p class="workspace-empty">No tools match this filter.</p>';
-    resultsMeta.textContent = "0 resources in current filter.";
-    return;
-  }
-
-  const grid = document.createElement("div");
-  grid.className = "knowledge-grid";
-
-  groups.forEach((group) => {
-    const card = document.createElement("article");
-    card.className = "knowledge-card";
-    card.innerHTML = `<h3>${group.category}</h3><span class="workspace-meta">${group.tools.length} tool(s)</span>`;
-
-    const wrap = document.createElement("div");
-    wrap.className = "tool-chip-wrap";
-
-    group.tools.forEach((tool) => {
-      const row = document.createElement("div");
-      row.className = "tool-chip";
-
-      const link = document.createElement("a");
-      link.href = tool.url;
-      link.target = "_blank";
-      link.rel = "noreferrer noopener";
-      link.innerHTML = `<span>${tool.name} · #${tool.tag}</span><span class="req-badges">${requirementBadgeHtml(group.category, tool)}</span>`;
-      link.title = `Requirements: ${requirementLabels(group.category, tool).join(", ")}`;
-
-      row.appendChild(link);
-      row.appendChild(createPinButton(group.category, tool));
-      wrap.appendChild(row);
-    });
-
-    card.appendChild(wrap);
-    grid.appendChild(card);
-  });
-
-  cardsRoot.appendChild(grid);
-  const total = groups.reduce((sum, g) => sum + g.tools.length, 0);
-  resultsMeta.textContent = `Showing ${total} resources in knowledge cards.`;
-}
-
-function renderFlowMode() {
-  interactiveTree.innerHTML = "";
-  interactiveTree.classList.remove("graph-view");
-
-  const root = buildFlowTree();
-  const rootWrap = document.createElement("div");
-  rootWrap.className = "flow-root";
-  renderFlowNode(root, rootWrap);
-  interactiveTree.appendChild(rootWrap);
-  resultsMeta.textContent = `Flow view${query ? ` filtered by "${query}"` : ""}.`;
-}
-
-function renderStatsMode() {
-  interactiveTree.innerHTML = "";
-  interactiveTree.classList.remove("graph-view");
-
-  const totalCategories = osintData.length;
-  const totalTools = osintData.reduce((sum, group) => sum + group.tools.length, 0);
-  const totalTags = uniqueTags(osintData);
-  const summary = document.createElement("div");
-  summary.className = "flow-root";
-  summary.innerHTML = `
-    <div class="flow-row"><div class="flow-pill root">Categories <span class="tree-item-meta">${totalCategories}</span></div></div>
-    <div class="flow-row"><div class="flow-pill root">Tools <span class="tree-item-meta">${totalTools}</span></div></div>
-    <div class="flow-row"><div class="flow-pill root">Tags <span class="tree-item-meta">${totalTags}</span></div></div>
-    <div class="flow-row"><div class="flow-pill root">Profiles <span class="tree-item-meta">${appState.profiles.length}</span></div></div>
-    <div class="flow-row"><div class="flow-pill root">Pinned Tools <span class="tree-item-meta">${appState.favorites.length}</span></div></div>
-  `;
-  interactiveTree.appendChild(summary);
-  resultsMeta.textContent = "Stats mode summary.";
-}
-
-function applyBoardLayout(mode) {
-  const workspace = mode === "workspace";
-  const knowledge = mode === "knowledge";
-  const canvas = !workspace && !knowledge;
-
-  workspacePanel.classList.toggle("hidden", !workspace);
-  cardsRoot.classList.toggle("hidden", !knowledge);
-  treeStage.classList.toggle("hidden", !canvas);
-
-  const showBoardActions = mode === "flow";
-  boardActions.classList.toggle("hidden", !showBoardActions);
-}
-
-function setBoardMode(mode) {
-  boardMode = mode;
-  applyBoardLayout(mode);
-
-  if (mode === "home") boardTitle.textContent = "Home Dashboard";
-  if (mode === "knowledge") boardTitle.textContent = "Knowledge Cards";
-  if (mode === "flow") boardTitle.textContent = "Flow Explorer";
-  if (mode === "stats") boardTitle.textContent = "Statistics";
-  if (mode === "workspace") boardTitle.textContent = "Advanced Profile Builder";
-
-  renderAll();
-}
-
-function renderSidebar() {
-  if (navMode === "folders") {
-    foldersModeBtn.classList.add("active");
-    tagsModeBtn.classList.remove("active");
-    renderSidebarFolders();
-  } else {
-    foldersModeBtn.classList.remove("active");
-    tagsModeBtn.classList.add("active");
-    renderSidebarTags();
-  }
-}
-
-function getProfileFormData() {
-  const form = new FormData(profileForm);
-  return {
-    id: appState.activeProfileId || safeId(),
-    fullName: String(form.get("profileFullName") || "").trim(),
-    alias: String(form.get("profileAlias") || "").trim(),
-    dob: String(form.get("profileDob") || "").trim(),
-    location: String(form.get("profileLocation") || "").trim(),
-    emails: String(form.get("profileEmails") || "").trim(),
-    phones: String(form.get("profilePhones") || "").trim(),
-    usernames: String(form.get("profileUsernames") || "").trim(),
-    employers: String(form.get("profileEmployers") || "").trim(),
-    relationship: String(form.get("profileRelationship") || "").trim(),
-    tags: String(form.get("profileTags") || "").trim(),
-    risk: String(form.get("profileRisk") || "medium").trim(),
-    notes: String(form.get("profileNotes") || "").trim(),
-    updatedAt: Date.now()
-  };
-}
-
-function setProfileFormData(profile) {
-  profileForm.profileFullName.value = profile.fullName || "";
-  profileForm.profileAlias.value = profile.alias || "";
-  profileForm.profileDob.value = profile.dob || "";
-  profileForm.profileLocation.value = profile.location || "";
-  profileForm.profileEmails.value = profile.emails || "";
-  profileForm.profilePhones.value = profile.phones || "";
-  profileForm.profileUsernames.value = profile.usernames || "";
-  profileForm.profileEmployers.value = profile.employers || "";
-  profileForm.profileRelationship.value = profile.relationship || "";
-  profileForm.profileTags.value = profile.tags || "";
-  profileForm.profileRisk.value = profile.risk || "medium";
-  profileForm.profileNotes.value = profile.notes || "";
-}
-
-function resetProfileForm() {
-  appState.activeProfileId = null;
-  profileForm.reset();
-  profileForm.profileRisk.value = "medium";
-  appState.profileDraft = {};
-  saveAppState();
-}
-
-function renderProfiles() {
-  profileList.innerHTML = "";
-
-  if (!appState.profiles.length) {
-    profileList.innerHTML = '<p class="workspace-empty">No profiles saved yet.</p>';
-    return;
-  }
-
-  appState.profiles.forEach((profile) => {
-    const item = document.createElement("article");
-    item.className = "workspace-item";
-    item.draggable = true;
-    item.dataset.id = profile.id;
-
+  appState.favorites.forEach(fav => {
+    const item = document.createElement('div');
+    item.className = 'fav-list-item';
     item.innerHTML = `
-      <h4>${profile.fullName || "Unnamed profile"}</h4>
-      <span class="workspace-meta">${profile.alias || "no alias"} • risk: ${profile.risk || "medium"}</span>
-      <p>${(profile.notes || "No notes.").slice(0, 180)}</p>
-      <div class="workspace-item-actions">
-        <button class="workspace-mini-btn" type="button" data-action="edit" data-id="${profile.id}">Edit</button>
-        <button class="workspace-mini-btn" type="button" data-action="delete" data-id="${profile.id}">Delete</button>
+      <div class="fav-item-name"><a href="${escHtml(fav.url)}" target="_blank" rel="noopener noreferrer">${escHtml(fav.name)}</a></div>
+      <div class="fav-item-cat">${escHtml(fav.category)}</div>
+      <button class="fav-unpin" data-url="${escHtml(fav.url)}" title="Remove favorite">✕</button>
+    `;
+    item.querySelector('.fav-unpin').addEventListener('click', () => {
+      const idx = appState.favorites.findIndex(f => f.url === fav.url);
+      if (idx >= 0) appState.favorites.splice(idx, 1);
+      saveState();
+      renderFavPanel();
+      renderSidebar();
+      if (activeCategory === 'favorites') renderGrid();
+    });
+    elFavList.appendChild(item);
+  });
+}
+
+// ── Profile Panel ─────────────────────────────────────────────────────────────
+function showProfilePanel() {
+  elProfilePanel.classList.remove('hidden');
+  elFavPanel.classList.add('hidden');
+  elOverlay.classList.remove('hidden');
+  document.getElementById('profilesToggleBtn').classList.add('active');
+  document.getElementById('favToggleBtn').classList.remove('active');
+}
+
+function hideProfilePanel() {
+  elProfilePanel.classList.add('hidden');
+  elOverlay.classList.add('hidden');
+  document.getElementById('profilesToggleBtn').classList.remove('active');
+}
+
+function showFavPanel() {
+  elFavPanel.classList.remove('hidden');
+  elProfilePanel.classList.add('hidden');
+  elOverlay.classList.remove('hidden');
+  document.getElementById('favToggleBtn').classList.add('active');
+  document.getElementById('profilesToggleBtn').classList.remove('active');
+  renderFavPanel();
+}
+
+function hideFavPanel() {
+  elFavPanel.classList.add('hidden');
+  elOverlay.classList.add('hidden');
+  document.getElementById('favToggleBtn').classList.remove('active');
+}
+
+// ── Profile CRUD ──────────────────────────────────────────────────────────────
+function renderProfileList() {
+  elProfileList.innerHTML = '';
+  if (appState.profiles.length === 0) {
+    elProfileList.innerHTML = '<div class="empty-fav">No profiles saved yet.</div>';
+    return;
+  }
+  appState.profiles.forEach(profile => {
+    const item = document.createElement('div');
+    item.className = 'profile-item';
+    item.setAttribute('draggable', 'true');
+    const riskColor = { Low: '#3fb950', Medium: '#e3b341', High: '#f0883e', Critical: '#f85149' }[profile.risk] || '#8b949e';
+    item.innerHTML = `
+      <div class="profile-item-name">${escHtml(profile.fullName || profile.alias || 'Unnamed')}</div>
+      <div class="profile-item-sub">${escHtml([profile.alias, profile.location, profile.risk].filter(Boolean).join(' · '))}</div>
+      <div class="profile-item-actions">
+        <button class="small-btn edit-btn">Edit</button>
+        <button class="small-btn delete-btn" style="color:#f85149;border-color:#4a1840;">Delete</button>
       </div>
     `;
-
-    item.addEventListener("dragstart", () => {
-      draggedProfileId = profile.id;
-      item.classList.add("dragging");
+    item.querySelector('.edit-btn').addEventListener('click', () => openProfileForm(profile.id));
+    item.querySelector('.delete-btn').addEventListener('click', () => {
+      if (confirm(`Delete profile "${profile.fullName || profile.alias}"?`)) {
+        appState.profiles = appState.profiles.filter(p => p.id !== profile.id);
+        saveState();
+        renderProfileList();
+      }
     });
-    item.addEventListener("dragend", () => {
-      draggedProfileId = null;
-      item.classList.remove("dragging");
-    });
-    item.addEventListener("dragover", (event) => {
-      event.preventDefault();
-    });
-    item.addEventListener("drop", (event) => {
-      event.preventDefault();
-      if (!draggedProfileId || draggedProfileId === profile.id) return;
-
-      const from = appState.profiles.findIndex((p) => p.id === draggedProfileId);
-      const to = appState.profiles.findIndex((p) => p.id === profile.id);
-      if (from < 0 || to < 0) return;
-
-      const [moved] = appState.profiles.splice(from, 1);
-      appState.profiles.splice(to, 0, moved);
-      saveAppState();
-      renderProfiles();
-      setStatus("Profile order updated.");
-    });
-
-    profileList.appendChild(item);
+    elProfileList.appendChild(item);
   });
 }
 
-function renderWorkspaceMode() {
-  renderProfiles();
-  resultsMeta.textContent = profileSummaryText();
-}
+function openProfileForm(profileId) {
+  elProfileListSection.classList.add('hidden');
+  elProfileFormSection.classList.remove('hidden');
+  appState.activeProfileId = profileId || null;
 
-function renderAll() {
-  const groups = filterData();
-  renderSidebar();
-  renderFavorites();
-
-  if (boardMode === "home") {
-    renderHomeMode(groups);
-    return;
-  }
-  if (boardMode === "knowledge") {
-    renderKnowledgeMode(groups);
-    return;
-  }
-  if (boardMode === "flow") {
-    renderFlowMode();
-    return;
-  }
-  if (boardMode === "stats") {
-    renderStatsMode();
-    return;
-  }
-  renderWorkspaceMode();
-}
-
-searchInput.addEventListener("input", (event) => {
-  query = event.target.value;
-  renderAll();
-});
-
-foldersModeBtn.addEventListener("click", () => {
-  navMode = "folders";
-  setStatus("Sidebar switched to folder mode.");
-  renderSidebar();
-});
-
-tagsModeBtn.addEventListener("click", () => {
-  navMode = "tags";
-  setStatus("Sidebar switched to tag mode.");
-  renderSidebar();
-});
-
-homeBtn.addEventListener("click", () => {
-  setActiveRail(homeBtn);
-  setBoardMode("home");
-  setStatus("Home dashboard active.");
-});
-
-knowledgeBtn.addEventListener("click", () => {
-  setActiveRail(knowledgeBtn);
-  setBoardMode("knowledge");
-  setStatus("Knowledge cards active.");
-});
-
-flowBtn.addEventListener("click", () => {
-  expandedFlowNodes.clear();
-  expandedFlowNodes.add("root");
-  setActiveRail(flowBtn);
-  setBoardMode("flow");
-  setStatus("Flow mode active. Branches start collapsed.");
-});
-
-statsBtn.addEventListener("click", () => {
-  setActiveRail(statsBtn);
-  setBoardMode("stats");
-  setStatus("Stats mode active.");
-});
-
-workspaceBtn.addEventListener("click", () => {
-  setActiveRail(workspaceBtn);
-  setBoardMode("workspace");
-  setStatus("Advanced Profile Builder active.");
-});
-
-themeToggle.addEventListener("click", () => {
-  const isLight = body.classList.contains("light");
-  body.classList.toggle("light", !isLight);
-  body.classList.toggle("dark", isLight);
-  localStorage.setItem("osintAtlasTheme", isLight ? "dark" : "light");
-  setStatus(`Switched to ${isLight ? "dark" : "light"} mode.`);
-});
-
-expandAllBtn.addEventListener("click", () => {
-  if (boardMode !== "flow") return;
-  expandedFlowNodes.clear();
-  expandedFlowNodes.add("root");
-  osintData.forEach((group) => {
-    expandedFlowNodes.add(`cat:${group.category}`);
-    new Set(group.tools.map((tool) => tool.tag)).forEach((tag) => expandedFlowNodes.add(`tag:${group.category}:${tag}`));
-  });
-  renderFlowMode();
-  setStatus("Expanded all flow branches.");
-});
-
-collapseAllBtn.addEventListener("click", () => {
-  if (boardMode !== "flow") return;
-  expandedFlowNodes.clear();
-  expandedFlowNodes.add("root");
-  renderFlowMode();
-  setStatus("Collapsed flow to root.");
-});
-
-zoomInBtn.addEventListener("click", () => {
-  if (boardMode !== "flow") return;
-  setZoom(treeZoom + 0.1);
-});
-
-zoomOutBtn.addEventListener("click", () => {
-  if (boardMode !== "flow") return;
-  setZoom(treeZoom - 0.1);
-});
-
-submitScoreBtn.addEventListener("click", () => {
-  setStatus("Demo rating submitted.");
-});
-
-sendFeedbackBtn.addEventListener("click", () => {
-  const selected = [issueDead, issuePaywalled, issueIncorrect].filter((item) => item.checked).length;
-  setStatus(selected ? `Feedback queued with ${selected} issue flag(s).` : "Select at least one issue flag first.");
-});
-
-profileForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const profile = getProfileFormData();
-  if (!profile.fullName) {
-    setStatus("Full name is required.");
-    return;
-  }
-
-  const existingIndex = appState.profiles.findIndex((entry) => entry.id === profile.id);
-  if (existingIndex >= 0) appState.profiles[existingIndex] = profile;
-  else appState.profiles.unshift(profile);
-
-  appState.activeProfileId = profile.id;
-  appState.profileDraft = profile;
-  saveAppState();
-  renderProfiles();
-  setStatus(existingIndex >= 0 ? "Profile updated." : "Profile created.");
-});
-
-profileForm.addEventListener("input", () => {
-  appState.profileDraft = getProfileFormData();
-  saveAppState();
-});
-
-profileList.addEventListener("click", (event) => {
-  const actionBtn = event.target.closest("button[data-action]");
-  if (!actionBtn) return;
-
-  const id = actionBtn.dataset.id;
-  const action = actionBtn.dataset.action;
-  const profile = appState.profiles.find((entry) => entry.id === id);
-  if (!profile) return;
-
-  if (action === "edit") {
-    appState.activeProfileId = id;
-    appState.profileDraft = profile;
-    setProfileFormData(profile);
-    saveAppState();
-    setStatus(`Loaded profile: ${profile.fullName}`);
-    return;
-  }
-
-  if (action === "delete") {
-    appState.profiles = appState.profiles.filter((entry) => entry.id !== id);
-    if (appState.activeProfileId === id) resetProfileForm();
-    saveAppState();
-    renderProfiles();
-    setStatus("Profile deleted.");
-  }
-});
-
-exportProfilesBtn.addEventListener("click", () => {
-  const payload = JSON.stringify({ profiles: appState.profiles, exportedAt: Date.now() }, null, 2);
-  const blob = new Blob([payload], { type: "application/json" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = `justosint-profiles-${new Date().toISOString().slice(0, 10)}.json`;
-  link.click();
-  URL.revokeObjectURL(url);
-  setStatus("Profiles exported.");
-});
-
-importProfilesInput.addEventListener("change", async (event) => {
-  const [file] = event.target.files || [];
-  if (!file) return;
-
-  try {
-    const text = await file.text();
-    const parsed = JSON.parse(text);
-    const incoming = Array.isArray(parsed) ? parsed : parsed.profiles;
-
-    if (!Array.isArray(incoming)) {
-      setStatus("Invalid import file format.");
-      return;
+  if (profileId) {
+    const p = appState.profiles.find(x => x.id === profileId);
+    if (p) {
+      elProfileFormTitle.textContent = 'Edit Profile';
+      document.getElementById('pf_fullName').value = p.fullName || '';
+      document.getElementById('pf_alias').value = p.alias || '';
+      document.getElementById('pf_dob').value = p.dob || '';
+      document.getElementById('pf_location').value = p.location || '';
+      document.getElementById('pf_emails').value = (p.emails || []).join('\n');
+      document.getElementById('pf_phones').value = (p.phones || []).join('\n');
+      document.getElementById('pf_usernames').value = (p.usernames || []).join('\n');
+      document.getElementById('pf_employers').value = (p.employers || []).join('\n');
+      document.getElementById('pf_relationship').value = p.relationship || '';
+      document.getElementById('pf_risk').value = p.risk || '';
+      document.getElementById('pf_tags').value = (p.tags || []).join(', ');
+      document.getElementById('pf_notes').value = p.notes || '';
     }
-
-    appState.profiles = incoming
-      .filter((entry) => entry && typeof entry === "object")
-      .map((entry) => ({ ...entry, id: entry.id || safeId(), updatedAt: entry.updatedAt || Date.now() }));
-
-    appState.activeProfileId = null;
-    appState.profileDraft = {};
-    profileForm.reset();
-    profileForm.profileRisk.value = "medium";
-    saveAppState();
-    renderProfiles();
-    setStatus(`Imported ${appState.profiles.length} profile(s).`);
-  } catch (_error) {
-    setStatus("Import failed. Please use a valid JSON export file.");
-  } finally {
-    importProfilesInput.value = "";
-  }
-});
-
-clearWorkspaceBtn.addEventListener("click", () => {
-  if (!confirm("Delete all saved profiles?")) return;
-  appState.profiles = [];
-  resetProfileForm();
-  saveAppState();
-  renderProfiles();
-  setStatus("All profiles cleared.");
-});
-
-function enableDragPan() {
-  let pointerId = null;
-  let startX = 0;
-  let startY = 0;
-  let originLeft = 0;
-  let originTop = 0;
-  let isPanning = false;
-  let suppressClick = false;
-
-  function resetPan() {
-    pointerId = null;
-    isPanning = false;
-    treeStage.classList.remove("panning");
-    body.classList.remove("no-select");
-  }
-
-  treeStage.addEventListener("pointerdown", (event) => {
-    if (boardMode === "workspace" || boardMode === "knowledge") return;
-    if (event.button !== 0) return;
-    if (event.target.closest("input, textarea, select, button, a, label")) return;
-
-    pointerId = event.pointerId;
-    startX = event.clientX;
-    startY = event.clientY;
-    originLeft = treeStage.scrollLeft;
-    originTop = treeStage.scrollTop;
-    suppressClick = false;
-    treeStage.setPointerCapture(pointerId);
-  });
-
-  treeStage.addEventListener("pointermove", (event) => {
-    if (pointerId !== event.pointerId) return;
-
-    const dx = event.clientX - startX;
-    const dy = event.clientY - startY;
-
-    if (!isPanning && (Math.abs(dx) > 3 || Math.abs(dy) > 3)) {
-      isPanning = true;
-      suppressClick = true;
-      treeStage.classList.add("panning");
-      body.classList.add("no-select");
-    }
-
-    if (!isPanning) return;
-    treeStage.scrollLeft = originLeft - dx;
-    treeStage.scrollTop = originTop - dy;
-    event.preventDefault();
-  });
-
-  treeStage.addEventListener("pointerup", resetPan);
-  treeStage.addEventListener("pointercancel", resetPan);
-  window.addEventListener("blur", resetPan);
-
-  treeStage.addEventListener(
-    "click",
-    (event) => {
-      if (!suppressClick) return;
-      event.preventDefault();
-      event.stopPropagation();
-      suppressClick = false;
-    },
-    true
-  );
-}
-
-(function initTheme() {
-  const saved = localStorage.getItem("osintAtlasTheme");
-  if (saved === "light") {
-    body.classList.add("light");
-    body.classList.remove("dark");
   } else {
-    body.classList.add("dark");
-    body.classList.remove("light");
+    elProfileFormTitle.textContent = 'New Profile';
+    document.getElementById('profileForm').reset();
   }
-})();
-
-loadAppState();
-enableDragPan();
-updateTreeBadge();
-setZoom(1);
-
-if (appState.activeProfileId) {
-  const current = appState.profiles.find((entry) => entry.id === appState.activeProfileId);
-  if (current) setProfileFormData(current);
-  else if (appState.profileDraft && Object.keys(appState.profileDraft).length) setProfileFormData(appState.profileDraft);
-} else if (appState.profileDraft && Object.keys(appState.profileDraft).length) {
-  setProfileFormData(appState.profileDraft);
 }
 
-setActiveRail(homeBtn);
-setBoardMode("home");
-setStatus("Ready. Use Knowledge for cards, Flow for collapsed tree navigation, and Workspace for profile building.");
+function saveProfile() {
+  const id = appState.activeProfileId || ('p' + Date.now());
+  const profile = {
+    id,
+    fullName: document.getElementById('pf_fullName').value.trim(),
+    alias: document.getElementById('pf_alias').value.trim(),
+    dob: document.getElementById('pf_dob').value.trim(),
+    location: document.getElementById('pf_location').value.trim(),
+    emails: document.getElementById('pf_emails').value.split('\n').map(s => s.trim()).filter(Boolean),
+    phones: document.getElementById('pf_phones').value.split('\n').map(s => s.trim()).filter(Boolean),
+    usernames: document.getElementById('pf_usernames').value.split('\n').map(s => s.trim()).filter(Boolean),
+    employers: document.getElementById('pf_employers').value.split('\n').map(s => s.trim()).filter(Boolean),
+    relationship: document.getElementById('pf_relationship').value.trim(),
+    risk: document.getElementById('pf_risk').value,
+    tags: document.getElementById('pf_tags').value.split(',').map(s => s.trim()).filter(Boolean),
+    notes: document.getElementById('pf_notes').value.trim(),
+    updatedAt: new Date().toISOString()
+  };
+
+  if (appState.activeProfileId) {
+    const idx = appState.profiles.findIndex(p => p.id === appState.activeProfileId);
+    if (idx >= 0) appState.profiles[idx] = profile;
+  } else {
+    appState.profiles.push(profile);
+  }
+
+  appState.activeProfileId = null;
+  saveState();
+  backToList();
+}
+
+function backToList() {
+  elProfileFormSection.classList.add('hidden');
+  elProfileListSection.classList.remove('hidden');
+  renderProfileList();
+}
+
+// ── Utilities ─────────────────────────────────────────────────────────────────
+function escHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// ── Export / Import ───────────────────────────────────────────────────────────
+function exportProfiles() {
+  const data = JSON.stringify(appState.profiles, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `justosinit-profiles-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+}
+
+function importProfiles(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if (!Array.isArray(parsed)) throw new Error('Expected array');
+      appState.profiles = parsed;
+      saveState();
+      renderProfileList();
+    } catch {
+      alert('Invalid JSON file. Please use a file exported from JustOSINT.');
+    }
+  };
+  reader.readAsText(file);
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  loadState();
+
+  // Cache DOM refs
+  elCatNav         = document.getElementById('catNav');
+  elToolGrid       = document.getElementById('toolGrid');
+  elSearchInput    = document.getElementById('searchInput');
+  elResultMeta     = document.getElementById('resultMeta');
+  elEmptyState     = document.getElementById('emptyState');
+  elSearchClear    = document.getElementById('searchClear');
+  elProfilePanel   = document.getElementById('profilePanel');
+  elFavPanel       = document.getElementById('favPanel');
+  elOverlay        = document.getElementById('overlay');
+  elProfileList    = document.getElementById('profileList');
+  elProfileListSection  = document.getElementById('profileListSection');
+  elProfileFormSection  = document.getElementById('profileFormSection');
+  elProfileFormTitle    = document.getElementById('profileFormTitle');
+  elFavList        = document.getElementById('favList');
+
+  // Initial render
+  renderSidebar();
+  renderGrid();
+
+  // ── Search ────────────────────────────────────────────
+  elSearchInput.addEventListener('input', () => {
+    const val = elSearchInput.value;
+    elSearchClear.classList.toggle('hidden', !val);
+    clearTimeout(searchDebounce);
+    searchDebounce = setTimeout(() => {
+      searchQuery = val.trim().toLowerCase();
+      renderGrid();
+    }, 180);
+  });
+
+  document.getElementById('searchClear').addEventListener('click', () => {
+    elSearchInput.value = '';
+    elSearchClear.classList.add('hidden');
+    searchQuery = '';
+    renderGrid();
+  });
+
+  // ── Req filter buttons ────────────────────────────────
+  document.getElementById('reqFilters').addEventListener('click', e => {
+    const btn = e.target.closest('.req-filter');
+    if (!btn) return;
+    activeReqFilter = btn.dataset.req;
+    document.querySelectorAll('.req-filter').forEach(b => b.classList.toggle('active', b.dataset.req === activeReqFilter));
+    renderGrid();
+  });
+
+  // ── Profile panel ─────────────────────────────────────
+  document.getElementById('profilesToggleBtn').addEventListener('click', () => {
+    if (elProfilePanel.classList.contains('hidden')) {
+      showProfilePanel();
+      renderProfileList();
+    } else {
+      hideProfilePanel();
+      elOverlay.classList.add('hidden');
+    }
+  });
+
+  document.getElementById('profilePanelClose').addEventListener('click', () => {
+    hideProfilePanel();
+    elOverlay.classList.add('hidden');
+  });
+
+  document.getElementById('newProfileBtn').addEventListener('click', () => openProfileForm(null));
+  document.getElementById('backToListBtn').addEventListener('click', backToList);
+  document.getElementById('cancelProfileBtn').addEventListener('click', backToList);
+  document.getElementById('saveProfileBtn').addEventListener('click', saveProfile);
+
+  document.getElementById('exportProfilesBtn').addEventListener('click', exportProfiles);
+  document.getElementById('importProfilesInput').addEventListener('change', e => {
+    if (e.target.files[0]) importProfiles(e.target.files[0]);
+  });
+
+  // ── Fav panel ─────────────────────────────────────────
+  document.getElementById('favToggleBtn').addEventListener('click', () => {
+    if (elFavPanel.classList.contains('hidden')) {
+      showFavPanel();
+    } else {
+      hideFavPanel();
+      elOverlay.classList.add('hidden');
+    }
+  });
+
+  document.getElementById('favPanelClose').addEventListener('click', () => {
+    hideFavPanel();
+    elOverlay.classList.add('hidden');
+  });
+
+  // ── Overlay click closes panels ───────────────────────
+  elOverlay.addEventListener('click', () => {
+    hideProfilePanel();
+    hideFavPanel();
+    elOverlay.classList.add('hidden');
+  });
+
+  // ── Search: hide clear btn initially ─────────────────
+  elSearchClear.classList.add('hidden');
+});
