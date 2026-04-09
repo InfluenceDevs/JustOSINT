@@ -267,7 +267,7 @@ const osintData = [
     { name: "PolitiFact", url: "https://www.politifact.com/", tags: ["open"], desc: "Fact-checking publication that rates political claims and documents supporting evidence." },
     { name: "SciCheck", url: "https://factcheck.org/scicheck/", tags: ["open"], desc: "FactCheck.org section dedicated to scientific and health misinformation analysis." },
     { name: "Snopes", url: "https://www.snopes.com/", tags: ["open"], desc: "Long-running debunking site covering rumors, hoaxes, and viral misinformation claims." },
-    { name: "Stop Fake Tools", url: "http://www.stopfake.org/", tags: ["open"], desc: "Ukrainian anti-disinformation initiative publishing fact-checks, analysis, and media literacy resources." },
+    { name: "Stop Fake Tools", url: "https://www.stopfake.org/", tags: ["open"], desc: "Ukrainian anti-disinformation initiative publishing fact-checks, analysis, and media literacy resources." },
     { name: "ImgOps", url: "https://imgops.com/", tags: ["open"], desc: "Meta-search utility that routes an image to multiple reverse search and forensic services." },
     { name: "TinEye Reverse Image Search", url: "https://tineye.com/", tags: ["api", "paid"], desc: "Reverse image search engine that finds where an image appears online and identifies modified versions." },
     { name: "FotoForensics", url: "https://fotoforensics.com/", tags: ["open"], desc: "Image forensics platform with error level analysis and metadata-oriented integrity checks." },
@@ -598,7 +598,7 @@ const osintData = [
     { name: "RevEye Reverse Image Search", url: "https://github.com/steven2358/reveye", tags: ["install"], desc: "Open-source browser extension that launches reverse image searches across multiple engines from one menu." },
     { name: "SmugMug Search", url: "https://www.smugmug.com/", tags: ["paid"], desc: "Photo hosting and portfolio platform with searchable public galleries and photographer profiles." },
     { name: "ImageNet", url: "https://image-net.org/", tags: ["install"], desc: "Large-scale labeled image dataset used for computer vision and image classification research." },
-    { name: "Places2", url: "http://places2.csail.mit.edu/", tags: ["install"], desc: "MIT CSAIL scene-recognition dataset containing millions of place-labeled images for visual analysis." },
+    { name: "Places2", url: "https://places2.csail.mit.edu/", tags: ["install"], desc: "MIT CSAIL scene-recognition dataset containing millions of place-labeled images for visual analysis." },
     { name: "Image Identification Project", url: "https://www.imageidentify.com/", tags: ["paid"], desc: "Online image recognition service that labels uploaded images with machine-generated tags and confidence scores." },
     { name: "SauceNAO", url: "https://saucenao.com/", tags: ["api", "paid"], desc: "Reverse image source finder widely used to trace artwork, anime frames, and reposted media to origin sites." },
     { name: "Picarta", url: "https://picarta.ai/", tags: ["paid"], desc: "AI geolocation tool that estimates likely photo capture locations from visual scene analysis." },
@@ -649,7 +649,7 @@ const osintData = [
     { name: "Yahoo Video Search", url: "https://video.search.yahoo.com/", tags: ["open"], desc: "" },
     { name: "Search YouTube by Location", url: "https://mattw.io/youtube-geofind/", tags: ["open"], desc: "" },
     { name: "Print YouTube StoryBoard Instructions", url: "https://www.labnol.org/internet/print-youtube-video/28217", tags: ["open"], desc: "" },
-    { name: "Print Storyboard from Youtube", url: "javascript:(function(){a=ytplayer.config.args.storyboard_spec;if(!a){alert(\"Sorry we cannot process this YouTube video. Could you please try another one\");exit();}b=a.split(\"|\");base=b[0].split(\"$\")[0]+\"2/M\";c=b[3].split(\"%23\");sigh=c[c.length-1];var imgs=\"\";t=ytplayer.config.args.length_seconds;n=Math.ceil(c[2]/(c[3]*c[4]));for(i=0;i<n;i++){imgs+=\"<PICTURE='\"+base+i+\".jpg%3Fsigh=\"+sigh+\"'><br/>\";}var title=ytplayer.config.args.title;msg=\"<body style='background-color:#444;color:#eee;margin:20px%20auto;width:90%;text-align:center'%3E%3Ch2%3ETITLE%3C/h2%3E%3Cdiv%3EIMAGES%3C/div%3E%3Cbr/%3E%3Cem%3E%3Ca%20href='http://labnol.org/?p=28217'%20style='text-decoration:none;color:#fff;font-style:bold'%3EPrinted%20using%20the%20YouTube%20bookmarklet.%3C/a%3E%3C/em%3E%3C/body%3E%22;msg=msg.replace(%22TITLE%22,title).replace(%22IMAGES%22,imgs).replace(/PICTURE/g,%22img%20src%22);var%20labnol=window.open();labnol.document.open();labnol.document.write(msg);labnol.document.close();})();", tags: ["open"], desc: "" },
+    { name: "Print Storyboard from Youtube", url: "https://www.labnol.org/internet/print-youtube-video/28217", tags: ["open"], desc: "Safe reference page for the YouTube storyboard workflow; bookmarklet code was removed from this catalog to avoid javascript: links." },
     { name: "Frame by Frame for YouTube", url: "https://chrome.google.com/webstore/detail/frame-by-frame-for-youtub/elkadbdicdciddfkdpmaolomehalghio?hl=en-GB", tags: ["open"], desc: "" },
     { name: "TubeChop", url: "https://tubechop.com/", tags: ["open"], desc: "" },
     { name: "YouTube Data Tools", url: "https://tools.digitalmethods.net/netvizz/youtube/", tags: ["open"], desc: "" },
@@ -1254,6 +1254,8 @@ function saveState() {
 let activeCategory = 'all';
 let activeReqFilter = 'all';
 let activeFacetFilter = 'all';
+let activeRegionFilter = 'all';
+let activeSafetyFilter = 'all';
 let searchQuery = '';
 let searchDebounce = null;
 
@@ -1320,7 +1322,7 @@ function renderGrid() {
       });
     });
 
-    const filtered = favTools.filter(({ tool, category }) => matchesSearch(tool, q) && matchesReq(tool) && matchesFacet(tool, category));
+    const filtered = favTools.filter(({ tool, category }) => matchesSearch(tool, q) && matchesReq(tool) && matchesFacet(tool, category) && matchesRegion(tool, category) && matchesSafety(tool));
     filtered.forEach(({ tool, category }) => {
       elToolGrid.appendChild(makeToolCard(tool, category));
       rendered++;
@@ -1328,10 +1330,10 @@ function renderGrid() {
 
   } else if (activeCategory === 'all') {
     osintData.forEach(group => {
-      const matchingTools = group.tools.filter(t => matchesSearch(t, q) && matchesReq(t) && matchesFacet(t, group.category));
+      const matchingTools = group.tools.filter(t => matchesSearch(t, q) && matchesReq(t) && matchesFacet(t, group.category) && matchesRegion(t, group.category) && matchesSafety(t));
       if (matchingTools.length === 0) return;
 
-      if (!q && activeReqFilter === 'all' && activeFacetFilter === 'all') {
+      if (!q && activeReqFilter === 'all' && activeFacetFilter === 'all' && activeRegionFilter === 'all' && activeSafetyFilter === 'all') {
         // Show category header in "all" view
         const hdr = document.createElement('div');
         hdr.className = 'cat-section-title';
@@ -1348,7 +1350,7 @@ function renderGrid() {
   } else {
     const group = osintData.find(g => g.category === activeCategory);
     if (group) {
-      const matchingTools = group.tools.filter(t => matchesSearch(t, q) && matchesReq(t) && matchesFacet(t, group.category));
+      const matchingTools = group.tools.filter(t => matchesSearch(t, q) && matchesReq(t) && matchesFacet(t, group.category) && matchesRegion(t, group.category) && matchesSafety(t));
       matchingTools.forEach(tool => {
         elToolGrid.appendChild(makeToolCard(tool, group.category));
         rendered++;
@@ -1358,7 +1360,7 @@ function renderGrid() {
 
   // Update result meta
   const total = getTotalToolCount();
-  if (q || activeReqFilter !== 'all' || activeFacetFilter !== 'all') {
+  if (q || activeReqFilter !== 'all' || activeFacetFilter !== 'all' || activeRegionFilter !== 'all' || activeSafetyFilter !== 'all') {
     elResultMeta.textContent = `${rendered.toLocaleString()} result${rendered !== 1 ? 's' : ''}`;
   } else if (activeCategory === 'all') {
     elResultMeta.textContent = `${total.toLocaleString()} tools across ${osintData.length} categories`;
@@ -1389,6 +1391,16 @@ function matchesReq(tool) {
 function matchesFacet(tool, category) {
   if (activeFacetFilter === 'all') return true;
   return getToolFacets(tool, category).includes(activeFacetFilter);
+}
+
+function matchesRegion(tool, category) {
+  if (activeRegionFilter === 'all') return true;
+  return getToolRegions(tool, category).includes(activeRegionFilter);
+}
+
+function matchesSafety(tool) {
+  if (activeSafetyFilter === 'all') return true;
+  return getToolSafety(tool) === activeSafetyFilter;
 }
 
 function getToolFacets(tool, category) {
@@ -1424,6 +1436,124 @@ function getToolFacets(tool, category) {
   return Array.from(facets);
 }
 
+function getHostname(rawUrl) {
+  try {
+    return new URL(rawUrl).hostname.toLowerCase();
+  } catch {
+    return '';
+  }
+}
+
+function hostEndsWith(rawUrl, suffix) {
+  const host = getHostname(rawUrl);
+  return host === suffix || host.endsWith(`.${suffix}`);
+}
+
+function getToolRegions(tool, category) {
+  const regions = new Set();
+  const text = `${tool.name || ''} ${tool.desc || ''} ${category || ''}`.toLowerCase();
+  const url = tool.url || '';
+
+  const addRegional = code => {
+    regions.add(code);
+    regions.add('regional');
+  };
+
+  if (hostEndsWith(url, 'gov.uk') || hostEndsWith(url, 'co.uk') || text.includes(' uk ') || text.includes('united kingdom') || text.includes('british') || text.includes('england') || text.includes('scotland') || text.includes('northern ireland')) {
+    addRegional('uk');
+  }
+
+  if (hostEndsWith(url, 'gc.ca') || hostEndsWith(url, 'ca') || text.includes('canada') || text.includes('canadian')) {
+    addRegional('ca');
+  }
+
+  if (hostEndsWith(url, 'gov.au') || hostEndsWith(url, 'au') || text.includes('australia') || text.includes('australian')) {
+    addRegional('au');
+  }
+
+  if (hostEndsWith(url, 'de') || text.includes('germany') || text.includes('german') || text.includes('deutsche')) {
+    addRegional('de');
+  }
+
+  if (hostEndsWith(url, 'nl') || text.includes('netherlands') || text.includes('dutch')) {
+    addRegional('nl');
+  }
+
+  if (hostEndsWith(url, 'in') || text.includes('india') || text.includes('indian')) {
+    addRegional('in');
+  }
+
+  if (hostEndsWith(url, 'gov') || hostEndsWith(url, 'mil') || hostEndsWith(url, 'edu') || hostEndsWith(url, 'us') || text.includes('u.s.') || text.includes(' usa ') || text.includes(' united states') || text.includes('california') || text.includes('american ')) {
+    addRegional('us');
+  }
+
+  if (getHostname(url).includes('europa.eu') || text.includes('european union') || text.includes('eu member') || text.includes(' eu ') || text.includes('(eu)')) {
+    addRegional('eu');
+  }
+
+  if (text.includes('global') || text.includes('worldwide') || text.includes('international') || text.includes('across many languages') || text.includes('across 100+') || text.includes('world bank') || text.includes('global development') || text.includes('multi-chain') || text.includes('across 26 countries')) {
+    regions.add('global');
+  }
+
+  if (!regions.size) {
+    regions.add('global');
+  }
+
+  return Array.from(regions);
+}
+
+function getDisplayRegions(tool, category) {
+  const regions = getToolRegions(tool, category).filter(region => region !== 'regional');
+  return regions.length ? regions : ['regional'];
+}
+
+function regionLabel(region) {
+  return {
+    global: 'Global',
+    us: 'US',
+    uk: 'UK',
+    eu: 'EU',
+    ca: 'CA',
+    in: 'IN',
+    de: 'DE',
+    nl: 'NL',
+    au: 'AU',
+    regional: 'Regional'
+  }[region] || region.toUpperCase();
+}
+
+function getToolSafety(tool) {
+  const url = (tool.url || '').toLowerCase();
+  const text = `${tool.name || ''} ${tool.desc || ''}`.toLowerCase();
+  const cautionTerms = [
+    'legacy',
+    'deprecated',
+    'no longer operational',
+    'no longer maintained',
+    'offline',
+    'unclear maintenance',
+    'uncertain',
+    'expired',
+    'retired',
+    'shut down',
+    'not verifiable',
+    'stale',
+    'shadow librar',
+    'service offline',
+    '404 error',
+    'limited current documentation'
+  ];
+
+  if (!/^https?:\/\//.test(url)) return 'caution';
+  if (url.startsWith('http://')) return 'caution';
+  if (cautionTerms.some(term => text.includes(term))) return 'caution';
+  return 'screened';
+}
+
+function safetyLabel(level) {
+  return level === 'caution' ? 'Caution' : 'Screened';
+}
+
 function makeToolCard(tool, category) {
   const isFav = appState.favorites.some(f => f.url === tool.url);
   const card = document.createElement('div');
@@ -1437,6 +1567,12 @@ function makeToolCard(tool, category) {
     ? `<div class="card-desc">${escHtml(tool.desc)}</div>`
     : '';
 
+  const regionBadges = getDisplayRegions(tool, category)
+    .map(region => `<span class="meta-badge region">${regionLabel(region)}</span>`)
+    .join('');
+  const safety = getToolSafety(tool);
+  const signalBadges = `${regionBadges}<span class="meta-badge safety ${safety}">${safetyLabel(safety)}</span>`;
+
   // Show category label only in All or Favorites view
   const catLabel = (activeCategory === 'all' || activeCategory === 'favorites')
     ? `<div class="card-category">${escHtml(category)}</div>`
@@ -1448,6 +1584,7 @@ function makeToolCard(tool, category) {
       <button class="card-fav${isFav ? ' pinned' : ''}" data-url="${escHtml(tool.url)}" aria-label="${isFav ? 'Unpin' : 'Pin'} ${escHtml(tool.name)}">${isFav ? '★' : '☆'}</button>
     </div>
     <div class="card-badges">${badges}</div>
+    <div class="card-signals">${signalBadges}</div>
     ${descHtml}
     ${catLabel}
   `;
@@ -1727,6 +1864,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!btn) return;
     activeFacetFilter = btn.dataset.facet;
     document.querySelectorAll('.facet-filter').forEach(b => b.classList.toggle('active', b.dataset.facet === activeFacetFilter));
+    renderGrid();
+  });
+
+  document.getElementById('regionFilters').addEventListener('click', e => {
+    const btn = e.target.closest('.region-filter');
+    if (!btn) return;
+    activeRegionFilter = btn.dataset.region;
+    document.querySelectorAll('.region-filter').forEach(b => b.classList.toggle('active', b.dataset.region === activeRegionFilter));
+    renderGrid();
+  });
+
+  document.getElementById('safetyFilters').addEventListener('click', e => {
+    const btn = e.target.closest('.safety-filter');
+    if (!btn) return;
+    activeSafetyFilter = btn.dataset.safety;
+    document.querySelectorAll('.safety-filter').forEach(b => b.classList.toggle('active', b.dataset.safety === activeSafetyFilter));
     renderGrid();
   });
 
