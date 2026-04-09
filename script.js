@@ -1061,7 +1061,7 @@ const osintData = [
     { name: "Slydial", url: "https://www.slydial.com/", tags: ["login", "api", "paid"], desc: "Voicemail drop service that connects directly to a recipient voicemail box without ringing the handset." },
     { name: "Numbering Plans", url: "https://www.numberingplans.com/?page=analysis&sub=phonenr", tags: ["open"], desc: "International numbering reference for E.164 plans, carrier codes, and dialing metadata." },
     { name: "Numberway", url: "https://www.numberway.com/", tags: ["api", "paid"], desc: "Reverse phone lookup resource used to resolve ownership and location context from a phone number." },
-    { name: "WhoCalld", url: "https://whocalld.com/", tags: ["login", "api", "paid"], desc: "Legacy reverse-caller-ID listing retained for historical continuity in this category." },
+    { name: "WhoCalld", url: "https://whocalld.com/", tags: ["open"], desc: "Reverse caller-ID lookup resource for researching reported numbers and call-origin context." },
     { name: "CallerID Test", url: "https://calleridtest.com/", tags: ["api", "paid"], desc: "Caller ID and number-validation utility for checking formatting and telecom metadata responses." },
     { name: "Twilio Lookup", url: "https://www.twilio.com/lookup", tags: ["login", "api", "paid"], desc: "Twilio API endpoint for phone intelligence including line type, carrier, and validation data." },
     { name: "Fone Finder", url: "https://www.fonefinder.net/", tags: ["login", "paid"], desc: "Legacy reverse phone lookup entry preserved for historical coverage in the framework." },
@@ -1259,6 +1259,34 @@ let activeSafetyFilter = 'all';
 let searchQuery = '';
 let searchDebounce = null;
 
+const TAG_WHITELIST = new Set(['open', 'login', 'api', 'paid', 'install', 'dork']);
+
+const TOOL_OVERRIDE_RULES = [
+  {
+    host: 'whocalld.com',
+    tags: ['open'],
+    safety: 'screened',
+    regions: ['global']
+  }
+];
+
+const KNOWN_CAUTION_TOOL_NAMES = new Set([
+  'Blockr.io',
+  'Blocktrail',
+  'Firebug',
+  'Mibbit',
+  'Vine',
+  'iSEEK',
+  'PubDB',
+  'KnowURL',
+  'Moonsearch',
+  'Tofo.me',
+  'Webstigram',
+  'Tor Scan',
+  'Emporis',
+  'DNS-BH Malware Domain Blocklist'
+]);
+
 // ── DOM Refs (populated on DOMContentLoaded) ──────────────────────────────────
 let elCatNav, elToolGrid, elSearchInput, elResultMeta, elEmptyState,
     elSearchClear, elProfilePanel, elFavPanel, elOverlay,
@@ -1393,7 +1421,7 @@ function matchesSearch(tool, q) {
 
 function matchesReq(tool) {
   if (activeReqFilter === 'all') return true;
-  return Array.isArray(tool.tags) && tool.tags.includes(activeReqFilter);
+  return getToolTags(tool).includes(activeReqFilter);
 }
 
 function matchesFacet(tool, category) {
@@ -1452,12 +1480,43 @@ function getHostname(rawUrl) {
   }
 }
 
+function getToolOverride(tool) {
+  const host = getHostname(tool.url || '');
+  const name = (tool.name || '').trim();
+  return TOOL_OVERRIDE_RULES.find(rule => {
+    const hostMatch = rule.host ? host === rule.host || host.endsWith(`.${rule.host}`) : true;
+    const nameMatch = rule.name ? rule.name === name : true;
+    return hostMatch && nameMatch;
+  }) || null;
+}
+
+function normalizeTags(tags) {
+  const normalized = Array.isArray(tags)
+    ? tags.map(t => String(t).toLowerCase()).filter(t => TAG_WHITELIST.has(t))
+    : [];
+  return normalized.length ? Array.from(new Set(normalized)) : ['open'];
+}
+
+function getToolTags(tool) {
+  const override = getToolOverride(tool);
+  if (override && override.tags) {
+    return normalizeTags(override.tags);
+  }
+  return normalizeTags(tool.tags);
+}
+
 function hostEndsWith(rawUrl, suffix) {
   const host = getHostname(rawUrl);
   return host === suffix || host.endsWith(`.${suffix}`);
 }
 
 function getToolRegions(tool, category) {
+  const override = getToolOverride(tool);
+  if (override && Array.isArray(override.regions) && override.regions.length) {
+    const base = Array.from(new Set(override.regions.map(r => String(r).toLowerCase())));
+    return base.length > 1 ? Array.from(new Set([...base, 'regional'])) : base;
+  }
+
   const regions = new Set();
   const text = `${tool.name || ''} ${tool.desc || ''} ${category || ''}`.toLowerCase();
   const url = tool.url || '';
@@ -1531,30 +1590,17 @@ function regionLabel(region) {
 }
 
 function getToolSafety(tool) {
+  const override = getToolOverride(tool);
+  if (override && override.safety) {
+    return override.safety;
+  }
+
   const url = (tool.url || '').toLowerCase();
-  const text = `${tool.name || ''} ${tool.desc || ''}`.toLowerCase();
-  const cautionTerms = [
-    'legacy',
-    'deprecated',
-    'no longer operational',
-    'no longer maintained',
-    'offline',
-    'unclear maintenance',
-    'uncertain',
-    'expired',
-    'retired',
-    'shut down',
-    'not verifiable',
-    'stale',
-    'shadow librar',
-    'service offline',
-    '404 error',
-    'limited current documentation'
-  ];
+  const name = (tool.name || '').trim();
 
   if (!/^https?:\/\//.test(url)) return 'caution';
   if (url.startsWith('http://')) return 'caution';
-  if (cautionTerms.some(term => text.includes(term))) return 'caution';
+  if (KNOWN_CAUTION_TOOL_NAMES.has(name)) return 'caution';
   return 'screened';
 }
 
@@ -1567,7 +1613,7 @@ function makeToolCard(tool, category) {
   const card = document.createElement('div');
   card.className = 'tool-card';
 
-  const badges = (tool.tags || []).map(t =>
+  const badges = getToolTags(tool).map(t =>
     `<span class="req-badge ${t}">${badgeLabel(t)}</span>`
   ).join('');
 
