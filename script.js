@@ -345,8 +345,6 @@ const actionStatus = document.getElementById("actionStatus");
 const themeToggle = document.getElementById("themeToggle");
 const interactiveTree = document.getElementById("interactiveTree");
 const treeStage = document.getElementById("treeStage");
-const treeViewport = document.getElementById("treeViewport");
-const graphSvg = document.getElementById("graphSvg");
 const boardTitle = document.getElementById("boardTitle");
 const zoomLabel = document.getElementById("zoomLabel");
 const treeBadge = document.querySelector(".tree-badge");
@@ -363,12 +361,15 @@ const collapseAllBtn = document.getElementById("collapseAllBtn");
 const zoomOutBtn = document.getElementById("zoomOutBtn");
 const zoomInBtn = document.getElementById("zoomInBtn");
 const boardActions = document.querySelector(".board-actions");
+
 const workspacePanel = document.getElementById("workspacePanel");
+const profileForm = document.getElementById("profileForm");
+const profileList = document.getElementById("profileList");
+const exportProfilesBtn = document.getElementById("exportProfilesBtn");
+const importProfilesInput = document.getElementById("importProfilesInput");
 const clearWorkspaceBtn = document.getElementById("clearWorkspaceBtn");
-const cardForm = document.getElementById("cardForm");
-const pasteForm = document.getElementById("pasteForm");
-const cardList = document.getElementById("cardList");
-const pasteList = document.getElementById("pasteList");
+const favoritesList = document.getElementById("favoritesList");
+
 const submitScoreBtn = document.getElementById("submitScoreBtn");
 const sendFeedbackBtn = document.getElementById("sendFeedbackBtn");
 const issueDead = document.getElementById("issueDead");
@@ -379,32 +380,22 @@ let activeCategory = "all";
 let query = "";
 let navMode = "folders";
 let treeZoom = 1;
-let boardMode = "tree";
-const workspaceStorageKey = "justOsintWorkspaceV1";
-const workspaceState = {
-  cards: [],
-  pastes: []
+let boardMode = "home";
+
+const appStorageKey = "justOsintAppStateV2";
+const appState = {
+  favorites: [],
+  profiles: [],
+  activeProfileId: null,
+  profileDraft: {}
 };
-const expandedCategories = new Set(["Public Records", "Search Engines", "Domain Name"]);
-const expandedFlowNodes = new Set(["root", "cat:Public Records", "cat:Search Engines", "cat:Domain Name"]);
+
+const expandedCategories = new Set(["Search Engines", "Public Records", "Domain Name"]);
+const expandedFlowNodes = new Set(["root"]);
+let draggedProfileId = null;
 
 function uniqueTags(data) {
   return new Set(data.flatMap((group) => group.tools.map((tool) => tool.tag))).size;
-}
-
-function tagMapFromData() {
-  const map = new Map();
-  osintData.forEach((group) => {
-    group.tools.forEach((tool) => {
-      if (!map.has(tool.tag)) {
-        map.set(tool.tag, []);
-      }
-      map.get(tool.tag).push({ ...tool, category: group.category });
-    });
-  });
-  return Array.from(map.entries())
-    .map(([tag, tools]) => ({ tag, tools }))
-    .sort((a, b) => a.tag.localeCompare(b.tag));
 }
 
 function normalizedQuery() {
@@ -415,93 +406,35 @@ function setStatus(text) {
   actionStatus.textContent = text;
 }
 
-function loadWorkspaceState() {
+function safeId() {
+  return typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : `id-${Date.now()}-${Math.random()}`;
+}
+
+function updateTreeBadge() {
+  treeBadge.textContent = String(osintData.length);
+}
+
+function saveAppState() {
+  localStorage.setItem(appStorageKey, JSON.stringify(appState));
+}
+
+function loadAppState() {
   try {
-    const parsed = JSON.parse(localStorage.getItem(workspaceStorageKey) || "{}");
-    workspaceState.cards = Array.isArray(parsed.cards) ? parsed.cards : [];
-    workspaceState.pastes = Array.isArray(parsed.pastes) ? parsed.pastes : [];
+    const parsed = JSON.parse(localStorage.getItem(appStorageKey) || "{}");
+    appState.favorites = Array.isArray(parsed.favorites) ? parsed.favorites : [];
+    appState.profiles = Array.isArray(parsed.profiles) ? parsed.profiles : [];
+    appState.activeProfileId = typeof parsed.activeProfileId === "string" ? parsed.activeProfileId : null;
+    appState.profileDraft = parsed.profileDraft && typeof parsed.profileDraft === "object" ? parsed.profileDraft : {};
   } catch (_error) {
-    workspaceState.cards = [];
-    workspaceState.pastes = [];
+    appState.favorites = [];
+    appState.profiles = [];
+    appState.activeProfileId = null;
+    appState.profileDraft = {};
   }
 }
 
-function saveWorkspaceState() {
-  localStorage.setItem(workspaceStorageKey, JSON.stringify(workspaceState));
-}
-
-function workspaceSummaryText() {
-  return `Workspace: ${workspaceState.cards.length} card(s), ${workspaceState.pastes.length} paste(s).`;
-}
-
-function formatTimestamp(timestamp) {
-  return new Date(timestamp).toLocaleString();
-}
-
-function escapeHtml(value) {
-  return value
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
-}
-
-function renderWorkspaceLists() {
-  cardList.innerHTML = "";
-  pasteList.innerHTML = "";
-
-  if (!workspaceState.cards.length) {
-    cardList.innerHTML = '<p class="workspace-empty">No cards yet. Create your first case card.</p>';
-  } else {
-    workspaceState.cards
-      .slice()
-      .sort((a, b) => b.createdAt - a.createdAt)
-      .forEach((card) => {
-        const item = document.createElement("article");
-        item.className = "workspace-item";
-        const category = card.category ? `#${escapeHtml(card.category)}` : "#general";
-        item.innerHTML = `
-          <h4>${escapeHtml(card.title)}</h4>
-          <span class="workspace-meta">${category} • ${formatTimestamp(card.createdAt)}</span>
-          <p>${escapeHtml(card.body)}</p>
-          <div class="workspace-item-actions">
-            <button class="workspace-mini-btn" type="button" data-action="delete-card" data-id="${card.id}">Delete</button>
-          </div>
-        `;
-        cardList.appendChild(item);
-      });
-  }
-
-  if (!workspaceState.pastes.length) {
-    pasteList.innerHTML = '<p class="workspace-empty">No pastes yet. Save raw output here.</p>';
-  } else {
-    workspaceState.pastes
-      .slice()
-      .sort((a, b) => b.createdAt - a.createdAt)
-      .forEach((paste) => {
-        const item = document.createElement("article");
-        item.className = "workspace-item";
-        item.innerHTML = `
-          <h4>${escapeHtml(paste.title || "Untitled paste")}</h4>
-          <span class="workspace-meta">${formatTimestamp(paste.createdAt)}</span>
-          <p>${escapeHtml(paste.content)}</p>
-          <div class="workspace-item-actions">
-            <button class="workspace-mini-btn" type="button" data-action="copy-paste" data-id="${paste.id}">Copy</button>
-            <button class="workspace-mini-btn" type="button" data-action="delete-paste" data-id="${paste.id}">Delete</button>
-          </div>
-        `;
-        pasteList.appendChild(item);
-      });
-  }
-
-  resultsMeta.textContent = workspaceSummaryText();
-}
-
-function toggleWorkspaceView(active) {
-  treeStage.classList.toggle("hidden", active);
-  workspacePanel.classList.toggle("hidden", !active);
-  boardActions.classList.toggle("hidden", active);
+function profileSummaryText() {
+  return `Profiles: ${appState.profiles.length} total, Favorites: ${appState.favorites.length} pinned tool(s).`;
 }
 
 function setActiveRail(button) {
@@ -515,14 +448,91 @@ function setZoom(value) {
   zoomLabel.textContent = `${Math.round(treeZoom * 100)}%`;
 }
 
-function updateTreeBadge() {
-  treeBadge.textContent = String(osintData.length);
-}
-
 function matchesNode(text) {
   const q = normalizedQuery();
   if (!q) return true;
   return text.toLowerCase().includes(q);
+}
+
+function toolKey(category, tool) {
+  return `${category}::${tool.name}`;
+}
+
+function isFavorited(category, tool) {
+  const id = toolKey(category, tool);
+  return appState.favorites.some((entry) => entry.id === id);
+}
+
+function toggleFavorite(category, tool) {
+  const id = toolKey(category, tool);
+  const idx = appState.favorites.findIndex((entry) => entry.id === id);
+  if (idx >= 0) {
+    appState.favorites.splice(idx, 1);
+    setStatus(`Removed favorite: ${tool.name}`);
+  } else {
+    appState.favorites.push({ id, category, name: tool.name, url: tool.url, tag: tool.tag });
+    setStatus(`Pinned favorite: ${tool.name}`);
+  }
+  saveAppState();
+  renderFavorites();
+  renderSidebar();
+  if (boardMode === "knowledge") {
+    renderKnowledgeMode(filterData());
+  }
+}
+
+function createPinButton(category, tool, className = "pin-btn") {
+  const pinBtn = document.createElement("button");
+  pinBtn.type = "button";
+  pinBtn.className = className;
+  pinBtn.textContent = isFavorited(category, tool) ? "★" : "+";
+  pinBtn.title = isFavorited(category, tool) ? "Unpin favorite" : "Pin favorite";
+  pinBtn.classList.toggle("active", isFavorited(category, tool));
+  pinBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    toggleFavorite(category, tool);
+  });
+  return pinBtn;
+}
+
+function renderFavorites() {
+  favoritesList.innerHTML = "";
+  if (!appState.favorites.length) {
+    favoritesList.innerHTML = '<p class="workspace-empty">No pinned tools yet.</p>';
+    return;
+  }
+
+  appState.favorites.forEach((item) => {
+    const row = document.createElement("div");
+    row.className = "tool-row";
+
+    const link = document.createElement("a");
+    link.className = "tree-leaf";
+    link.href = item.url;
+    link.target = "_blank";
+    link.rel = "noreferrer noopener";
+    link.innerHTML = `<span class="tree-leaf-name">${item.name}</span><span class="tree-item-meta">${item.category}</span>`;
+
+    const removeBtn = document.createElement("button");
+    removeBtn.type = "button";
+    removeBtn.className = "pin-btn active";
+    removeBtn.textContent = "×";
+    removeBtn.title = "Remove favorite";
+    removeBtn.addEventListener("click", () => {
+      appState.favorites = appState.favorites.filter((entry) => entry.id !== item.id);
+      saveAppState();
+      renderFavorites();
+      renderSidebar();
+      if (boardMode === "knowledge") {
+        renderKnowledgeMode(filterData());
+      }
+    });
+
+    row.appendChild(link);
+    row.appendChild(removeBtn);
+    favoritesList.appendChild(row);
+  });
 }
 
 function renderSidebarFolders() {
@@ -542,10 +552,7 @@ function renderSidebarFolders() {
   osintData.forEach((group) => {
     const toolMatches = group.tools.filter((tool) => matchesNode(`${tool.name} ${tool.tag}`));
     const categoryMatch = matchesNode(group.category);
-
-    if (q && !categoryMatch && toolMatches.length === 0) {
-      return;
-    }
+    if (q && !categoryMatch && toolMatches.length === 0) return;
 
     const node = document.createElement("div");
     node.className = "tree-node";
@@ -558,13 +565,9 @@ function renderSidebarFolders() {
     toggleBtn.className = "tree-toggle";
     const shouldOpen = (q && (categoryMatch || toolMatches.length > 0)) || expandedCategories.has(group.category);
     toggleBtn.textContent = shouldOpen ? "▾" : "▸";
-    toggleBtn.setAttribute("aria-expanded", String(shouldOpen));
     toggleBtn.addEventListener("click", () => {
-      if (expandedCategories.has(group.category)) {
-        expandedCategories.delete(group.category);
-      } else {
-        expandedCategories.add(group.category);
-      }
+      if (expandedCategories.has(group.category)) expandedCategories.delete(group.category);
+      else expandedCategories.add(group.category);
       renderSidebarFolders();
     });
 
@@ -584,14 +587,21 @@ function renderSidebarFolders() {
     if (shouldOpen) {
       const children = document.createElement("div");
       children.className = "tree-children";
+
       (q ? toolMatches : group.tools).forEach((tool) => {
+        const toolRow = document.createElement("div");
+        toolRow.className = "tool-row";
+
         const leaf = document.createElement("a");
         leaf.className = "tree-leaf";
         leaf.href = tool.url;
         leaf.target = "_blank";
         leaf.rel = "noreferrer noopener";
         leaf.innerHTML = `<span class="tree-leaf-name">${tool.name}</span><span class="tree-item-meta">${tool.tag}</span>`;
-        children.appendChild(leaf);
+
+        toolRow.appendChild(leaf);
+        toolRow.appendChild(createPinButton(group.category, tool));
+        children.appendChild(toolRow);
       });
       node.appendChild(children);
     }
@@ -600,24 +610,31 @@ function renderSidebarFolders() {
   });
 }
 
+function tagMapFromData() {
+  const map = new Map();
+  osintData.forEach((group) => {
+    group.tools.forEach((tool) => {
+      if (!map.has(tool.tag)) map.set(tool.tag, []);
+      map.get(tool.tag).push({ ...tool, category: group.category });
+    });
+  });
+
+  return Array.from(map.entries())
+    .map(([tag, tools]) => ({ tag, tools }))
+    .sort((a, b) => a.tag.localeCompare(b.tag));
+}
+
 function renderSidebarTags() {
   categoryNav.innerHTML = "";
   const grouped = tagMapFromData();
   const q = normalizedQuery();
 
   grouped.forEach((entry) => {
-    const tools = entry.tools.filter((tool) => {
-      if (!q) return true;
-      return matchesNode(`${entry.tag} ${tool.name} ${tool.category}`);
-    });
-
-    if (!tools.length) {
-      return;
-    }
+    const tools = entry.tools.filter((tool) => !q || matchesNode(`${entry.tag} ${tool.name} ${tool.category}`));
+    if (!tools.length) return;
 
     const node = document.createElement("div");
     node.className = "tree-node";
-
     const row = document.createElement("div");
     row.className = "tree-row";
 
@@ -629,11 +646,8 @@ function renderSidebarTags() {
     toggleBtn.className = "tree-toggle";
     toggleBtn.textContent = isOpen ? "▾" : "▸";
     toggleBtn.addEventListener("click", () => {
-      if (expandedCategories.has(tagId)) {
-        expandedCategories.delete(tagId);
-      } else {
-        expandedCategories.add(tagId);
-      }
+      if (expandedCategories.has(tagId)) expandedCategories.delete(tagId);
+      else expandedCategories.add(tagId);
       renderSidebarTags();
     });
 
@@ -648,14 +662,21 @@ function renderSidebarTags() {
     if (isOpen) {
       const children = document.createElement("div");
       children.className = "tree-children";
+
       tools.forEach((tool) => {
+        const toolRow = document.createElement("div");
+        toolRow.className = "tool-row";
+
         const leaf = document.createElement("a");
         leaf.className = "tree-leaf";
         leaf.href = tool.url;
         leaf.target = "_blank";
         leaf.rel = "noreferrer noopener";
         leaf.innerHTML = `<span class="tree-leaf-name">${tool.name}</span><span class="tree-item-meta">${tool.category}</span>`;
-        children.appendChild(leaf);
+
+        toolRow.appendChild(leaf);
+        toolRow.appendChild(createPinButton(tool.category, tool));
+        children.appendChild(toolRow);
       });
       node.appendChild(children);
     }
@@ -676,7 +697,6 @@ function createNodeRow(node, hasChildren) {
 
   const label = hasChildren ? document.createElement("button") : document.createElement("a");
   label.className = `flow-pill ${node.kind}`;
-
   if (node.kind === "tool") {
     label.href = node.url;
     label.target = "_blank";
@@ -690,24 +710,27 @@ function createNodeRow(node, hasChildren) {
 
   if (hasChildren) {
     toggle.addEventListener("click", () => {
-      if (expandedFlowNodes.has(node.id)) {
-        expandedFlowNodes.delete(node.id);
-      } else {
-        expandedFlowNodes.add(node.id);
-      }
-      renderInteractiveTree();
+      if (expandedFlowNodes.has(node.id)) expandedFlowNodes.delete(node.id);
+      else expandedFlowNodes.add(node.id);
+      renderFlowMode();
     });
   }
 
   if (node.kind === "folder") {
     label.addEventListener("click", () => {
       activeCategory = node.category;
-      renderAll();
+      setActiveRail(knowledgeBtn);
+      setBoardMode("knowledge");
+      setStatus(`Focused category: ${node.category}`);
     });
   }
 
   row.appendChild(toggle);
   row.appendChild(label);
+
+  if (node.kind === "tool") {
+    row.appendChild(createPinButton(node.category, { name: node.label, url: node.url, tag: node.tag }, "flow-pin"));
+  }
   return { row, isOpen };
 }
 
@@ -722,11 +745,11 @@ function buildFlowTree() {
   };
 
   osintData.forEach((group) => {
+    if (activeCategory !== "all" && group.category !== activeCategory) return;
+
     const bucket = new Map();
     group.tools.forEach((tool) => {
-      if (!bucket.has(tool.tag)) {
-        bucket.set(tool.tag, []);
-      }
+      if (!bucket.has(tool.tag)) bucket.set(tool.tag, []);
       bucket.get(tool.tag).push(tool);
     });
 
@@ -739,6 +762,8 @@ function buildFlowTree() {
         id: `tool:${group.category}:${tool.name}`,
         kind: "tool",
         label: tool.name,
+        category: group.category,
+        tag: tool.tag,
         url: tool.url
       }))
     }));
@@ -753,22 +778,13 @@ function buildFlowTree() {
     });
   });
 
-  if (!q) {
-    return root;
-  }
+  if (!q) return root;
 
   function filterNode(node) {
     const nodeMatch = matchesNode(node.label);
-    if (!node.children) {
-      return nodeMatch ? { ...node } : null;
-    }
-
+    if (!node.children) return nodeMatch ? { ...node } : null;
     const filteredChildren = node.children.map((child) => filterNode(child)).filter(Boolean);
-
-    if (!nodeMatch && filteredChildren.length === 0) {
-      return null;
-    }
-
+    if (!nodeMatch && filteredChildren.length === 0) return null;
     return { ...node, children: filteredChildren };
   }
 
@@ -793,226 +809,157 @@ function renderFlowNode(node, container) {
   container.appendChild(wrapper);
 }
 
-function renderTreeMode() {
-  graphSvg.classList.remove("active");
-  graphSvg.innerHTML = "";
-  treeViewport.style.width = "";
-  treeViewport.style.height = "";
-  interactiveTree.classList.remove("graph-view");
+function filterData() {
+  const q = normalizedQuery();
+  return osintData
+    .filter((group) => activeCategory === "all" || group.category === activeCategory)
+    .map((group) => {
+      const tools = group.tools.filter((tool) => !q || `${group.category} ${tool.name} ${tool.tag}`.toLowerCase().includes(q));
+      return { ...group, tools };
+    })
+    .filter((group) => group.tools.length > 0);
+}
+
+function renderHomeMode(groups) {
   interactiveTree.innerHTML = "";
+  interactiveTree.classList.remove("graph-view");
+
+  const totalTools = osintData.reduce((sum, group) => sum + group.tools.length, 0);
+  const totalTags = uniqueTags(osintData);
+  const topCategories = [...osintData].sort((a, b) => b.tools.length - a.tools.length).slice(0, 3);
+
+  const wrap = document.createElement("div");
+  wrap.className = "home-grid";
+  wrap.innerHTML = `
+    <article class="home-card"><h3>Categories</h3><div class="metric-value">${osintData.length}</div><p class="workspace-hint">Knowledge buckets indexed</p></article>
+    <article class="home-card"><h3>Tools</h3><div class="metric-value">${totalTools}</div><p class="workspace-hint">Curated external resources</p></article>
+    <article class="home-card"><h3>Tags</h3><div class="metric-value">${totalTags}</div><p class="workspace-hint">Filter dimensions</p></article>
+  `;
+
+  topCategories.forEach((category) => {
+    const card = document.createElement("article");
+    card.className = "home-card";
+    card.innerHTML = `<h3>${category.category}</h3><div class="metric-value">${category.tools.length}</div><p class="workspace-hint">Largest category</p>`;
+    wrap.appendChild(card);
+  });
+
+  if (appState.favorites.length) {
+    const favCard = document.createElement("article");
+    favCard.className = "home-card";
+    favCard.innerHTML = `<h3>Pinned Tools</h3><div class="metric-value">${appState.favorites.length}</div><p class="workspace-hint">Use these from the right rail</p>`;
+    wrap.appendChild(favCard);
+  }
+
+  if (!groups.length) {
+    const emptyCard = document.createElement("article");
+    emptyCard.className = "home-card";
+    emptyCard.innerHTML = '<h3>No Matches</h3><p class="workspace-hint">Try a broader query.</p>';
+    wrap.appendChild(emptyCard);
+  }
+
+  interactiveTree.appendChild(wrap);
+  resultsMeta.textContent = "Home dashboard overview.";
+}
+
+function renderKnowledgeMode(groups) {
+  cardsRoot.innerHTML = "";
+  if (!groups.length) {
+    cardsRoot.innerHTML = '<p class="workspace-empty">No tools match this filter.</p>';
+    resultsMeta.textContent = "0 resources in current filter.";
+    return;
+  }
+
+  const grid = document.createElement("div");
+  grid.className = "knowledge-grid";
+
+  groups.forEach((group) => {
+    const card = document.createElement("article");
+    card.className = "knowledge-card";
+    card.innerHTML = `<h3>${group.category}</h3><span class="workspace-meta">${group.tools.length} tool(s)</span>`;
+
+    const wrap = document.createElement("div");
+    wrap.className = "tool-chip-wrap";
+
+    group.tools.forEach((tool) => {
+      const row = document.createElement("div");
+      row.className = "tool-chip";
+
+      const link = document.createElement("a");
+      link.href = tool.url;
+      link.target = "_blank";
+      link.rel = "noreferrer noopener";
+      link.textContent = `${tool.name} · #${tool.tag}`;
+
+      row.appendChild(link);
+      row.appendChild(createPinButton(group.category, tool));
+      wrap.appendChild(row);
+    });
+
+    card.appendChild(wrap);
+    grid.appendChild(card);
+  });
+
+  cardsRoot.appendChild(grid);
+  const total = groups.reduce((sum, g) => sum + g.tools.length, 0);
+  resultsMeta.textContent = `Showing ${total} resources in knowledge cards.`;
+}
+
+function renderFlowMode() {
+  interactiveTree.innerHTML = "";
+  interactiveTree.classList.remove("graph-view");
 
   const root = buildFlowTree();
   const rootWrap = document.createElement("div");
   rootWrap.className = "flow-root";
   renderFlowNode(root, rootWrap);
   interactiveTree.appendChild(rootWrap);
-}
-
-function renderGraphMode() {
-  interactiveTree.classList.add("graph-view");
-  interactiveTree.innerHTML = "";
-
-  const graphWidth = Math.max(1500, Math.round(1500 * treeZoom));
-  const categoryGapY = 72;
-  const topPad = 70;
-
-  const categories = osintData.filter((group) => {
-    if (!query) return true;
-    return matchesNode(group.category) || group.tools.some((tool) => matchesNode(`${tool.name} ${tool.tag}`));
-  });
-
-  if (!categories.length) {
-    treeViewport.style.width = "980px";
-    treeViewport.style.height = "620px";
-    graphSvg.classList.remove("active");
-    const empty = document.createElement("div");
-    empty.className = "flow-root";
-    empty.innerHTML = '<div class="flow-row"><div class="flow-pill root">No graph matches for current filter</div></div>';
-    interactiveTree.appendChild(empty);
-    return;
-  }
-
-  const graphHeight = Math.max(860, topPad + categories.length * categoryGapY + 120);
-  treeViewport.style.width = `${graphWidth}px`;
-  treeViewport.style.height = `${graphHeight}px`;
-
-  graphSvg.setAttribute("viewBox", `0 0 ${graphWidth} ${graphHeight}`);
-  graphSvg.classList.add("active");
-  graphSvg.innerHTML = "";
-
-  const rootNode = document.createElement("div");
-  rootNode.className = "graph-node root";
-  rootNode.style.left = "40px";
-  rootNode.style.top = "32px";
-  rootNode.textContent = `OSINT Framework (${categories.length})`;
-  interactiveTree.appendChild(rootNode);
-
-  categories.forEach((group, idx) => {
-    const y = topPad + idx * categoryGapY;
-    const x = 300;
-
-    const catNode = document.createElement("div");
-    catNode.className = "graph-node folder";
-    catNode.style.left = `${x}px`;
-    catNode.style.top = `${y}px`;
-    catNode.textContent = `${group.category} (${group.tools.length})`;
-    catNode.addEventListener("click", () => {
-      activeCategory = group.category;
-      boardMode = "tree";
-      setActiveRail(knowledgeBtn);
-      boardTitle.textContent = "Knowledge Tree";
-      setStatus(`Focused category: ${group.category}`);
-      renderAll();
-    });
-    interactiveTree.appendChild(catNode);
-
-    const rootPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    rootPath.setAttribute("class", "graph-link root-to-category");
-    rootPath.setAttribute("d", `M 170 52 C 220 52, 230 ${y + 14}, ${x - 10} ${y + 14}`);
-    graphSvg.appendChild(rootPath);
-
-    const tools = group.tools.slice(0, 6);
-    tools.forEach((tool, tIndex) => {
-      const tx = 700 + (tIndex % 3) * 210;
-      const ty = y + Math.floor(tIndex / 3) * 28;
-
-      const toolNode = document.createElement("a");
-      toolNode.className = "graph-node tool";
-      toolNode.href = tool.url;
-      toolNode.target = "_blank";
-      toolNode.rel = "noreferrer noopener";
-      toolNode.style.left = `${tx}px`;
-      toolNode.style.top = `${ty}px`;
-      toolNode.textContent = tool.name;
-      interactiveTree.appendChild(toolNode);
-
-      const toolPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-      toolPath.setAttribute("class", "graph-link");
-      toolPath.setAttribute("d", `M ${x + 190} ${y + 14} C ${x + 260} ${y + 14}, ${tx - 35} ${ty + 13}, ${tx - 6} ${ty + 13}`);
-      graphSvg.appendChild(toolPath);
-    });
-  });
+  resultsMeta.textContent = `Flow view${query ? ` filtered by "${query}"` : ""}.`;
 }
 
 function renderStatsMode() {
-  graphSvg.classList.remove("active");
-  graphSvg.innerHTML = "";
-  treeViewport.style.width = "";
-  treeViewport.style.height = "";
-  interactiveTree.classList.add("graph-view");
   interactiveTree.innerHTML = "";
+  interactiveTree.classList.remove("graph-view");
 
   const totalCategories = osintData.length;
   const totalTools = osintData.reduce((sum, group) => sum + group.tools.length, 0);
   const totalTags = uniqueTags(osintData);
-
-  const topCategories = [...osintData]
-    .sort((a, b) => b.tools.length - a.tools.length)
-    .slice(0, 6);
-
-  const tagCounts = new Map();
-  osintData.forEach((group) => {
-    group.tools.forEach((tool) => {
-      tagCounts.set(tool.tag, (tagCounts.get(tool.tag) || 0) + 1);
-    });
-  });
-  const topTags = [...tagCounts.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 8);
-
   const summary = document.createElement("div");
   summary.className = "flow-root";
   summary.innerHTML = `
     <div class="flow-row"><div class="flow-pill root">Categories <span class="tree-item-meta">${totalCategories}</span></div></div>
     <div class="flow-row"><div class="flow-pill root">Tools <span class="tree-item-meta">${totalTools}</span></div></div>
     <div class="flow-row"><div class="flow-pill root">Tags <span class="tree-item-meta">${totalTags}</span></div></div>
-    <div class="flow-row"><div class="flow-pill folder">Top Categories</div></div>
+    <div class="flow-row"><div class="flow-pill root">Profiles <span class="tree-item-meta">${appState.profiles.length}</span></div></div>
+    <div class="flow-row"><div class="flow-pill root">Pinned Tools <span class="tree-item-meta">${appState.favorites.length}</span></div></div>
   `;
-
-  const catWrap = document.createElement("div");
-  catWrap.className = "flow-children";
-  topCategories.forEach((category) => {
-    const row = document.createElement("div");
-    row.className = "flow-row";
-    row.innerHTML = `<div class="flow-pill folder">${category.category} <span class="tree-item-meta">${category.tools.length}</span></div>`;
-    catWrap.appendChild(row);
-  });
-
-  summary.appendChild(catWrap);
-
-  const tagsHeader = document.createElement("div");
-  tagsHeader.className = "flow-row";
-  tagsHeader.innerHTML = '<div class="flow-pill tag">Top Tags</div>';
-  summary.appendChild(tagsHeader);
-
-  const tagsWrap = document.createElement("div");
-  tagsWrap.className = "flow-children";
-  topTags.forEach(([tag, count]) => {
-    const row = document.createElement("div");
-    row.className = "flow-row";
-    row.innerHTML = `<div class="flow-pill tag">#${tag} <span class="tree-item-meta">${count}</span></div>`;
-    tagsWrap.appendChild(row);
-  });
-  summary.appendChild(tagsWrap);
-
   interactiveTree.appendChild(summary);
+  resultsMeta.textContent = "Stats mode summary.";
 }
 
-function renderWorkspaceMode() {
-  renderWorkspaceLists();
-}
+function applyBoardLayout(mode) {
+  const workspace = mode === "workspace";
+  const knowledge = mode === "knowledge";
+  const canvas = !workspace && !knowledge;
 
-function renderInteractiveTree() {
-  if (boardMode === "workspace") {
-    renderWorkspaceMode();
-    return;
-  }
-  if (boardMode === "graph") {
-    renderGraphMode();
-    return;
-  }
-  if (boardMode === "stats") {
-    renderStatsMode();
-    return;
-  }
-  renderTreeMode();
+  workspacePanel.classList.toggle("hidden", !workspace);
+  cardsRoot.classList.toggle("hidden", !knowledge);
+  treeStage.classList.toggle("hidden", !canvas);
+
+  const showBoardActions = mode === "flow";
+  boardActions.classList.toggle("hidden", !showBoardActions);
 }
 
 function setBoardMode(mode) {
   boardMode = mode;
-  toggleWorkspaceView(mode === "workspace");
-  if (mode === "tree") {
-    boardTitle.textContent = "Knowledge Tree";
-  } else if (mode === "graph") {
-    boardTitle.textContent = "Graph View";
-  } else if (mode === "workspace") {
-    boardTitle.textContent = "Workspace";
-  } else {
-    boardTitle.textContent = "Tree + Stats";
-  }
-  renderInteractiveTree();
-}
+  applyBoardLayout(mode);
 
-function filterData() {
-  const q = normalizedQuery();
+  if (mode === "home") boardTitle.textContent = "Home Dashboard";
+  if (mode === "knowledge") boardTitle.textContent = "Knowledge Cards";
+  if (mode === "flow") boardTitle.textContent = "Flow Explorer";
+  if (mode === "stats") boardTitle.textContent = "Statistics";
+  if (mode === "workspace") boardTitle.textContent = "Advanced Profile Builder";
 
-  return osintData
-    .filter((group) => activeCategory === "all" || group.category === activeCategory)
-    .map((group) => {
-      const tools = group.tools.filter((tool) => {
-        if (!q) return true;
-        return `${group.category} ${tool.name} ${tool.tag}`.toLowerCase().includes(q);
-      });
-      return { ...group, tools };
-    })
-    .filter((group) => group.tools.length > 0);
-}
-
-function renderMeta(groups) {
-  const total = groups.reduce((sum, g) => sum + g.tools.length, 0);
-  const scope = activeCategory === "all" ? "all categories" : activeCategory;
-  const byQuery = query ? ` filtered by \"${query}\"` : "";
-  resultsMeta.textContent = `Showing ${total} resources in ${scope}${byQuery}`;
+  renderAll();
 }
 
 function renderSidebar() {
@@ -1027,15 +974,130 @@ function renderSidebar() {
   }
 }
 
+function getProfileFormData() {
+  const form = new FormData(profileForm);
+  return {
+    id: appState.activeProfileId || safeId(),
+    fullName: String(form.get("profileFullName") || "").trim(),
+    alias: String(form.get("profileAlias") || "").trim(),
+    dob: String(form.get("profileDob") || "").trim(),
+    location: String(form.get("profileLocation") || "").trim(),
+    emails: String(form.get("profileEmails") || "").trim(),
+    phones: String(form.get("profilePhones") || "").trim(),
+    usernames: String(form.get("profileUsernames") || "").trim(),
+    employers: String(form.get("profileEmployers") || "").trim(),
+    relationship: String(form.get("profileRelationship") || "").trim(),
+    tags: String(form.get("profileTags") || "").trim(),
+    risk: String(form.get("profileRisk") || "medium").trim(),
+    notes: String(form.get("profileNotes") || "").trim(),
+    updatedAt: Date.now()
+  };
+}
+
+function setProfileFormData(profile) {
+  profileForm.profileFullName.value = profile.fullName || "";
+  profileForm.profileAlias.value = profile.alias || "";
+  profileForm.profileDob.value = profile.dob || "";
+  profileForm.profileLocation.value = profile.location || "";
+  profileForm.profileEmails.value = profile.emails || "";
+  profileForm.profilePhones.value = profile.phones || "";
+  profileForm.profileUsernames.value = profile.usernames || "";
+  profileForm.profileEmployers.value = profile.employers || "";
+  profileForm.profileRelationship.value = profile.relationship || "";
+  profileForm.profileTags.value = profile.tags || "";
+  profileForm.profileRisk.value = profile.risk || "medium";
+  profileForm.profileNotes.value = profile.notes || "";
+}
+
+function resetProfileForm() {
+  appState.activeProfileId = null;
+  profileForm.reset();
+  profileForm.profileRisk.value = "medium";
+  appState.profileDraft = {};
+  saveAppState();
+}
+
+function renderProfiles() {
+  profileList.innerHTML = "";
+
+  if (!appState.profiles.length) {
+    profileList.innerHTML = '<p class="workspace-empty">No profiles saved yet.</p>';
+    return;
+  }
+
+  appState.profiles.forEach((profile) => {
+    const item = document.createElement("article");
+    item.className = "workspace-item";
+    item.draggable = true;
+    item.dataset.id = profile.id;
+
+    item.innerHTML = `
+      <h4>${profile.fullName || "Unnamed profile"}</h4>
+      <span class="workspace-meta">${profile.alias || "no alias"} • risk: ${profile.risk || "medium"}</span>
+      <p>${(profile.notes || "No notes.").slice(0, 180)}</p>
+      <div class="workspace-item-actions">
+        <button class="workspace-mini-btn" type="button" data-action="edit" data-id="${profile.id}">Edit</button>
+        <button class="workspace-mini-btn" type="button" data-action="delete" data-id="${profile.id}">Delete</button>
+      </div>
+    `;
+
+    item.addEventListener("dragstart", () => {
+      draggedProfileId = profile.id;
+      item.classList.add("dragging");
+    });
+    item.addEventListener("dragend", () => {
+      draggedProfileId = null;
+      item.classList.remove("dragging");
+    });
+    item.addEventListener("dragover", (event) => {
+      event.preventDefault();
+    });
+    item.addEventListener("drop", (event) => {
+      event.preventDefault();
+      if (!draggedProfileId || draggedProfileId === profile.id) return;
+
+      const from = appState.profiles.findIndex((p) => p.id === draggedProfileId);
+      const to = appState.profiles.findIndex((p) => p.id === profile.id);
+      if (from < 0 || to < 0) return;
+
+      const [moved] = appState.profiles.splice(from, 1);
+      appState.profiles.splice(to, 0, moved);
+      saveAppState();
+      renderProfiles();
+      setStatus("Profile order updated.");
+    });
+
+    profileList.appendChild(item);
+  });
+}
+
+function renderWorkspaceMode() {
+  renderProfiles();
+  resultsMeta.textContent = profileSummaryText();
+}
+
 function renderAll() {
   const groups = filterData();
   renderSidebar();
-  renderInteractiveTree();
-  if (boardMode === "workspace") {
-    resultsMeta.textContent = workspaceSummaryText();
-  } else {
-    renderMeta(groups);
+  renderFavorites();
+
+  if (boardMode === "home") {
+    renderHomeMode(groups);
+    return;
   }
+  if (boardMode === "knowledge") {
+    renderKnowledgeMode(groups);
+    return;
+  }
+  if (boardMode === "flow") {
+    renderFlowMode();
+    return;
+  }
+  if (boardMode === "stats") {
+    renderStatsMode();
+    return;
+  }
+  renderWorkspaceMode();
 }
 
 searchInput.addEventListener("input", (event) => {
@@ -1056,43 +1118,35 @@ tagsModeBtn.addEventListener("click", () => {
 });
 
 homeBtn.addEventListener("click", () => {
-  query = "";
-  searchInput.value = "";
-  activeCategory = "all";
-  expandedFlowNodes.clear();
-  expandedFlowNodes.add("root");
   setActiveRail(homeBtn);
-  setBoardMode("tree");
-  boardTitle.textContent = "Interactive OSINT Tree";
-  setStatus("Reset view to home state.");
-  setZoom(1);
-  renderAll();
+  setBoardMode("home");
+  setStatus("Home dashboard active.");
 });
 
 knowledgeBtn.addEventListener("click", () => {
   setActiveRail(knowledgeBtn);
-  setStatus("Knowledge tree mode active.");
-  setBoardMode("tree");
+  setBoardMode("knowledge");
+  setStatus("Knowledge cards active.");
 });
 
 flowBtn.addEventListener("click", () => {
+  expandedFlowNodes.clear();
+  expandedFlowNodes.add("root");
   setActiveRail(flowBtn);
-  setStatus("Graph mode active with curved links.");
-  setBoardMode("graph");
+  setBoardMode("flow");
+  setStatus("Flow mode active. Branches start collapsed.");
 });
 
 statsBtn.addEventListener("click", () => {
   setActiveRail(statsBtn);
-  const totalTools = osintData.reduce((sum, group) => sum + group.tools.length, 0);
-  const tags = uniqueTags(osintData);
-  setStatus(`Stats: ${osintData.length} categories, ${totalTools} tools, ${tags} tags.`);
   setBoardMode("stats");
+  setStatus("Stats mode active.");
 });
 
 workspaceBtn.addEventListener("click", () => {
   setActiveRail(workspaceBtn);
-  setStatus("Workspace mode active. Create cards or save pastes.");
   setBoardMode("workspace");
+  setStatus("Advanced Profile Builder active.");
 });
 
 themeToggle.addEventListener("click", () => {
@@ -1104,44 +1158,37 @@ themeToggle.addEventListener("click", () => {
 });
 
 expandAllBtn.addEventListener("click", () => {
+  if (boardMode !== "flow") return;
   expandedFlowNodes.clear();
   expandedFlowNodes.add("root");
   osintData.forEach((group) => {
     expandedFlowNodes.add(`cat:${group.category}`);
-    const tags = new Set(group.tools.map((tool) => tool.tag));
-    tags.forEach((tag) => expandedFlowNodes.add(`tag:${group.category}:${tag}`));
+    new Set(group.tools.map((tool) => tool.tag)).forEach((tag) => expandedFlowNodes.add(`tag:${group.category}:${tag}`));
   });
-  setStatus("Expanded all tree branches.");
-  if (boardMode === "tree") {
-    renderInteractiveTree();
-  }
+  renderFlowMode();
+  setStatus("Expanded all flow branches.");
 });
 
 collapseAllBtn.addEventListener("click", () => {
+  if (boardMode !== "flow") return;
   expandedFlowNodes.clear();
   expandedFlowNodes.add("root");
-  setStatus("Collapsed tree to root.");
-  if (boardMode === "tree") {
-    renderInteractiveTree();
-  }
+  renderFlowMode();
+  setStatus("Collapsed flow to root.");
 });
 
 zoomInBtn.addEventListener("click", () => {
+  if (boardMode !== "flow") return;
   setZoom(treeZoom + 0.1);
-  if (boardMode === "graph") {
-    renderInteractiveTree();
-  }
 });
 
 zoomOutBtn.addEventListener("click", () => {
+  if (boardMode !== "flow") return;
   setZoom(treeZoom - 0.1);
-  if (boardMode === "graph") {
-    renderInteractiveTree();
-  }
 });
 
 submitScoreBtn.addEventListener("click", () => {
-  setStatus("Demo rating submitted. Connect this action to a backend endpoint when ready.");
+  setStatus("Demo rating submitted.");
 });
 
 sendFeedbackBtn.addEventListener("click", () => {
@@ -1149,157 +1196,162 @@ sendFeedbackBtn.addEventListener("click", () => {
   setStatus(selected ? `Feedback queued with ${selected} issue flag(s).` : "Select at least one issue flag first.");
 });
 
-cardForm.addEventListener("submit", (event) => {
+profileForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  const form = new FormData(cardForm);
-  const title = String(form.get("cardTitle") || "").trim();
-  const category = String(form.get("cardCategory") || "").trim();
-  const bodyText = String(form.get("cardBody") || "").trim();
-
-  if (!title || !bodyText) {
-    setStatus("Card title and details are required.");
+  const profile = getProfileFormData();
+  if (!profile.fullName) {
+    setStatus("Full name is required.");
     return;
   }
 
-  workspaceState.cards.push({
-    id: crypto.randomUUID(),
-    title,
-    category,
-    body: bodyText,
-    createdAt: Date.now()
-  });
+  const existingIndex = appState.profiles.findIndex((entry) => entry.id === profile.id);
+  if (existingIndex >= 0) appState.profiles[existingIndex] = profile;
+  else appState.profiles.unshift(profile);
 
-  saveWorkspaceState();
-  renderWorkspaceLists();
-  cardForm.reset();
-  setStatus("Workspace card created.");
+  appState.activeProfileId = profile.id;
+  appState.profileDraft = profile;
+  saveAppState();
+  renderProfiles();
+  setStatus(existingIndex >= 0 ? "Profile updated." : "Profile created.");
 });
 
-pasteForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const form = new FormData(pasteForm);
-  const title = String(form.get("pasteTitle") || "").trim();
-  const content = String(form.get("pasteContent") || "").trim();
+profileForm.addEventListener("input", () => {
+  appState.profileDraft = getProfileFormData();
+  saveAppState();
+});
 
-  if (!content) {
-    setStatus("Paste content cannot be empty.");
+profileList.addEventListener("click", (event) => {
+  const actionBtn = event.target.closest("button[data-action]");
+  if (!actionBtn) return;
+
+  const id = actionBtn.dataset.id;
+  const action = actionBtn.dataset.action;
+  const profile = appState.profiles.find((entry) => entry.id === id);
+  if (!profile) return;
+
+  if (action === "edit") {
+    appState.activeProfileId = id;
+    appState.profileDraft = profile;
+    setProfileFormData(profile);
+    saveAppState();
+    setStatus(`Loaded profile: ${profile.fullName}`);
     return;
   }
 
-  workspaceState.pastes.push({
-    id: crypto.randomUUID(),
-    title,
-    content,
-    createdAt: Date.now()
-  });
+  if (action === "delete") {
+    appState.profiles = appState.profiles.filter((entry) => entry.id !== id);
+    if (appState.activeProfileId === id) resetProfileForm();
+    saveAppState();
+    renderProfiles();
+    setStatus("Profile deleted.");
+  }
+});
 
-  saveWorkspaceState();
-  renderWorkspaceLists();
-  pasteForm.reset();
-  setStatus("Paste saved to workspace.");
+exportProfilesBtn.addEventListener("click", () => {
+  const payload = JSON.stringify({ profiles: appState.profiles, exportedAt: Date.now() }, null, 2);
+  const blob = new Blob([payload], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `justosint-profiles-${new Date().toISOString().slice(0, 10)}.json`;
+  link.click();
+  URL.revokeObjectURL(url);
+  setStatus("Profiles exported.");
+});
+
+importProfilesInput.addEventListener("change", async (event) => {
+  const [file] = event.target.files || [];
+  if (!file) return;
+
+  try {
+    const text = await file.text();
+    const parsed = JSON.parse(text);
+    const incoming = Array.isArray(parsed) ? parsed : parsed.profiles;
+
+    if (!Array.isArray(incoming)) {
+      setStatus("Invalid import file format.");
+      return;
+    }
+
+    appState.profiles = incoming
+      .filter((entry) => entry && typeof entry === "object")
+      .map((entry) => ({ ...entry, id: entry.id || safeId(), updatedAt: entry.updatedAt || Date.now() }));
+
+    appState.activeProfileId = null;
+    appState.profileDraft = {};
+    profileForm.reset();
+    profileForm.profileRisk.value = "medium";
+    saveAppState();
+    renderProfiles();
+    setStatus(`Imported ${appState.profiles.length} profile(s).`);
+  } catch (_error) {
+    setStatus("Import failed. Please use a valid JSON export file.");
+  } finally {
+    importProfilesInput.value = "";
+  }
 });
 
 clearWorkspaceBtn.addEventListener("click", () => {
-  if (!confirm("Clear all cards and pastes from local workspace?")) {
-    return;
-  }
-  workspaceState.cards = [];
-  workspaceState.pastes = [];
-  saveWorkspaceState();
-  renderWorkspaceLists();
-  setStatus("Workspace cleared.");
+  if (!confirm("Delete all saved profiles?")) return;
+  appState.profiles = [];
+  resetProfileForm();
+  saveAppState();
+  renderProfiles();
+  setStatus("All profiles cleared.");
 });
 
-cardList.addEventListener("click", (event) => {
-  const button = event.target.closest("button[data-action='delete-card']");
-  if (!button) return;
-  const id = button.dataset.id;
-  workspaceState.cards = workspaceState.cards.filter((card) => card.id !== id);
-  saveWorkspaceState();
-  renderWorkspaceLists();
-  setStatus("Card removed.");
-});
-
-pasteList.addEventListener("click", async (event) => {
-  const button = event.target.closest("button[data-action]");
-  if (!button) return;
-
-  const id = button.dataset.id;
-  const action = button.dataset.action;
-  const paste = workspaceState.pastes.find((entry) => entry.id === id);
-  if (!paste) return;
-
-  if (action === "delete-paste") {
-    workspaceState.pastes = workspaceState.pastes.filter((entry) => entry.id !== id);
-    saveWorkspaceState();
-    renderWorkspaceLists();
-    setStatus("Paste removed.");
-    return;
-  }
-
-  if (action === "copy-paste") {
-    try {
-      await navigator.clipboard.writeText(paste.content);
-      setStatus("Paste copied to clipboard.");
-    } catch (_error) {
-      setStatus("Clipboard copy blocked by browser permissions.");
-    }
-  }
-});
-
-(function enableDragPan() {
-  let pointerDown = false;
-  let panning = false;
+function enableDragPan() {
+  let pointerId = null;
   let startX = 0;
   let startY = 0;
   let originLeft = 0;
   let originTop = 0;
+  let isPanning = false;
   let suppressClick = false;
 
-  function endPan() {
-    pointerDown = false;
-    panning = false;
+  function resetPan() {
+    pointerId = null;
+    isPanning = false;
     treeStage.classList.remove("panning");
     body.classList.remove("no-select");
   }
 
-  treeStage.addEventListener("mousedown", (event) => {
+  treeStage.addEventListener("pointerdown", (event) => {
+    if (boardMode === "workspace" || boardMode === "knowledge") return;
     if (event.button !== 0) return;
-    if (event.target.closest("input, textarea, select")) return;
-    pointerDown = true;
-    panning = false;
-    suppressClick = false;
+    if (event.target.closest("input, textarea, select, button, a, label")) return;
+
+    pointerId = event.pointerId;
     startX = event.clientX;
     startY = event.clientY;
     originLeft = treeStage.scrollLeft;
     originTop = treeStage.scrollTop;
+    suppressClick = false;
+    treeStage.setPointerCapture(pointerId);
   });
 
-  window.addEventListener("mousemove", (event) => {
-    if (!pointerDown) return;
+  treeStage.addEventListener("pointermove", (event) => {
+    if (pointerId !== event.pointerId) return;
+
     const dx = event.clientX - startX;
     const dy = event.clientY - startY;
 
-    if (!panning && (Math.abs(dx) > 4 || Math.abs(dy) > 4)) {
-      panning = true;
+    if (!isPanning && (Math.abs(dx) > 3 || Math.abs(dy) > 3)) {
+      isPanning = true;
       suppressClick = true;
       treeStage.classList.add("panning");
       body.classList.add("no-select");
     }
 
-    if (!panning) return;
+    if (!isPanning) return;
     treeStage.scrollLeft = originLeft - dx;
     treeStage.scrollTop = originTop - dy;
     event.preventDefault();
   });
 
-  window.addEventListener("mouseup", () => {
-    endPan();
-  });
-
-  window.addEventListener("blur", () => {
-    endPan();
-  });
+  treeStage.addEventListener("pointerup", resetPan);
+  treeStage.addEventListener("pointercancel", resetPan);
+  window.addEventListener("blur", resetPan);
 
   treeStage.addEventListener(
     "click",
@@ -1311,7 +1363,7 @@ pasteList.addEventListener("click", async (event) => {
     },
     true
   );
-})();
+}
 
 (function initTheme() {
   const saved = localStorage.getItem("osintAtlasTheme");
@@ -1324,8 +1376,19 @@ pasteList.addEventListener("click", async (event) => {
   }
 })();
 
-setZoom(1);
-loadWorkspaceState();
+loadAppState();
+enableDragPan();
 updateTreeBadge();
-renderAll();
-setStatus("Ready. Drag the canvas to pan, zoom controls to scale, and Flow for graph mode.");
+setZoom(1);
+
+if (appState.activeProfileId) {
+  const current = appState.profiles.find((entry) => entry.id === appState.activeProfileId);
+  if (current) setProfileFormData(current);
+  else if (appState.profileDraft && Object.keys(appState.profileDraft).length) setProfileFormData(appState.profileDraft);
+} else if (appState.profileDraft && Object.keys(appState.profileDraft).length) {
+  setProfileFormData(appState.profileDraft);
+}
+
+setActiveRail(homeBtn);
+setBoardMode("home");
+setStatus("Ready. Use Knowledge for cards, Flow for collapsed tree navigation, and Workspace for profile building.");

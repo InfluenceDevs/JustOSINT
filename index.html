@@ -52,7 +52,7 @@
 
     <section class="board panel">
       <header class="board-top">
-        <h2 id="boardTitle">Interactive OSINT Tree</h2>
+        <h2 id="boardTitle">Home Dashboard</h2>
         <div class="board-actions">
           <button id="expandAllBtn" class="btn ghost" type="button">Expand All</button>
           <button id="collapseAllBtn" class="btn ghost" type="button">Collapse All</button>
@@ -71,35 +71,55 @@
 
       <section id="workspacePanel" class="workspace-panel hidden" aria-label="Investigation workspace">
         <div class="workspace-toolbar">
-          <p>Build quick case notes using cards and raw text pastes. Data is saved locally in your browser.</p>
-          <button id="clearWorkspaceBtn" class="btn ghost" type="button">Clear Workspace</button>
+          <p>Advanced Profile Builder. Everything autosaves in your browser.</p>
+          <div class="workspace-actions">
+            <button id="exportProfilesBtn" class="btn ghost" type="button">Export JSON</button>
+            <label class="import-label btn ghost" for="importProfilesInput">Import JSON</label>
+            <input id="importProfilesInput" type="file" accept="application/json" class="hidden-file-input" />
+            <button id="clearWorkspaceBtn" class="btn ghost" type="button">Clear Profiles</button>
+          </div>
         </div>
 
         <div class="workspace-grid">
           <article class="workspace-column">
-            <h3>Cards</h3>
-            <form id="cardForm" class="workspace-form">
-              <label for="cardTitle">Title</label>
-              <input id="cardTitle" name="cardTitle" type="text" placeholder="Lead summary" maxlength="120" required />
-              <label for="cardCategory">Category</label>
-              <input id="cardCategory" name="cardCategory" type="text" placeholder="person, domain, case" maxlength="80" />
-              <label for="cardBody">Details</label>
-              <textarea id="cardBody" name="cardBody" rows="4" placeholder="Key findings and next action..." maxlength="1200" required></textarea>
-              <button class="btn" type="submit">Create Card</button>
+            <h3>Profile Builder</h3>
+            <form id="profileForm" class="workspace-form">
+              <label for="profileFullName">Full name</label>
+              <input id="profileFullName" name="profileFullName" type="text" placeholder="Jane Doe" maxlength="120" required />
+              <label for="profileAlias">Alias / username</label>
+              <input id="profileAlias" name="profileAlias" type="text" placeholder="jdoe77" maxlength="120" />
+              <label for="profileDob">DOB / age note</label>
+              <input id="profileDob" name="profileDob" type="text" placeholder="1992-03-12 or approx. 34" maxlength="80" />
+              <label for="profileLocation">Location</label>
+              <input id="profileLocation" name="profileLocation" type="text" placeholder="City, state, country" maxlength="140" />
+              <label for="profileEmails">Emails</label>
+              <textarea id="profileEmails" name="profileEmails" rows="2" placeholder="comma or newline separated" maxlength="600"></textarea>
+              <label for="profilePhones">Phones</label>
+              <textarea id="profilePhones" name="profilePhones" rows="2" placeholder="comma or newline separated" maxlength="600"></textarea>
+              <label for="profileUsernames">Usernames</label>
+              <textarea id="profileUsernames" name="profileUsernames" rows="2" placeholder="social handles or accounts" maxlength="800"></textarea>
+              <label for="profileEmployers">Employers / schools</label>
+              <textarea id="profileEmployers" name="profileEmployers" rows="2" placeholder="known organizations" maxlength="800"></textarea>
+              <label for="profileRelationship">Relationship / dating context</label>
+              <input id="profileRelationship" name="profileRelationship" type="text" placeholder="single, married, unknown" maxlength="120" />
+              <label for="profileTags">Tags</label>
+              <input id="profileTags" name="profileTags" type="text" placeholder="target, witness, lead" maxlength="160" />
+              <label for="profileRisk">Risk level</label>
+              <select id="profileRisk" name="profileRisk">
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+              </select>
+              <label for="profileNotes">Investigation notes</label>
+              <textarea id="profileNotes" name="profileNotes" rows="5" placeholder="timeline, links, confidence, next steps" maxlength="4000"></textarea>
+              <button id="saveProfileBtn" class="btn" type="submit">Save Profile</button>
             </form>
-            <div id="cardList" class="workspace-list" aria-live="polite"></div>
           </article>
 
           <article class="workspace-column">
-            <h3>Pastes</h3>
-            <form id="pasteForm" class="workspace-form">
-              <label for="pasteTitle">Label</label>
-              <input id="pasteTitle" name="pasteTitle" type="text" placeholder="Raw output" maxlength="120" />
-              <label for="pasteContent">Paste text</label>
-              <textarea id="pasteContent" name="pasteContent" rows="8" placeholder="Paste logs, usernames, hashes, links, or snippets..." maxlength="6000" required></textarea>
-              <button class="btn" type="submit">Save Paste</button>
-            </form>
-            <div id="pasteList" class="workspace-list" aria-live="polite"></div>
+            <h3>Saved Profiles</h3>
+            <p class="workspace-hint">Drag to reorder. Click Edit to load a profile into the builder.</p>
+            <div id="profileList" class="workspace-list" aria-live="polite"></div>
           </article>
         </div>
       </section>
@@ -125,6 +145,12 @@
           <label><input type="checkbox" id="issueIncorrect" aria-label="Incorrect info" /> Incorrect info</label>
         </div>
         <button id="sendFeedbackBtn" class="btn ghost" type="button">Send Feedback</button>
+      </div>
+
+      <div class="stack favorites-panel">
+        <h2>Quick Access</h2>
+        <p class="workspace-hint">Pin tools from Knowledge or Flow using the + button.</p>
+        <div id="favoritesList" class="workspace-list" aria-live="polite"></div>
       </div>
 
       <p class="credits">Made by Influence</p>
