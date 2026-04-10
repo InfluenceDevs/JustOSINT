@@ -1235,6 +1235,7 @@ const osintData = [
 // ── App State ─────────────────────────────────────────────────────────────────
 const STORAGE_KEY = 'justOsintV3';
 const THEME_STORAGE_KEY = 'justOsintTheme';
+const MAX_PROFILE_IMAGE_BYTES = 1024 * 1024;
 let appState = { favorites: [], profiles: [], activeProfileId: null };
 
 function loadState() {
@@ -1339,6 +1340,7 @@ let elCatNav, elToolGrid, elSearchInput, elResultMeta, elEmptyState,
     elProfileFormTitle, elFavList;
 
 let activeTheme = 'dark';
+let activeProfileImageData = '';
 
 function refreshIcons() {
   if (window.lucide && typeof window.lucide.createIcons === 'function') {
@@ -1859,10 +1861,14 @@ function renderProfileList() {
     const item = document.createElement('div');
     item.className = 'profile-item';
     item.setAttribute('draggable', 'true');
-    const riskColor = { Low: '#3fb950', Medium: '#e3b341', High: '#f0883e', Critical: '#f85149' }[profile.risk] || '#8b949e';
     item.innerHTML = `
-      <div class="profile-item-name">${escHtml(profile.fullName || profile.alias || 'Unnamed')}</div>
-      <div class="profile-item-sub">${escHtml([profile.alias, profile.location, profile.risk].filter(Boolean).join(' · '))}</div>
+      <div class="profile-item-top">
+        ${getProfileAvatarMarkup(profile)}
+        <div class="profile-item-main">
+          <div class="profile-item-name">${escHtml(profile.fullName || profile.alias || 'Unnamed')}</div>
+          <div class="profile-item-sub">${escHtml([profile.alias, profile.location, profile.risk].filter(Boolean).join(' · '))}</div>
+        </div>
+      </div>
       <div class="profile-item-actions">
         <button class="small-btn edit-btn">Edit</button>
         <button class="small-btn delete-btn" style="color:#f85149;border-color:#4a1840;">Delete</button>
@@ -1889,6 +1895,7 @@ function openProfileForm(profileId) {
     const p = appState.profiles.find(x => x.id === profileId);
     if (p) {
       elProfileFormTitle.textContent = 'Edit Profile';
+      activeProfileImageData = p.imageData || '';
       document.getElementById('pf_fullName').value = p.fullName || '';
       document.getElementById('pf_alias').value = p.alias || '';
       document.getElementById('pf_dob').value = p.dob || '';
@@ -1901,10 +1908,15 @@ function openProfileForm(profileId) {
       document.getElementById('pf_risk').value = p.risk || '';
       document.getElementById('pf_tags').value = (p.tags || []).join(', ');
       document.getElementById('pf_notes').value = p.notes || '';
+      document.getElementById('pf_avatarInput').value = '';
+      updateProfileAvatarPreview();
     }
   } else {
     elProfileFormTitle.textContent = 'New Profile';
     document.getElementById('profileForm').reset();
+    activeProfileImageData = '';
+    document.getElementById('pf_avatarInput').value = '';
+    updateProfileAvatarPreview();
   }
 }
 
@@ -1912,6 +1924,7 @@ function saveProfile() {
   const id = appState.activeProfileId || ('p' + Date.now());
   const profile = {
     id,
+    imageData: activeProfileImageData || '',
     fullName: document.getElementById('pf_fullName').value.trim(),
     alias: document.getElementById('pf_alias').value.trim(),
     dob: document.getElementById('pf_dob').value.trim(),
@@ -1942,7 +1955,35 @@ function saveProfile() {
 function backToList() {
   elProfileFormSection.classList.add('hidden');
   elProfileListSection.classList.remove('hidden');
+  appState.activeProfileId = null;
+  activeProfileImageData = '';
+  document.getElementById('pf_avatarInput').value = '';
   renderProfileList();
+}
+
+function getProfileInitial(profile) {
+  const source = (profile.fullName || profile.alias || '').trim();
+  return source ? source.charAt(0).toUpperCase() : '?';
+}
+
+function getProfileAvatarMarkup(profile) {
+  if (profile.imageData) {
+    return `<div class="profile-avatar" aria-hidden="true"><img src="${escHtml(profile.imageData)}" alt="" /></div>`;
+  }
+  return `<div class="profile-avatar" aria-hidden="true"><span class="profile-avatar-initial">${escHtml(getProfileInitial(profile))}</span></div>`;
+}
+
+function updateProfileAvatarPreview() {
+  const preview = document.getElementById('profileAvatarPreview');
+  if (!preview) return;
+
+  const name = document.getElementById('pf_fullName')?.value.trim() || document.getElementById('pf_alias')?.value.trim() || '';
+  const initial = name ? name.charAt(0).toUpperCase() : '?';
+  if (activeProfileImageData) {
+    preview.innerHTML = `<img src="${escHtml(activeProfileImageData)}" alt="Selected profile image" />`;
+    return;
+  }
+  preview.innerHTML = `<span class="profile-avatar-initial">${escHtml(initial)}</span>`;
 }
 
 // ── Utilities ─────────────────────────────────────────────────────────────────
@@ -2084,6 +2125,34 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('cancelProfileBtn').addEventListener('click', backToList);
   document.getElementById('saveProfileBtn').addEventListener('click', saveProfile);
 
+  document.getElementById('pf_fullName').addEventListener('input', updateProfileAvatarPreview);
+  document.getElementById('pf_alias').addEventListener('input', updateProfileAvatarPreview);
+
+  document.getElementById('pf_avatarInput').addEventListener('change', e => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    if (file.size > MAX_PROFILE_IMAGE_BYTES) {
+      alert('Image too large. Please select an image under 1MB.');
+      e.target.value = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = ev => {
+      if (typeof ev.target?.result !== 'string') return;
+      activeProfileImageData = ev.target.result;
+      updateProfileAvatarPreview();
+    };
+    reader.onerror = () => alert('Unable to read image file. Please try another image.');
+    reader.readAsDataURL(file);
+  });
+
+  document.getElementById('pf_avatarClear').addEventListener('click', () => {
+    activeProfileImageData = '';
+    document.getElementById('pf_avatarInput').value = '';
+    updateProfileAvatarPreview();
+  });
+
   document.getElementById('exportProfilesBtn').addEventListener('click', exportProfiles);
   document.getElementById('importProfilesInput').addEventListener('change', e => {
     if (e.target.files[0]) importProfiles(e.target.files[0]);
@@ -2113,4 +2182,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ── Search: hide clear btn initially ─────────────────
   elSearchClear.classList.add('hidden');
+  updateProfileAvatarPreview();
 });

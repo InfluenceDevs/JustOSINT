@@ -180,6 +180,18 @@
           <input type="text" id="pf_alias" placeholder="@username" />
         </div>
         <div class="field-group">
+          <label>Profile Image</label>
+          <div class="profile-image-picker">
+            <div id="profileAvatarPreview" class="profile-avatar profile-avatar-preview" aria-hidden="true">
+              <span class="profile-avatar-initial">?</span>
+            </div>
+            <label for="pf_avatarInput" class="small-btn"><i data-lucide="image-plus"></i>Upload Image</label>
+            <button type="button" id="pf_avatarClear" class="small-btn">Use Initial</button>
+            <input type="file" id="pf_avatarInput" accept="image/*" class="hidden-file-input" />
+          </div>
+          <div class="field-help">Optional. If no image is selected, the first letter of the name is used.</div>
+        </div>
+        <div class="field-group">
           <label>Date of Birth</label>
           <input type="text" id="pf_dob" placeholder="YYYY-MM-DD" />
         </div>
