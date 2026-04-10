@@ -1234,6 +1234,7 @@ const osintData = [
 ];
 // ── App State ─────────────────────────────────────────────────────────────────
 const STORAGE_KEY = 'justOsintV3';
+const THEME_STORAGE_KEY = 'justOsintTheme';
 let appState = { favorites: [], profiles: [], activeProfileId: null };
 
 function loadState() {
@@ -1337,10 +1338,46 @@ let elCatNav, elToolGrid, elSearchInput, elResultMeta, elEmptyState,
     elProfileList, elProfileListSection, elProfileFormSection,
     elProfileFormTitle, elFavList;
 
+let activeTheme = 'dark';
+
 function refreshIcons() {
   if (window.lucide && typeof window.lucide.createIcons === 'function') {
     window.lucide.createIcons();
   }
+}
+
+function getPreferredTheme() {
+  try {
+    const saved = localStorage.getItem(THEME_STORAGE_KEY);
+    if (saved === 'light' || saved === 'dark') return saved;
+  } catch (e) { /* ignore */ }
+
+  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+    return 'light';
+  }
+  return 'dark';
+}
+
+function updateThemeToggleButton() {
+  const btn = document.getElementById('themeToggleBtn');
+  if (!btn) return;
+  const iconName = activeTheme === 'dark' ? 'sun' : 'moon';
+  btn.classList.toggle('theme-dark', activeTheme === 'dark');
+  btn.classList.toggle('theme-light', activeTheme === 'light');
+  btn.innerHTML = `
+    <span class="btn-icon" aria-hidden="true"><i data-lucide="${iconName}"></i></span>
+    <span class="btn-label">Theme</span>
+  `;
+  refreshIcons();
+}
+
+function setTheme(theme, persist = true) {
+  activeTheme = theme === 'light' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', activeTheme);
+  if (persist) {
+    try { localStorage.setItem(THEME_STORAGE_KEY, activeTheme); } catch (e) { /* ignore */ }
+  }
+  updateThemeToggleButton();
 }
 
 // ── Sidebar: Render Categories ────────────────────────────────────────────────
@@ -1947,6 +1984,7 @@ function importProfiles(file) {
 // ── Init ──────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   loadState();
+  setTheme(getPreferredTheme(), false);
 
   // Cache DOM refs
   elCatNav         = document.getElementById('catNav');
@@ -1968,6 +2006,11 @@ document.addEventListener('DOMContentLoaded', () => {
   renderSidebar();
   renderGrid();
   refreshIcons();
+
+  document.getElementById('themeToggleBtn').addEventListener('click', () => {
+    const nextTheme = activeTheme === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme, true);
+  });
 
   // ── Search ────────────────────────────────────────────
   elSearchInput.addEventListener('input', () => {
