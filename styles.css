@@ -26,6 +26,8 @@ input, textarea, select { font: inherit; }
 
 /* ── CSS Variables ─────────────────────────── */
 :root {
+  --theme-transition-duration: 260ms;
+  --theme-transition-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --bg-base: #0d1117;
   --bg-raised: #161b22;
   --bg-card: #1c2128;
@@ -116,6 +118,26 @@ a:hover { text-decoration: underline; }
 
 body {
   transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition:
+    background-color var(--theme-transition-duration) var(--theme-transition-ease),
+    color var(--theme-transition-duration) var(--theme-transition-ease),
+    border-color var(--theme-transition-duration) var(--theme-transition-ease),
+    box-shadow var(--theme-transition-duration) var(--theme-transition-ease),
+    fill var(--theme-transition-duration) var(--theme-transition-ease),
+    stroke var(--theme-transition-duration) var(--theme-transition-ease) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.theme-transitioning *,
+  html.theme-transitioning *::before,
+  html.theme-transitioning *::after {
+    transition: none !important;
+  }
 }
 
 /* ── Top Bar ───────────────────────────────── */

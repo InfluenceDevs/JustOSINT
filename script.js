@@ -1347,6 +1347,7 @@ let elCatNav, elToolGrid, elSearchInput, elResultMeta, elEmptyState,
 
 let activeTheme = 'dark';
 let activeProfileImageData = '';
+let themeTransitionTimer = null;
 
 function refreshIcons() {
   if (window.lucide && typeof window.lucide.createIcons === 'function') {
@@ -1379,9 +1380,19 @@ function updateThemeToggleButton() {
   refreshIcons();
 }
 
-function setTheme(theme, persist = true) {
+function setTheme(theme, persist = true, animate = true) {
   activeTheme = theme === 'light' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', activeTheme);
+  const root = document.documentElement;
+  if (animate) {
+    root.classList.add('theme-transitioning');
+    if (themeTransitionTimer) window.clearTimeout(themeTransitionTimer);
+    themeTransitionTimer = window.setTimeout(() => {
+      root.classList.remove('theme-transitioning');
+      themeTransitionTimer = null;
+    }, 320);
+  }
+
+  root.setAttribute('data-theme', activeTheme);
   if (persist) {
     try { localStorage.setItem(THEME_STORAGE_KEY, activeTheme); } catch (e) { /* ignore */ }
   }
@@ -2031,7 +2042,7 @@ function importProfiles(file) {
 // ── Init ──────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   loadState();
-  setTheme(getPreferredTheme(), false);
+  setTheme(getPreferredTheme(), false, false);
 
   // Cache DOM refs
   elCatNav         = document.getElementById('catNav');
