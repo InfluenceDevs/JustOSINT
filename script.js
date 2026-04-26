@@ -1474,6 +1474,8 @@ function renderGrid() {
 
   const q = searchQuery.trim().toLowerCase();
   let rendered = 0;
+  let firstVisibleGroupName = null;
+  let firstVisibleGroupCount = 0;
 
   if (activeCategory === 'favorites') {
     const favSet = new Set(appState.favorites.map(f => f.url));
@@ -1497,12 +1499,9 @@ function renderGrid() {
       const matchingTools = group.tools.filter(t => matchesSearch(t, q) && matchesReq(t) && matchesFacet(t, group.category) && matchesRegion(t, group.category) && matchesSafety(t));
       if (matchingTools.length === 0) return;
 
-      if (!q && activeReqFilter === 'all' && activeFacetFilter === 'all' && activeRegionFilter === 'all' && activeSafetyFilter === 'all') {
-        // Show category header in "all" view
-        const hdr = document.createElement('div');
-        hdr.className = 'cat-section-title';
-        hdr.innerHTML = `<h2>${escHtml(group.category)}</h2><span>${matchingTools.length} tools</span>`;
-        elToolGrid.appendChild(hdr);
+      if (!firstVisibleGroupName) {
+        firstVisibleGroupName = group.category;
+        firstVisibleGroupCount = matchingTools.length;
       }
 
       matchingTools.forEach(tool => {
@@ -1529,12 +1528,18 @@ function renderGrid() {
   const resultMetaSub = document.getElementById('resultMetaSub');
   const activeGroupText = document.getElementById('activeGroupText');
   const activeGroupCount = document.getElementById('activeGroupCount');
-  const activeGroupLabel = activeCategory === 'all'
+  let activeGroupLabel = activeCategory === 'all'
     ? 'All Tools'
     : (activeCategory === 'favorites' ? 'Favorites' : activeCategory);
+  let activeGroupToolsCount = rendered;
+
+  if (activeCategory === 'all' && firstVisibleGroupName) {
+    activeGroupLabel = firstVisibleGroupName;
+    activeGroupToolsCount = firstVisibleGroupCount;
+  }
 
   if (activeGroupText) activeGroupText.textContent = String(activeGroupLabel).toUpperCase();
-  if (activeGroupCount) activeGroupCount.textContent = `${rendered.toLocaleString()} tools`;
+  if (activeGroupCount) activeGroupCount.textContent = `${activeGroupToolsCount.toLocaleString()} tools`;
 
   if (q || activeReqFilter !== 'all' || activeFacetFilter !== 'all' || activeRegionFilter !== 'all' || activeSafetyFilter !== 'all') {
     if (resultMetaTitle) resultMetaTitle.textContent = `${rendered.toLocaleString()} results`;
@@ -1794,7 +1799,7 @@ function makeToolCard(tool, category) {
   const card = document.createElement('div');
   card.className = 'tool-card';
   const accent = pickToolAccent(tool.name || '');
-  const iconLetter = getCardIconLetter(tool.name || '');
+  const iconMarkup = getCardIconMarkup(tool.name || '');
   card.style.setProperty('--tool-accent', accent);
 
   const badges = getToolTags(tool).map(t =>
@@ -1817,7 +1822,7 @@ function makeToolCard(tool, category) {
   card.innerHTML = `
     <div class="card-top">
       <div class="card-identity">
-        <div class="card-app-icon" aria-hidden="true">${escHtml(iconLetter)}</div>
+        <div class="card-app-icon" aria-hidden="true">${iconMarkup}</div>
         <div class="card-title-wrap">
           <div class="card-title"><a href="${escHtml(tool.url)}" target="_blank" rel="noopener noreferrer" title="${escHtml(tool.name)}">${escHtml(tool.name)}</a></div>
         </div>
@@ -1849,11 +1854,23 @@ function makeToolCard(tool, category) {
   return card;
 }
 
-function getCardIconLetter(name) {
+function getCardIconMarkup(name) {
   const text = String(name || '').trim();
+  const lower = text.toLowerCase();
+
+  if (lower === 'ai or not') return 'AI';
+  if (lower.includes('copyleaks')) return 'C';
+  if (lower.includes('decopy') || lower.includes('image detector')) return '<i data-lucide="image"></i>';
+  if (lower.includes('deepai')) return '<i data-lucide="camera"></i>';
+  if (lower.includes('deepseek')) return '<i data-lucide="fish"></i>';
+  if (lower.includes('docmind')) return '<i data-lucide="file-text"></i>';
+  if (lower.includes('duckduckgo')) return '<i data-lucide="message-circle"></i>';
+  if (lower.includes('gptzero')) return 'G';
+  if (lower.includes('grammarly')) return 'G';
+
   if (!text) return '?';
   const first = text.charAt(0).toUpperCase();
-  return /[A-Z0-9]/.test(first) ? first : '#';
+  return /[A-Z0-9]/.test(first) ? escHtml(first) : '#';
 }
 
 function pickToolAccent(name) {

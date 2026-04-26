@@ -10,7 +10,10 @@ html { font-size: 15px; }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background: var(--bg-base);
+  background:
+    radial-gradient(1000px 460px at 22% -8%, rgba(33, 88, 255, 0.2), transparent 62%),
+    radial-gradient(860px 360px at 92% -6%, rgba(147, 51, 234, 0.2), transparent 62%),
+    linear-gradient(180deg, #090f1f 0%, #070d1b 48%, #060b18 100%);
   color: var(--text-primary);
   min-height: 100vh;
   display: flex;
@@ -41,8 +44,8 @@ input, textarea, select { font: inherit; }
   --accent: #58a6ff;
   --accent-hover: #79c0ff;
   --link-color: #58a6ff;
-  --sidebar-w: 240px;
-  --topbar-h: 58px;
+  --sidebar-w: 282px;
+  --topbar-h: 74px;
   --panel-w: 380px;
 
   --discord-btn-border: rgba(114, 137, 218, 0.55);
@@ -145,12 +148,13 @@ html.theme-transitioning *::after {
   position: fixed;
   top: 0; left: 0; right: 0;
   height: var(--topbar-h);
-  background: var(--bg-raised);
-  border-bottom: 1px solid var(--border);
+  background: rgba(7, 11, 24, 0.8);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(84, 103, 150, 0.28);
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 0 20px;
+  gap: 18px;
+  padding: 0 18px;
   z-index: 100;
 }
 
@@ -200,7 +204,7 @@ html.theme-transitioning *::after {
 .topbar-search {
   flex: 1;
   position: relative;
-  max-width: 620px;
+  max-width: none;
 }
 
 .search-icon {
@@ -222,12 +226,12 @@ html.theme-transitioning *::after {
 
 #searchInput {
   width: 100%;
-  background: var(--bg-input);
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(11, 19, 39, 0.95) 0%, rgba(8, 15, 31, 0.96) 100%);
+  border: 1px solid rgba(88, 110, 163, 0.48);
+  border-radius: 14px;
   color: var(--text-primary);
-  padding: 9px 36px 9px 36px;
-  font-size: 0.9rem;
+  padding: 13px 86px 13px 40px;
+  font-size: 0.96rem;
   transition: border-color 0.15s, box-shadow 0.15s;
   outline: none;
 }
@@ -297,12 +301,12 @@ html.theme-transitioning *::after {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 7px;
-  color: var(--text-secondary);
-  padding: 7px 13px;
-  font-size: 0.85rem;
+  background: rgba(9, 16, 33, 0.72);
+  border: 1px solid rgba(88, 110, 163, 0.42);
+  border-radius: 11px;
+  color: #c3d0f0;
+  padding: 10px 17px;
+  font-size: 0.9rem;
   transition: all 0.15s;
 }
 
@@ -732,7 +736,7 @@ html.theme-transitioning *::after {
 }
 
 .meta-title {
-  font-size: 1.85rem;
+  font-size: 2.05rem;
   line-height: 1;
   font-weight: 800;
   color: #dbe6ff;
@@ -779,7 +783,7 @@ html.theme-transitioning *::after {
 }
 
 #activeGroupText {
-  font-size: 1.55rem;
+  font-size: 2rem;
   letter-spacing: 0.03em;
   font-weight: 800;
   color: var(--text-primary);
@@ -836,7 +840,7 @@ html.theme-transitioning *::after {
   overflow-x: hidden;
   padding: 8px 24px 24px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
   align-content: start;
   scrollbar-width: thin;
@@ -885,20 +889,25 @@ html.theme-transitioning *::after {
 }
 
 .card-app-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
   border: 1px solid color-mix(in srgb, var(--tool-accent) 68%, #2d3f66 32%);
   background: linear-gradient(135deg, color-mix(in srgb, var(--tool-accent) 42%, #233a63 58%) 0%, rgba(10, 23, 46, 0.85) 100%);
   color: #e7f0ff;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.15rem;
+  font-size: 1.4rem;
   font-weight: 700;
   letter-spacing: 0.01em;
   text-transform: uppercase;
   flex-shrink: 0;
+}
+
+.card-app-icon svg {
+  width: 24px;
+  height: 24px;
 }
 
 .card-title-wrap {
@@ -1451,11 +1460,16 @@ html.theme-transitioning *::after {
 ::-webkit-scrollbar-thumb:hover { background: #484f58; }
 
 /* ── Responsive ──────────────────────────── */
-@media (max-width: 900px) {
-  :root { --sidebar-w: 200px; }
+@media (max-width: 1460px) {
+  #toolGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 1100px) {
+  :root { --sidebar-w: 220px; }
   #filterBar { grid-template-columns: 1fr; }
   #resultMeta { min-height: 88px; }
-  #activeGroupText { font-size: 1.15rem; }
+  #activeGroupText { font-size: 1.3rem; }
+  #toolGrid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 680px) {
@@ -1463,6 +1477,7 @@ html.theme-transitioning *::after {
   #toolGrid { grid-template-columns: 1fr; }
   .topbar-btn .btn-label { display: none; }
   .brand-credit { display: none; }
+  .search-kbd { display: none; }
   :root { --panel-w: 100%; }
   #gridControls { width: 100%; justify-content: flex-start; }
   #activeGroupCount { display: none; }
