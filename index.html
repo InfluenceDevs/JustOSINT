@@ -68,55 +68,68 @@
 
     <!-- Filter bar -->
     <div id="filterBar">
-      <div id="reqFilters">
-        <button class="req-filter active" data-req="all">All</button>
-        <button class="req-filter" data-req="open">
-          <span class="badge-dot open"></span>Open
-        </button>
-        <button class="req-filter" data-req="login">
-          <span class="badge-dot login"></span>Login
-        </button>
-        <button class="req-filter" data-req="api">
-          <span class="badge-dot api"></span>API Key
-        </button>
-        <button class="req-filter" data-req="paid">
-          <span class="badge-dot paid"></span>Paid
-        </button>
-        <button class="req-filter" data-req="install">
-          <span class="badge-dot install"></span>Install
-        </button>
-        <button class="req-filter" data-req="dork">
-          <span class="badge-dot dork"></span>Dork
-        </button>
+      <div id="filterControls">
+        <div id="reqFilters">
+          <button class="req-filter active" data-req="all"><i data-lucide="circle-dot"></i>All</button>
+          <button class="req-filter" data-req="open"><span class="badge-dot open"></span>Open</button>
+          <button class="req-filter" data-req="login"><span class="badge-dot login"></span>Login</button>
+          <button class="req-filter" data-req="api"><span class="badge-dot api"></span>API Key</button>
+          <button class="req-filter" data-req="paid"><span class="badge-dot paid"></span>Paid</button>
+          <button class="req-filter" data-req="install"><span class="badge-dot install"></span>Install</button>
+          <button class="req-filter" data-req="dork"><span class="badge-dot dork"></span>Dork</button>
+          <button class="req-filter" type="button"><span>More</span><i data-lucide="chevron-down"></i></button>
+        </div>
+        <div id="facetFilters">
+          <button class="facet-filter active" data-facet="all"><i data-lucide="globe"></i>Any Source</button>
+          <button class="facet-filter" data-facet="people"><i data-lucide="users"></i>People</button>
+          <button class="facet-filter" data-facet="infra"><i data-lucide="server"></i>Infra</button>
+          <button class="facet-filter" data-facet="media"><i data-lucide="camera"></i>Media</button>
+          <button class="facet-filter" data-facet="government"><i data-lucide="shield"></i>Government</button>
+          <button class="facet-filter" data-facet="dataset"><i data-lucide="database"></i>Datasets</button>
+          <button class="facet-filter" data-facet="repo"><i data-lucide="wrench"></i>Repo Tools</button>
+        </div>
+        <div id="filterBottomRow">
+          <div id="regionFilters">
+            <button class="region-filter active" data-region="all"><i data-lucide="map"></i>Any Region</button>
+            <button class="region-filter" data-region="global">Global</button>
+            <button class="region-filter" data-region="us">US</button>
+            <button class="region-filter" data-region="uk">UK</button>
+            <button class="region-filter" data-region="eu">EU</button>
+            <button class="region-filter" data-region="ca">CA</button>
+            <button class="region-filter" data-region="in">IN</button>
+            <button class="region-filter" data-region="de">DE</button>
+            <button class="region-filter" data-region="nl">NL</button>
+            <button class="region-filter" data-region="au">AU</button>
+            <button class="region-filter" data-region="regional"><i data-lucide="chevron-down"></i></button>
+          </div>
+          <div id="safetyFilters">
+            <button class="safety-filter active" data-safety="all"><i data-lucide="shield-check"></i>Any Safety</button>
+            <button class="safety-filter" data-safety="screened">Screened</button>
+            <button class="safety-filter" data-safety="caution">Caution</button>
+          </div>
+        </div>
       </div>
-      <div id="facetFilters">
-        <button class="facet-filter active" data-facet="all">Any Source</button>
-        <button class="facet-filter" data-facet="people">People</button>
-        <button class="facet-filter" data-facet="infra">Infra</button>
-        <button class="facet-filter" data-facet="media">Media</button>
-        <button class="facet-filter" data-facet="government">Government</button>
-        <button class="facet-filter" data-facet="dataset">Datasets</button>
-        <button class="facet-filter" data-facet="repo">Repo Tools</button>
+
+      <div id="resultMeta">
+        <div class="meta-globe" aria-hidden="true"><i data-lucide="globe-2"></i></div>
+        <div class="meta-copy">
+          <div id="resultMetaTitle" class="meta-title">0 tools</div>
+          <div id="resultMetaSub" class="meta-sub">across 0 categories</div>
+          <svg class="meta-wave" viewBox="0 0 160 24" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0,14 C12,4 24,22 36,12 C48,2 60,20 72,10 C84,2 96,22 108,12 C120,4 132,20 144,12 C150,8 155,10 160,9" />
+          </svg>
+        </div>
       </div>
-      <div id="regionFilters">
-        <button class="region-filter active" data-region="all">Any Region</button>
-        <button class="region-filter" data-region="global">Global</button>
-        <button class="region-filter" data-region="us">US</button>
-        <button class="region-filter" data-region="uk">UK</button>
-        <button class="region-filter" data-region="eu">EU</button>
-        <button class="region-filter" data-region="ca">CA</button>
-        <button class="region-filter" data-region="in">IN</button>
-        <button class="region-filter" data-region="de">DE</button>
-        <button class="region-filter" data-region="nl">NL</button>
-        <button class="region-filter" data-region="au">AU</button>
-        <button class="region-filter" data-region="regional">Regional</button>
+    </div>
+
+    <div id="gridHeader">
+      <div id="activeGroupLabel"><span class="group-icon">✨</span><span id="activeGroupText">All Tools</span><span id="activeGroupCount">0 tools</span></div>
+      <div id="gridControls">
+        <span class="sort-label">Sort by</span>
+        <button id="sortBtn" class="sort-btn" type="button"><i data-lucide="trending-up"></i><span>Popularity</span><i data-lucide="chevron-down"></i></button>
+        <button id="viewGridBtn" class="view-btn active" type="button" aria-label="Grid view"><i data-lucide="grid-2x2"></i></button>
+        <button id="viewListBtn" class="view-btn" type="button" aria-label="Compact view"><i data-lucide="list"></i></button>
       </div>
-      <div id="safetyFilters">
-        <button class="safety-filter active" data-safety="all">Any Safety</button>
-        <button class="safety-filter" data-safety="screened">Screened</button>
-        <button class="safety-filter" data-safety="caution">Caution</button>
-      </div>
-      <div id="resultMeta"></div>
     </div>
 
     <!-- Tool grid -->

@@ -435,6 +435,24 @@ html.theme-transitioning *::after {
   gap: 8px;
 }
 
+.cat-item-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.cat-icon {
+  width: 15px;
+  height: 15px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.cat-item.active .cat-icon {
+  color: var(--accent);
+}
+
 .cat-item:hover {
   background: var(--bg-card);
   color: var(--text-primary);
@@ -489,14 +507,19 @@ html.theme-transitioning *::after {
 
 /* ── Filter Bar ──────────────────────────── */
 #filterBar {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 290px;
+  gap: 14px;
   padding: 12px 24px;
   background: var(--bg-base);
   border-bottom: 1px solid var(--border-subtle);
   flex-shrink: 0;
-  flex-wrap: wrap;
+}
+
+#filterControls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 #reqFilters {
@@ -520,6 +543,14 @@ html.theme-transitioning *::after {
 #safetyFilters {
   display: flex;
   gap: 6px;
+  flex-wrap: wrap;
+}
+
+#filterBottomRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
@@ -564,6 +595,16 @@ html.theme-transitioning *::after {
   font-size: 0.78rem;
   font-weight: 500;
   transition: all 0.15s;
+}
+
+.req-filter svg,
+.facet-filter svg,
+.region-filter svg,
+.safety-filter svg {
+  width: 13px;
+  height: 13px;
+  stroke-width: 2.1;
+  flex-shrink: 0;
 }
 
 .req-filter:hover {
@@ -635,10 +676,137 @@ html.theme-transitioning *::after {
 .badge-dot.dork    { background: var(--badge-dork-text); }
 
 #resultMeta {
-  margin-left: auto;
+  border: 1px solid rgba(103, 51, 197, 0.45);
+  border-radius: 12px;
+  background: radial-gradient(120% 160% at 15% 20%, rgba(31, 90, 255, 0.2) 0%, rgba(88, 20, 180, 0.22) 40%, rgba(25, 16, 54, 0.55) 100%);
+  padding: 14px 14px 10px;
+  display: flex;
+  gap: 12px;
+  min-height: 110px;
+}
+
+.meta-globe {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1px solid rgba(88, 166, 255, 0.5);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #77b6ff;
+  box-shadow: inset 0 0 22px rgba(107, 185, 255, 0.32), 0 0 20px rgba(89, 40, 195, 0.45);
+  flex-shrink: 0;
+}
+
+.meta-globe svg {
+  width: 26px;
+  height: 26px;
+}
+
+.meta-copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  width: 100%;
+}
+
+.meta-title {
+  font-size: 1.85rem;
+  line-height: 1;
+  font-weight: 800;
+  color: #dbe6ff;
+}
+
+.meta-sub {
+  margin-top: 3px;
+  font-size: 0.84rem;
+  color: #bdc9e8;
+  line-height: 1.25;
+}
+
+.meta-wave {
+  margin-top: auto;
+  width: 100%;
+  height: 24px;
+  opacity: 0.9;
+}
+
+.meta-wave path {
+  fill: none;
+  stroke: #b369ff;
+  stroke-width: 2;
+}
+
+#gridHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 24px 6px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+#activeGroupLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.group-icon {
+  font-size: 0.95rem;
+}
+
+#activeGroupText {
+  font-size: 1.55rem;
+  letter-spacing: 0.03em;
+  font-weight: 800;
+  color: var(--text-primary);
+  text-transform: uppercase;
+}
+
+#activeGroupCount {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+#gridControls {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sort-label {
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+}
+
+.sort-btn,
+.view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  padding: 6px 10px;
   font-size: 0.8rem;
-  color: var(--text-muted);
-  white-space: nowrap;
+}
+
+.sort-btn:hover,
+.view-btn:hover,
+.view-btn.active {
+  color: var(--text-primary);
+  border-color: var(--accent);
+  background: var(--bg-card-hover);
+}
+
+.sort-btn svg,
+.view-btn svg {
+  width: 14px;
+  height: 14px;
+}
 }
 
 /* ── Tool Grid ───────────────────────────── */
@@ -646,7 +814,7 @@ html.theme-transitioning *::after {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 20px 24px 24px;
+  padding: 8px 24px 24px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 14px;
@@ -655,14 +823,19 @@ html.theme-transitioning *::after {
   scrollbar-color: var(--border) transparent;
 }
 
+#toolGrid.compact-view {
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+}
+
 #toolGrid::-webkit-scrollbar { width: 6px; }
 #toolGrid::-webkit-scrollbar-track { background: transparent; }
 #toolGrid::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
 /* ── Tool Card ───────────────────────────── */
 .tool-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+  --tool-accent: rgba(88, 166, 255, 0.75);
+  background: linear-gradient(180deg, rgba(10, 16, 33, 0.78) 0%, rgba(12, 19, 39, 0.92) 100%);
+  border: 1px solid color-mix(in srgb, var(--tool-accent) 64%, #1d2e4f 36%);
   border-radius: 10px;
   padding: 14px 16px;
   display: flex;
@@ -673,20 +846,47 @@ html.theme-transitioning *::after {
 }
 
 .tool-card:hover {
-  border-color: #3d444d;
-  background: var(--bg-card-hover);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  border-color: color-mix(in srgb, var(--tool-accent) 85%, #f4f8ff 15%);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.34);
 }
 
 .card-top {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 8px;
 }
 
+.card-identity {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.card-app-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--tool-accent) 68%, #2d3f66 32%);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--tool-accent) 42%, #233a63 58%) 0%, rgba(10, 23, 46, 0.85) 100%);
+  color: #e7f0ff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.card-title-wrap {
+  min-width: 0;
+}
+
 .card-title {
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   font-weight: 600;
   color: var(--text-primary);
   line-height: 1.3;
@@ -705,6 +905,11 @@ html.theme-transitioning *::after {
 }
 
 .card-title a:hover { color: var(--accent); text-decoration: none; }
+
+.card-title-wrap .card-category {
+  margin-top: 2px;
+  font-size: 0.74rem;
+}
 
 .card-fav {
   background: rgba(255,255,255,0.02);
@@ -807,13 +1012,35 @@ html.theme-transitioning *::after {
 }
 
 .card-desc {
-  font-size: 0.8rem;
+  font-size: 0.83rem;
   color: var(--text-secondary);
   line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.card-popularity {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.84rem;
+  color: #57b7ff;
+}
+
+.card-popularity svg {
+  width: 13px;
+  height: 13px;
 }
 
 .card-category {
@@ -1206,6 +1433,9 @@ html.theme-transitioning *::after {
 /* ── Responsive ──────────────────────────── */
 @media (max-width: 900px) {
   :root { --sidebar-w: 200px; }
+  #filterBar { grid-template-columns: 1fr; }
+  #resultMeta { min-height: 88px; }
+  #activeGroupText { font-size: 1.15rem; }
 }
 
 @media (max-width: 680px) {
@@ -1214,6 +1444,8 @@ html.theme-transitioning *::after {
   .topbar-btn .btn-label { display: none; }
   .brand-credit { display: none; }
   :root { --panel-w: 100%; }
+  #gridControls { width: 100%; justify-content: flex-start; }
+  #activeGroupCount { display: none; }
 }
 
 /* ── Category section in "All" view ─────── */
