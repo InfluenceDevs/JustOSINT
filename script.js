@@ -1427,11 +1427,11 @@ function renderSidebar() {
   elCatNav.innerHTML = '';
 
   // "All" item
-  const allBtn = makeCatItem('all', '★ All Tools', getTotalToolCount(), true);
+  const allBtn = makeCatItem('all', 'All Tools', getTotalToolCount(), true);
   elCatNav.appendChild(allBtn);
 
   // "Favorites" item
-  const favBtn = makeCatItem('favorites', '★ Favorites', appState.favorites.length, false, true);
+  const favBtn = makeCatItem('favorites', 'Favorites', appState.favorites.length, false, true);
   elCatNav.appendChild(favBtn);
 
   // Category items
@@ -1820,7 +1820,6 @@ function makeToolCard(tool, category) {
         <div class="card-app-icon" aria-hidden="true">${escHtml(iconLetter)}</div>
         <div class="card-title-wrap">
           <div class="card-title"><a href="${escHtml(tool.url)}" target="_blank" rel="noopener noreferrer" title="${escHtml(tool.name)}">${escHtml(tool.name)}</a></div>
-          ${catLabel}
         </div>
       </div>
       <button class="card-fav${isFav ? ' pinned' : ''}" data-url="${escHtml(tool.url)}" aria-label="${isFav ? 'Unpin' : 'Pin'} ${escHtml(tool.name)}"><i data-lucide="star"></i></button>
@@ -1829,7 +1828,7 @@ function makeToolCard(tool, category) {
     <div class="card-signals">${signalBadges}</div>
     ${descHtml}
     <div class="card-foot">
-      <span></span>
+      ${catLabel}
       <div class="card-popularity"><i data-lucide="flame"></i><span>${popularity}</span></div>
     </div>
   `;
