@@ -1988,7 +1988,7 @@ function makeToolCard(tool, category) {
   const card = document.createElement('div');
   card.className = 'tool-card';
   const accent = pickToolAccent(tool.name || '');
-  const iconMarkup = getCardIconMarkup(tool.name || '');
+  const iconMarkup = getKnownToolLogoMarkup(tool.name || '') || getCardIconMarkup(tool.name || '');
   card.style.setProperty('--tool-accent', accent);
 
   const badges = getToolTags(tool).map(t =>
@@ -2041,6 +2041,31 @@ function makeToolCard(tool, category) {
   });
 
   return card;
+}
+
+function getKnownToolLogoMarkup(name) {
+  const lower = String(name || '').toLowerCase().trim();
+
+  const knownLogos = [
+    { test: /deepseek/, domain: 'deepseek.com' },
+    { test: /chatgpt|openai/, domain: 'openai.com' },
+    { test: /gemini/, domain: 'google.com' },
+    { test: /claude|anthropic/, domain: 'claude.ai' },
+    { test: /grok|xai/, domain: 'grok.com' },
+    { test: /notebooklm/, domain: 'notebooklm.google.com' },
+    { test: /perplexity/, domain: 'perplexity.ai' },
+    { test: /^phind$/, domain: 'phind.com' },
+    { test: /^exa( ai)?$/, domain: 'exa.ai' },
+    { test: /^tavily$/, domain: 'tavily.com' },
+    { test: /copilot/, domain: 'copilot.microsoft.com' }
+  ];
+
+  const matched = knownLogos.find(item => item.test.test(lower));
+  if (!matched) return null;
+
+  const fallback = getCardIconMarkup(name);
+  const logoUrl = `https://www.google.com/s2/favicons?sz=64&domain=${encodeURIComponent(matched.domain)}`;
+  return `<span class="brand-logo-wrap"><span class="brand-fallback">${fallback}</span><img class="card-brand-logo" src="${logoUrl}" alt="" loading="lazy" referrerpolicy="no-referrer" /></span>`;
 }
 
 function getCardIconMarkup(name) {
