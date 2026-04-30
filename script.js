@@ -20,6 +20,25 @@ const osintData = [
     { name: "World Monitor", url: "https://www.worldmonitor.app/", tags: ["login", "api", "paid"], desc: "AI-powered geopolitical event monitoring and intelligence platform that tracks global news and events relevant to national security and business risk." },
     { name: "You.com", url: "https://you.com/", tags: ["login", "api", "paid"], desc: "AI-powered search engine and assistant that combines web search with LLM-generated responses and source citations for research tasks." },
   ]},
+      { name: "AbuseIPDB", url: "https://www.abuseipdb.com/", tags: ["login", "api", "paid"], desc: "Community-driven IP abuse reporting and reputation database identifying IPs involved in port scanning, spam, hacking, DDoS, and other malicious activity." },
+      { name: "FOFA", url: "https://fofa.info/", tags: ["login", "api", "paid"], desc: "Chinese cyberspace search engine for discovering internet-connected devices and services with broad protocol coverage and thousands of component fingerprint rules." },
+      { name: "Censys", url: "https://censys.io/", tags: ["login", "api", "paid"], desc: "Internet-wide host and certificate scanning platform for discovering exposed services, open ports, and TLS certificates across IPv4 and IPv6 address space." },
+      { name: "Shodan InternetDB", url: "https://internetdb.shodan.io/", tags: ["api"], desc: "Lightweight Shodan API endpoint returning open ports, hostnames, known vulnerabilities, CPEs, and tags for any IP address with no authentication required." },
+      { name: "IPinfo.io", url: "https://ipinfo.io/", tags: ["api", "paid"], desc: "IP intelligence API providing geolocation, ASN, carrier, hosted-domains, and privacy-detection data with a generous free tier for individual lookups." },
+      { name: "bgp.tools", url: "https://bgp.tools/", tags: ["api"], desc: "BGP routing table and ASN analysis tool for exploring route announcements, prefix ownership, and autonomous system peering relationships." },
+      { name: "Shodan", url: "https://www.shodan.io/", tags: ["login", "api", "paid"], desc: "Search engine for internet-exposed devices, service banners, and vulnerabilities indexed by continuous global port scanning with advanced filter syntax." },
+      { name: "ZoomEye", url: "https://www.zoomeye.hk/", tags: ["login", "api", "paid"], desc: "Knownsec cyberspace search engine for finding internet-connected devices and services with advanced component and protocol filtering for OSINT and research." },
+    { name: "Perplexity AI", url: "https://www.perplexity.ai/", tags: ["api", "paid"], desc: "AI-powered search engine that synthesizes answers with real-time web citations. Useful for rapid open-source research, summarization, and cross-referencing intelligence claims." },
+    { name: "ChatGPT", url: "https://chat.openai.com/", tags: ["api", "paid"], desc: "OpenAI's conversational AI with web browsing, code execution, and document analysis. Used for summarizing OSINT findings, drafting reports, and generating structured research hypotheses." },
+    { name: "Google Gemini", url: "https://gemini.google.com/", tags: ["login", "api", "paid"], desc: "Google's multimodal AI assistant with real-time Search integration. Supports image understanding, long-context document analysis, and grounded web research." },
+    { name: "Claude", url: "https://claude.ai/", tags: ["api", "paid"], desc: "Anthropic's safety-focused AI assistant with a large context window well-suited to long-document analysis, structured note-taking, and OSINT report drafting." },
+    { name: "Grok", url: "https://grok.com/", tags: ["login", "api", "paid"], desc: "xAI's AI assistant with direct access to X/Twitter data for analyzing social media discourse, trending narratives, and real-time network activity." },
+    { name: "Google NotebookLM", url: "https://notebooklm.google.com/", tags: ["login"], desc: "AI research assistant for uploading source documents and asking grounded questions exclusively within those materials, ideal for closed-corpus document analysis." },
+    { name: "Elicit", url: "https://elicit.com/", tags: ["login", "api", "paid"], desc: "AI research assistant for systematically reviewing academic papers, extracting structured data, and building evidence tables for intelligence assessments." },
+    { name: "Consensus", url: "https://consensus.app/", tags: ["login", "api", "paid"], desc: "AI-powered academic search engine surfacing peer-reviewed evidence and scientific consensus on topics, useful for fact-checking and evidence-backed OSINT." },
+    { name: "Phind", url: "https://www.phind.com/", tags: ["open"], desc: "AI search engine and coding assistant that synthesizes technical answers from developer docs, GitHub, and forums with source citations." },
+    { name: "Exa AI", url: "https://exa.ai/", tags: ["api", "paid"], desc: "Neural web search API for AI-powered OSINT pipelines, offering semantic similarity search over 10B+ web pages with structured extraction." },
+    { name: "Tavily", url: "https://tavily.com/", tags: ["api", "paid"], desc: "Search API built for AI agents, providing real-time web results in LLM-optimized structured format with optional domain filtering for automated investigation workflows." },
   { category: "Archives", tools: [
     { name: "Anna's Archive", url: "https://annas-archive.org/", tags: ["login"], desc: "Meta-search index for books and papers that aggregates links from multiple shadow libraries." },
     { name: "Archive.is", url: "https://archive.is/", tags: ["open"], desc: "On-demand web snapshot service that preserves point-in-time copies of pages and shortens archive links." },
@@ -524,6 +543,18 @@ const osintData = [
     { name: "US Nav Guide Zip Code Data", url: "https://www.usnaviguide.com/", tags: ["open"], desc: "Zip-code lookup resource for correlating US postal areas with map context." },
     { name: "Wayback Imagery", url: "https://livingatlas.arcgis.com/wayback/", tags: ["api"], desc: "Esri Wayback archive for reviewing previous versions of world imagery basemaps." },
     { name: "SkyFi.com - Satellite Open Data", url: "https://app.skyfi.com/explore/open", tags: ["login", "api", "paid"], desc: "Satellite imagery marketplace and open-data discovery interface for earth observation assets." },
+    { name: "Mapillary", url: "https://www.mapillary.com/", tags: ["api", "paid"], desc: "Crowdsourced street-level imagery platform with 1B+ images for cross-referencing signage, infrastructure, and environmental context in geolocation investigations." },
+    { name: "what3words", url: "https://what3words.com/", tags: ["api", "paid"], desc: "Geocoding system dividing the globe into 3m×3m squares each with a unique three-word address, enabling precise location encoding and decoding from minimal input." },
+    { name: "Copernicus Open Access Hub", url: "https://scihub.copernicus.eu/", tags: ["login", "api"], desc: "EU satellite imagery archive for browsing and downloading Sentinel-1, Sentinel-2, and other Copernicus mission datasets for change detection and terrain analysis." },
+    { name: "NASA FIRMS", url: "https://firms.modaps.eosdis.nasa.gov/", tags: ["api"], desc: "NASA Fire Information for Resource Management providing near-real-time fire and thermal anomaly data from MODIS and VIIRS sensors for global incident monitoring." },
+    { name: "Sentinel Hub EO Browser", url: "https://apps.sentinel-hub.com/eo-browser/", tags: ["login", "paid"], desc: "Earth observation browser for exploring Sentinel, Landsat, and commercial satellite data with band-combination analysis and multi-date change detection." },
+    { name: "Planet Labs Explorer", url: "https://www.planet.com/explorer/", tags: ["login", "api", "paid"], desc: "Commercial satellite imagery platform with near-daily global coverage for monitoring infrastructure changes, conflict zones, and environmental events." },
+    { name: "Bellingcat GeoHints", url: "https://www.geohints.com/", tags: ["open"], desc: "Visual geolocation reference guide for identifying country-specific road markings, utility poles, and environmental features in photographs to narrow location." },
+    { name: "GeoNames", url: "https://www.geonames.org/", tags: ["api"], desc: "Free geographical database covering all countries with over 11 million place names, coordinates, elevation, and full administrative hierarchy data." },
+    { name: "USGS EarthNow", url: "https://earthnow.usgs.gov/", tags: ["open"], desc: "Near-real-time Landsat imagery viewer from USGS for monitoring Earth observation data as it is acquired by orbiting satellites." },
+    { name: "MapChecking", url: "https://www.mapchecking.com/", tags: ["open"], desc: "Crowd-density estimation tool for photographs of large gatherings, converting observed area and density indicators into population count estimates." },
+    { name: "ShadowCalc", url: "https://shadowcalc.com/", tags: ["open"], desc: "Shadow-based time estimation tool that calculates sun position and shadow length for geolocation and temporal attribution of imagery." },
+    { name: "PeakFinder", url: "https://www.peakfinder.org/", tags: ["login", "paid"], desc: "Mountain identification tool that generates panoramic silhouette views from any coordinate for matching summit and ridge profiles in photographs." },
   ]},
   { category: "IP & MAC Address", tools: [
     { name: "MaxMind Demo", url: "https://www.maxmind.com/en/home", tags: ["open"], desc: "Web-based IP geolocation demo with location, ASN, and network data from MaxMind's GeoIP database." },
@@ -798,6 +829,14 @@ const osintData = [
     { name: "Arctic Shift", url: "https://arctic-shift.photon-reddit.com/", tags: ["api", "paid"], desc: "Search and access layer for Reddit datasets with tools for historical content retrieval and analysis." },
     { name: "Cama's Reddit Search", url: "https://camas.github.io/reddit-search/", tags: ["open"], desc: "Web tool for searching Reddit posts and comments by author, subreddit, text, and time filters." },
     { name: "Reveddit", url: "https://www.reveddit.com/", tags: ["open"], desc: "Interface for viewing Reddit content removals using archived and moderation-related visibility signals." },
+    { name: "4plebs", url: "https://4plebs.org/", tags: ["api"], desc: "Public archive and search engine for major 4chan boards, enabling keyword, image hash MD5, and poster ID searches against archived threads." },
+    { name: "Hacker News Search", url: "https://hn.algolia.com/", tags: ["api"], desc: "Algolia-powered full-text search over the complete Hacker News corpus including posts, comments, points, and publication dates." },
+    { name: "redditsearch.io", url: "https://redditsearch.io/", tags: ["open"], desc: "Third-party Reddit full-text search interface supporting keyword, author, subreddit, and date-range filtering across public posts and comments." },
+    { name: "Lobsters", url: "https://lobste.rs/", tags: ["api"], desc: "Technology-focused link aggregator with a publicly accessible API for scraping posts, comments, and user profiles from this developer-community site." },
+    { name: "ProductHunt", url: "https://www.producthunt.com/", tags: ["api"], desc: "Product discovery platform for identifying tech startups, tracking product launches, and researching founder profiles and company activity." },
+    { name: "Lemmy Browser", url: "https://browse.feddit.de/", tags: ["open"], desc: "Federated Reddit-alternative browser for discovering public communities and threads across Lemmy instances on the Fediverse." },
+    { name: "Chirp Detector", url: "https://chirpdetector.com/", tags: ["open"], desc: "Bot detection and behavioral analysis tool for identifying automated accounts and inauthentic engagement patterns on social media platforms." },
+    { name: "SocialGrep", url: "https://socialgrep.com/", tags: ["api", "paid"], desc: "Reddit search engine providing full-text keyword and subreddit filtering with historical post and comment data export for investigative research." },
   ]},
   { category: "OpSec", tools: [
     { name: "Fake Name Generator", url: "https://www.fakenamegenerator.com/", tags: ["open"], desc: "Generates realistic synthetic identities including names, addresses, SSNs, and biographical details for persona creation during OSINT operations." },
@@ -866,6 +905,16 @@ const osintData = [
     { name: "My Registry", url: "https://www.myregistry.com/", tags: ["api"], desc: "Universal gift registry platform allowing users to add gifts from any store worldwide into one shareable registry for weddings, babies, and other occasions." },
     { name: "Amazon Registry Search", url: "https://www.amazon.com/registries", tags: ["open"], desc: "Amazon gift registry search for wedding, baby, and other registries." },
     { name: "The Bump", url: "https://registry.thebump.com/babyregistrysearch", tags: ["open"], desc: "Baby registry finder from The Bump parenting platform. Search for baby registries by name to find gift lists." },
+    { name: "TruePeopleSearch", url: "https://www.truepeoplesearch.com/", tags: ["open"], desc: "Free US people search engine providing names, addresses, phone numbers, and relatives aggregated from public records with no registration required." },
+    { name: "FastPeopleSearch", url: "https://www.fastpeoplesearch.com/", tags: ["open"], desc: "Free reverse phone, address, and name lookup tool aggregating US public records, voter data, and property information for subject identification." },
+    { name: "Spokeo", url: "https://www.spokeo.com/", tags: ["login", "paid"], desc: "People intelligence aggregator combining social media, public records, and contact data to build comprehensive identity profiles for US and international subjects." },
+    { name: "Whitepages", url: "https://www.whitepages.com/", tags: ["login", "api", "paid"], desc: "US people and business directory with reverse phone, address, and background check capabilities backed by licensed public-record data." },
+    { name: "Intelius", url: "https://www.intelius.com/", tags: ["login", "paid"], desc: "Background screening and people search platform aggregating criminal, address, employment, and social data for US subjects." },
+    { name: "BeenVerified", url: "https://www.beenverified.com/", tags: ["login", "paid"], desc: "Consumer background check platform for US people with contact, criminal, property, and vehicle record aggregation." },
+    { name: "ZabaSearch", url: "https://www.zabasearch.com/", tags: ["open"], desc: "Free US people search directory offering phone, address, and public record lookups from aggregated public sources." },
+    { name: "Radaris", url: "https://radaris.com/", tags: ["open"], desc: "People intelligence platform aggregating public records, social profiles, and address history for US and global subject research." },
+    { name: "CheckPeople", url: "https://checkpeople.com/", tags: ["login", "paid"], desc: "Background check and public records search tool for locating individuals, verifying identities, and reviewing criminal or property records." },
+    { name: "Instant Checkmate", url: "https://www.instantcheckmate.com/", tags: ["login", "paid"], desc: "US background check service offering criminal, address, contact, and court record lookups for individual subjects." },
   ]},
   { category: "Public Records", tools: [
     { name: "Melissa Data - Property Viewer", url: "https://melissa-data.com", tags: ["login", "api", "paid"], desc: "Commercial property lookup and real estate information provider with verified tax assessor data. Requires registration and payment for detailed property records" },
@@ -1062,6 +1111,17 @@ const osintData = [
     { name: "Google Social Search", url: "https://www.social-searcher.com/google-social-search/", tags: ["dork"], desc: "Google-powered social media search using advanced operators. Provided through Social Searcher's integration." },
     { name: "Talkwalker Social Media Search", url: "https://www.talkwalker.com/social-media-analytics-search", tags: ["login", "api", "paid"], desc: "Enterprise social media monitoring and search platform. Tracks mentions across social networks, forums, and news sources with sentiment analysis." },
     { name: "PinGroupie", url: "https://pingroupie.com/", tags: ["open"], desc: "Pinterest group analysis and discovery tool. Tracks Pinterest user statistics, board content, and group discussions." },
+    { name: "Bluesky Search", url: "https://bsky.app/search", tags: ["api"], desc: "Native search interface for the Bluesky decentralized social network for keyword and handle-based lookup of public posts and profiles." },
+    { name: "Clearsky Bluesky OSINT", url: "https://clearsky.app/", tags: ["open"], desc: "Third-party Bluesky analytics and block-list research tool for investigating following relationships, block patterns, and account history on the AT Protocol." },
+    { name: "Discord.id Lookup", url: "https://discord.id/", tags: ["open"], desc: "Discord user and server snowflake ID resolver that returns usernames, account creation dates, and avatar metadata." },
+    { name: "DisBoard", url: "https://disboard.org/", tags: ["open"], desc: "Community-driven Discord server discovery index searchable by category, keyword, and language for identifying communities of interest." },
+    { name: "Nitter", url: "https://nitter.net/", tags: ["open"], desc: "Privacy-respecting alternative frontend for Twitter/X that does not require authentication and supports keyword and profile browsing without API limits." },
+    { name: "YouTube Comment Search", url: "https://ytcomment.kmcat.uk/", tags: ["open"], desc: "Third-party tool for searching YouTube comments by keyword and channel, useful for tracking discourse and identifying coordinated narratives." },
+    { name: "SocialBlade", url: "https://socialblade.com/", tags: ["open"], desc: "Public analytics tracker for YouTube, Twitch, Instagram, and Twitter channels with subscriber counts, growth trends, and historical ranking data." },
+    { name: "TGStat", url: "https://tgstat.com/", tags: ["api", "paid"], desc: "Telegram channel and post analytics platform for searching public channels, tracking audience growth, monitoring ad activity, and exploring post engagement." },
+    { name: "Telemetr.io", url: "https://telemetr.io/", tags: ["api", "paid"], desc: "Telegram channel analytics service for tracking audience size, posting frequency, reach metrics, and competitive channel intelligence." },
+    { name: "TelegramDB", url: "https://telegramdb.org/", tags: ["open"], desc: "Open database of public Telegram groups and channels searchable by name, topic, and membership for community and group discovery." },
+    { name: "Threads Recon", url: "https://github.com/offseq/threadsrecon", tags: ["install"], desc: "Python OSINT tool for Threads profile analysis including sentiment scoring, network graph visualization, and automated PDF report generation." },
   ]},
   { category: "Telephone Numbers", tools: [
     { name: "Slydial", url: "https://www.slydial.com/", tags: ["login", "api", "paid"], desc: "Voicemail drop service that connects directly to a recipient voicemail box without ringing the handset." },
@@ -1085,6 +1145,14 @@ const osintData = [
     { name: "Family Tree Now", url: "https://www.familytreenow.com/search/genealogy/results?phoneno=(555)555-5555", tags: ["paid"], desc: "People-search aggregator that can pivot from phone numbers to identity and relationship records." },
     { name: "Whitepages Reverse Phone", url: "https://www.whitepages.com/reverse-phone", tags: ["api", "paid"], desc: "Reverse phone lookup product from Whitepages for US-focused identity and contact attribution." },
     { name: "Hiya (R$)", url: "https://www.hiya.com/", tags: ["login", "api", "paid"], desc: "Caller-ID and spam-protection platform with reverse lookup capabilities and mobile integrations." },
+    { name: "NumVerify", url: "https://numverify.com/", tags: ["api", "paid"], desc: "International phone number validation and lookup API providing carrier name, line type, location, and format validation for any global number." },
+    { name: "FreeCarrierLookup", url: "https://freecarrierlookup.com/", tags: ["api"], desc: "Free US phone number carrier lookup identifying mobile versus landline type and the associated carrier name without registration." },
+    { name: "PhoneBook.cz", url: "https://phonebook.cz/", tags: ["open"], desc: "OSINT phone book tool that searches breach and public datasets for phone numbers, email addresses, and domain associations." },
+    { name: "AbstractAPI Phone", url: "https://www.abstractapi.com/api/phone-validation-api", tags: ["api", "paid"], desc: "Phone number validation and carrier lookup API returning line type, country, carrier, and international format data for global numbers." },
+    { name: "National Cellular Directory", url: "https://www.nationalcellulardirectory.com/", tags: ["login", "paid"], desc: "Reverse cell phone lookup for identifying names and addresses associated with US mobile numbers from public and licensed records." },
+    { name: "Canada 411", url: "https://www.canada411.ca/", tags: ["open"], desc: "Official Canadian phone directory and reverse lookup service for residential, business, and mobile numbers across all Canadian provinces." },
+    { name: "192.com UK", url: "https://www.192.com/", tags: ["login", "paid"], desc: "UK directory enquiries and reverse phone lookup service providing registered residential and business contact details across Britain." },
+    { name: "Phonerator", url: "https://www.martinvigo.com/phonerator/", tags: ["open"], desc: "Phone number generation and permutation tool for researching possible number variants associated with a target individual." },
   ]},
   { category: "Tools", tools: [
     { name: "Vector", url: "https://github.com/thesaderror/vector", tags: ["install"], desc: "Python-based OSINT tool that gathers social media accounts, finds locations, contact information, and performs leak database searches with graph-based data visu" },
@@ -1131,6 +1199,16 @@ const osintData = [
     { name: "Plessas", url: "https://plessas.net/online-training", tags: ["login", "paid"], desc: "Expert-led OSINT training courses by Plessas Experts Network, from fundamentals to intensive hands-on investigation programs." },
     { name: "The OSINTion", url: "https://www.theosintion.com/courses", tags: ["login", "paid"], desc: "Affordable OSINT training courses by Joe Gray, including people OSINT, business investigations, and blockchain-focused instruction." },
     { name: "Smart Questions", url: "https://www.catb.org/esr/faqs/smart-questions.html", tags: ["open"], desc: "Foundational guide by Eric S. Raymond on asking effective technical questions in open-source and technical communities." },
+    { name: "OSINT Curious", url: "https://osintcurio.us/", tags: ["open"], desc: "OSINT community hub publishing articles, webcast recordings, 10-minute tip videos, and a curated link library for investigative practitioners." },
+    { name: "Trace Labs", url: "https://www.tracelabs.org/", tags: ["login"], desc: "Nonprofit OSINT crowdsourcing platform running CTF-style missing-persons competitions for OSINT skill development and real-world impact." },
+    { name: "Bellingcat Resources", url: "https://www.bellingcat.com/category/resources/", tags: ["open"], desc: "Bellingcat's freely available library of open-source investigation guides and tutorials covering geolocation, social media OSINT, and ship/flight tracking." },
+    { name: "SANS FOR578", url: "https://www.sans.org/cyber-security-courses/cyber-threat-intelligence/", tags: ["login", "paid"], desc: "SANS Institute's cyber threat intelligence course covering the CTI lifecycle, collection, analysis, and dissemination for enterprise intelligence teams." },
+    { name: "OSINT Dojo", url: "https://www.osintdojo.com/", tags: ["open"], desc: "Free OSINT training platform with guided exercises, challenge scenarios, and step-by-step skill-building modules from beginner to advanced level." },
+    { name: "Sector035 Blog", url: "https://sector035.nl/", tags: ["open"], desc: "Week-in-OSINT newsletter and practitioner blog covering tools, techniques, and community news from Dutch OSINT researcher Sector035." },
+    { name: "osintme.com", url: "https://www.osintme.com/", tags: ["open"], desc: "OSINT practitioner blog featuring tutorials, automation guides, and tool reviews aimed at analysts and digital investigators." },
+    { name: "Sofia Santos OSINT List", url: "https://start.me/p/OmExgb/osint", tags: ["open"], desc: "Curated OSINT resource collection by researcher Sofia Santos spanning geolocation tools, social media guides, and investigative methodology references." },
+    { name: "CTI League Learning", url: "https://cti.league.org/", tags: ["login"], desc: "Community-driven cyber threat intelligence training platform with beginner and practitioner resources from industry volunteers." },
+    { name: "Hunchly", url: "https://www.hunch.ly/", tags: ["install", "login", "paid"], desc: "Chrome extension for automatic web evidence collection that captures and archives every visited page with timestamps, screenshots, and structured case notes." },
   ]},
   { category: "Transportation", tools: [
     { name: "MyAccident - traffic accident map", url: "https://myaccident.org/", tags: ["open"], desc: "Free database of redacted US traffic accident reports with searchable crash records and location details." },
@@ -1202,6 +1280,12 @@ const osintData = [
     { name: "Hudson Rock Cavalier", url: "https://cavalier.hudsonrock.com/", tags: ["open"], desc: "Infostealer intelligence search for compromised employees, credentials, and infected hosts tied to domains and organizations." },
     { name: "Cybernews Personal Data Leak Checker", url: "https://cybernews.com/personal-data-leak-check/", tags: ["open"], desc: "Public breach checker for emails and phone-linked exposure, useful for quick first-pass compromise validation." },
     { name: "BreachSense", url: "https://www.breachsense.com/", tags: ["login", "api", "paid"], desc: "Exposure monitoring platform for leaked credentials, third-party risks, and breached assets tied to domains and organizations." },
+    { name: "BreachDirectory", url: "https://breachdirectory.org/", tags: ["api", "paid"], desc: "Breach data search platform supporting lookups by email, username, IP, and phone against a large aggregated corpus with partial password hashes." },
+    { name: "PSBDMP", url: "https://psbdmp.ws/", tags: ["api"], desc: "Pastebin dump search engine for finding credential leaks, email addresses, and sensitive data that was pasted publicly on Pastebin and mirror sites." },
+    { name: "Scattered Secrets", url: "https://scatteredsecrets.com/", tags: ["login", "paid"], desc: "Credential exposure monitoring service for emails and domains that surfaces breached cleartext passwords from collected datasets." },
+    { name: "LeakPeek", url: "https://leakpeek.com/", tags: ["login", "api", "paid"], desc: "Breach lookup tool that searches compromised databases for emails, usernames, and partial password data from thousands of data breaches." },
+    { name: "GhostProject", url: "https://ghostproject.fr/", tags: ["open"], desc: "Free email breach lookup service that searches public breach dumps for email addresses and associated leaked credential data." },
+    { name: "Breachbase", url: "https://breachbase.com/", tags: ["login", "paid"], desc: "Breach intelligence platform aggregating leaked credential datasets for investigative and compliance research against emails and domains." },
   ]},
   { category: "Code & Repository Intelligence", tools: [
     { name: "Sourcegraph", url: "https://sourcegraph.com/search", tags: ["open"], desc: "Cross-repository code search platform useful for locating leaked keys, domains, usernames, package references, and infrastructure clues in public code." },
@@ -1212,6 +1296,14 @@ const osintData = [
     { name: "deps.dev", url: "https://deps.dev/", tags: ["api"], desc: "Google-backed dependency intelligence explorer for packages, maintainers, repositories, and transitive relationships across major ecosystems." },
     { name: "OSS Insight", url: "https://ossinsight.io/", tags: ["open"], desc: "Repository analytics interface that turns GitHub event and project data into searchable insights for organizations, maintainers, and ecosystems." },
     { name: "GitHub Code Search", url: "https://github.com/search?q=&type=code", tags: ["login", "dork"], desc: "Native GitHub code search for finding emails, domains, keys, references, and infrastructure strings in public repositories." },
+    { name: "TruffleHog", url: "https://github.com/trufflesecurity/trufflehog", tags: ["install", "api"], desc: "Secret scanning tool that searches git repositories, S3 buckets, filesystems, and APIs for exposed credentials using entropy analysis and 700+ regex detectors." },
+    { name: "GitDorker", url: "https://github.com/obheda12/GitDorker", tags: ["install"], desc: "Python automation tool that runs GitHub dork searches across hundreds of pre-built patterns to systematically find exposed credentials and sensitive files." },
+    { name: "shhgit", url: "https://github.com/eth0izzle/shhgit", tags: ["install", "api"], desc: "Real-time GitHub, GitLab, and Bitbucket secret scanning tool that monitors incoming commits across public repositories for exposed API keys and passwords." },
+    { name: "Semgrep", url: "https://semgrep.dev/", tags: ["install", "api", "paid"], desc: "Lightweight SAST engine for finding code patterns, security issues, and hardcoded secrets in repositories using customizable rule sets." },
+    { name: "Gitleaks", url: "https://gitleaks.io/", tags: ["install", "api"], desc: "Secret detection tool for scanning git repositories, staged files, and commit history for API keys, tokens, and credentials using configurable regex rules." },
+    { name: "git-all-secrets", url: "https://github.com/anshumanbh/git-all-secrets", tags: ["install"], desc: "Go-based orchestration wrapper aggregating truffleHog and repo-supervisor results for comprehensive organization-wide secret scanning." },
+    { name: "GitHub Advanced Search", url: "https://github.com/search/advanced", tags: ["login", "dork"], desc: "GitHub's advanced code, repository, and user search interface for constructing targeted OSINT queries across public repositories with operator support." },
+    { name: "GitHound", url: "https://github.com/tillson/git-hound", tags: ["install"], desc: "Pattern-based secret scanner for GitHub that uses keyword searches to identify exposed credentials and sensitive strings in public code." },
   ]},
   { category: "Metadata & File Analysis", tools: [
     { name: "ExifTool", url: "https://exiftool.org/", tags: ["install"], desc: "Industry-standard command-line utility for reading, writing, and analyzing metadata across images, videos, audio, office files, and PDFs." },
@@ -1786,6 +1878,54 @@ function getToolRegions(tool, category) {
 
   if (host === 'europa.eu' || host.endsWith('.europa.eu') || host.endsWith('.eu')) {
     addRegional('eu');
+
+    if (host.endsWith('.fr')) {
+      addRegional('fr');
+    }
+
+    if (host.endsWith('.jp')) {
+      addRegional('jp');
+    }
+
+    if (host.endsWith('.cn') || host.endsWith('.com.cn')) {
+      addRegional('cn');
+    }
+
+    if (host.endsWith('.ru')) {
+      addRegional('ru');
+    }
+
+    if (host.endsWith('.br') || host.endsWith('.com.br')) {
+      addRegional('br');
+    }
+
+    if (host.endsWith('.sg')) {
+      addRegional('sg');
+    }
+
+    if (host.endsWith('.za') || host.endsWith('.co.za')) {
+      addRegional('za');
+    }
+
+    if (host.endsWith('.mx')) {
+      addRegional('mx');
+    }
+
+    if (host.endsWith('.it')) {
+      addRegional('it');
+    }
+
+    if (host.endsWith('.il')) {
+      addRegional('il');
+    }
+
+    if (host.endsWith('.ae')) {
+      addRegional('ae');
+    }
+
+    if (host.endsWith('.kr') || host.endsWith('.co.kr')) {
+      addRegional('kr');
+    }
   }
 
   if (GLOBAL_HOST_HINTS.has(host) || Array.from(GLOBAL_HOST_HINTS).some(base => host.endsWith(`.${base}`))) {
@@ -2431,6 +2571,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!btn) return;
     activeRegionFilter = btn.dataset.region;
     document.querySelectorAll('.region-filter').forEach(b => b.classList.toggle('active', b.dataset.region === activeRegionFilter));
+
+      document.getElementById('regionMoreBtn').addEventListener('click', () => {
+        const moreBtn = document.getElementById('regionMoreBtn');
+        const expanded = moreBtn.classList.toggle('expanded');
+        document.querySelectorAll('.region-extra').forEach(b => b.classList.toggle('shown', expanded));
+        refreshIcons();
+      });
     renderGrid();
   });
 

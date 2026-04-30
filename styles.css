@@ -685,6 +685,40 @@ html.theme-transitioning *::after {
 
 .region-filter.active,
 .safety-filter.active {
+
+  .region-extra {
+    display: none;
+  }
+  .region-extra.shown {
+    display: flex;
+  }
+
+  .region-more-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text-secondary);
+    padding: 5px 9px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .region-more-btn:hover {
+    border-color: var(--text-secondary);
+    color: var(--text-primary);
+    background: rgba(255,255,255,0.02);
+  }
+  .region-more-btn svg {
+    width: 13px;
+    height: 13px;
+    stroke-width: 2.1;
+    transition: transform 0.2s;
+  }
+  .region-more-btn.expanded svg {
+    transform: rotate(180deg);
+  }
   background: rgba(88,166,255,0.1);
   border-color: var(--accent);
   color: var(--accent);
