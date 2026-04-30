@@ -919,9 +919,10 @@ html.theme-transitioning *::after {
 }
 
 .card-identity {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 10px;
+  flex: 1;
   min-width: 0;
 }
 
@@ -954,6 +955,7 @@ html.theme-transitioning *::after {
 }
 
 .card-title-wrap {
+  flex: 1;
   min-width: 0;
 }
 
