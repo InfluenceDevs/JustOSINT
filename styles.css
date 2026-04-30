@@ -1000,7 +1000,7 @@ html.theme-transitioning *::after {
   border: 1px solid color-mix(in srgb, var(--tool-accent) 55%, rgba(30, 48, 90, 0.5) 45%);
   background: linear-gradient(145deg, color-mix(in srgb, var(--tool-accent) 30%, rgba(10, 18, 42, 0.9) 70%) 0%, rgba(7, 12, 30, 0.95) 100%);
   box-shadow: 0 0 16px color-mix(in srgb, var(--tool-accent) 20%, transparent 80%), inset 0 1px 0 rgba(255,255,255,0.06);
-  color: #e0edff;
+  color: #ffffff;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1021,36 +1021,6 @@ html.theme-transitioning *::after {
   height: 24px;
 }
 
-.brand-logo-wrap {
-  width: 24px;
-  height: 24px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.card-brand-logo {
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
-  object-fit: contain;
-  display: block;
-  background: rgba(10, 16, 32, 0.22);
-}
-
-.brand-logo-wrap .brand-fallback {
-  position: absolute;
-  inset: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.brand-logo-wrap .brand-fallback svg {
-  width: 20px;
-  height: 20px;
-}
 
 .card-title-wrap {
   flex: 1;
