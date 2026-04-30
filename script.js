@@ -1393,6 +1393,22 @@ const CATEGORY_ICON_MAP = {
   'government & politics': 'landmark',
   'face recognition': 'scan-face',
   'image analysis': 'image-search',
+  'classifieds': 'tag',
+  'language translation': 'languages',
+  'malicious file analysis': 'file-warning',
+  'mobile osint': 'smartphone',
+  'online communities': 'users-2',
+  'opsec': 'shield',
+  'social networks': 'share-2',
+  'telephone numbers': 'phone',
+  'tools': 'wrench',
+  'training': 'graduation-cap',
+  'breach & leak intelligence': 'database-zap',
+  'code & repository intelligence': 'git-branch',
+  'metadata & file analysis': 'file-search',
+  'government, court & sanctions': 'landmark',
+  'datasets & knowledge bases': 'database',
+  'web capture & surface analysis': 'globe',
 };
 
 // ── DOM Refs (populated on DOMContentLoaded) ──────────────────────────────────
