@@ -2048,18 +2048,35 @@ function getCardIconMarkup(name) {
   const lower = text.toLowerCase();
 
   // ── AI ────────────────────────────────────────────────────────────────────
+  if (lower === 'deepseek') return '<i data-lucide="brain-circuit"></i>';
+  if (lower === 'chatgpt' || lower === 'openai') return '<i data-lucide="bot"></i>';
+  if (lower.includes('gemini')) return '<i data-lucide="sparkles"></i>';
+  if (lower === 'claude') return '<i data-lucide="brain"></i>';
+  if (lower === 'grok') return '<i data-lucide="zap"></i>';
+  if (lower.includes('notebooklm')) return '<i data-lucide="file-text"></i>';
+  if (lower === 'elicit') return '<i data-lucide="flask-conical"></i>';
+  if (lower === 'consensus') return '<i data-lucide="book-open"></i>';
+  if (lower === 'phind') return '<i data-lucide="code-2"></i>';
+  if (lower === 'exa ai' || lower === 'exa') return '<i data-lucide="search"></i>';
+  if (lower === 'tavily') return '<i data-lucide="search"></i>';
+  if (lower.includes('perplexity')) return '<i data-lucide="search"></i>';
+  if (lower.includes('copilot')) return '<i data-lucide="bot"></i>';
   if (lower === 'ai or not') return 'AI';
   if (lower.includes('copyleaks')) return '<i data-lucide="file-search"></i>';
   if (lower.includes('gptzero')) return '<i data-lucide="file-text"></i>';
   if (lower.includes('grammarly')) return '<i data-lucide="file-text"></i>';
-  if (lower.includes('deepseek')) return '<i data-lucide="fish"></i>';
+  if (lower.includes('deepseek')) return '<i data-lucide="brain-circuit"></i>';
   if (lower.includes('docmind')) return '<i data-lucide="file-text"></i>';
   if (lower.includes('deepai')) return '<i data-lucide="camera"></i>';
   if (lower.includes('decopy') || lower.includes('image detector')) return '<i data-lucide="image"></i>';
-  if (lower.includes('chatgpt') || lower.includes('openai') || lower.includes('claude') || lower.includes('gemini') || lower.includes('gpt-4') || lower.includes('gpt-3')) return '<i data-lucide="cpu"></i>';
-  if (lower.includes('perplexity')) return '<i data-lucide="search"></i>';
+  if (lower.includes('chatgpt') || lower.includes('openai') || lower.includes('claude') || lower.includes('gemini') || lower.includes('gpt-4') || lower.includes('gpt-3')) return '<i data-lucide="bot"></i>';
 
   // ── Social Networks ────────────────────────────────────────────────────────
+  if (lower.includes('bluesky') || lower.includes('clearsky')) return '<i data-lucide="cloud"></i>';
+  if (lower.includes('nitter')) return '<i data-lucide="twitter"></i>';
+  if (lower.includes('threads')) return '<i data-lucide="message-square"></i>';
+  if (lower.includes('socialblade')) return '<i data-lucide="activity"></i>';
+  if (lower.includes('telemetr')) return '<i data-lucide="send"></i>';
   if (lower.includes('facebook') || lower.includes('fb email') || lower.includes('fb lookup')) return '<i data-lucide="facebook"></i>';
   if (lower.includes('twitter') || lower.includes('twint') || lower.includes('tweeter') || lower.includes('tweetvacuum') || lower.includes('twopcharts') || lower === 'all my tweets') return '<i data-lucide="twitter"></i>';
   if (lower.includes('instagram') || lower.includes('osintgram') || lower.includes('inflact')) return '<i data-lucide="instagram"></i>';
