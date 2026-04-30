@@ -891,7 +891,8 @@ html.theme-transitioning *::after {
   gap: 8px;
   transition: border-color 0.2s, background 0.2s, box-shadow 0.2s, transform 0.2s;
   position: relative;
-  overflow: hidden;
+  overflow: clip;
+  align-self: start;
 }
 
 .tool-card::before {
