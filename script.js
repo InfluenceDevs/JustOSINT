@@ -1156,6 +1156,22 @@ const osintData = [
     { name: "OpenRailwayMap", url: "https://www.openrailwaymap.org/", tags: ["api"], desc: "OpenStreetMap-based global railway map visualizing rail lines, infrastructure characteristics, and operations context." },
     { name: "Satellite Tracking", url: "https://www.n2yo.com/", tags: ["api"], desc: "Satellite orbit tracking entry point for monitoring spacecraft position, trajectory, and pass predictions." },
     { name: "Track-Trace", url: "https://www.track-trace.com/", tags: ["open"], desc: "Multi-carrier shipment tracking aggregator for parcel and freight status across global postal and logistics providers." },
+    { name: "Carfax", url: "https://www.carfax.com/", tags: ["login", "paid"], desc: "Leading US vehicle history report service covering accident records, ownership history, title issues, odometer readings, and service records from over 100,000 sources." },
+    { name: "AutoCheck", url: "https://www.autocheck.com/", tags: ["login", "paid"], desc: "Experian-powered vehicle history report platform using the AutoCheck Score to compare vehicles. Covers title, theft, accidents, and auction data." },
+    { name: "NICB VINCheck", url: "https://www.nicb.org/vincheck", tags: ["open"], desc: "Free National Insurance Crime Bureau VIN lookup tool to check whether a vehicle has been reported as stolen or salvaged. Limit of 5 queries per day." },
+    { name: "VINCheck.info", url: "https://www.vincheck.info/", tags: ["open"], desc: "Free VIN decoder using NHTSA data to retrieve manufacturer specifications, safety ratings, and recall information for US vehicles." },
+    { name: "FAXVIN", url: "https://www.faxvin.com/", tags: ["login", "paid"], desc: "VIN history and vehicle background check service providing accident reports, ownership history, title checks, and odometer records." },
+    { name: "EpicVIN", url: "https://epicvin.com/", tags: ["login", "paid"], desc: "International VIN check service covering accident history, mileage rollback detection, theft status, and title information across US and European databases." },
+    { name: "VehicleHistory.com", url: "https://www.vehiclehistory.com/", tags: ["open", "paid"], desc: "Free vehicle history summary and paid full report service using NHTSA, state DMV, and auction data to reveal ownership, accident, and title records." },
+    { name: "iSeeCars", url: "https://www.iseecars.com/", tags: ["open"], desc: "Data-driven car analytics platform that provides market price analysis, ownership cost estimates, and reliability statistics derived from millions of vehicle listings." },
+    { name: "VINDecoderz", url: "https://www.vindecoderz.com/", tags: ["open"], desc: "Free online VIN decoder providing detailed manufacturer specifications, equipment, and build data for any 17-character VIN." },
+    { name: "VINAlert", url: "https://vinalert.com/", tags: ["login", "paid"], desc: "Vehicle history and VIN alert monitoring service that notifies users when a vehicle's history record is updated with new accident or title events." },
+    { name: "PlateRecognizer", url: "https://platerecognizer.com/", tags: ["api", "paid"], desc: "Accurate license plate recognition API using deep learning. Reads plates from images/video in 100+ countries. Free tier available for development and small use." },
+    { name: "OpenALPR", url: "https://github.com/openalpr/openalpr", tags: ["install", "api"], desc: "Open-source Automatic License Plate Recognition library supporting real-time plate detection from cameras and images across multiple countries and plate styles." },
+    { name: "DMV.org", url: "https://www.dmv.org/", tags: ["open"], desc: "Comprehensive US DMV resource providing state-by-state vehicle registration lookups, license plate information, title transfer procedures, and driving record access." },
+    { name: "MyCarCheck (UK)", url: "https://www.mycarcheck.com/", tags: ["open", "paid"], desc: "UK vehicle history check service using DVLA, insurance, and finance databases to reveal outstanding finance, mileage inconsistencies, write-offs, and plate changes." },
+    { name: "DVLA MOT History (UK)", url: "https://www.gov.uk/check-mot-history", tags: ["open"], desc: "Official UK government service for checking a vehicle's MOT test history by registration number or VIN, including pass/fail dates and advisory notices." },
+    { name: "Carnet.ai", url: "https://carnet.ai/", tags: ["api", "paid"], desc: "AI vehicle image recognition platform that identifies make, model, generation, and body type from submitted photos. Useful for OSINT analysis of vehicle images." },
   ]},
   { category: "Username", tools: [
     { name: "WhatsMyName Web", url: "https://whatsmyname.app/", tags: ["open"], desc: "Free web-based OSINT username enumeration tool that searches for a specified username across 1500+ websites and platforms simultaneously, returning direct links" },
@@ -1373,6 +1389,7 @@ const CATEGORY_ICON_MAP = {
   'osint frameworks': 'layers',
   'public records': 'scroll',
   'transport': 'plane',
+  'transportation': 'car',
   'government & politics': 'landmark',
   'face recognition': 'scan-face',
   'image analysis': 'image-search',
@@ -1874,15 +1891,168 @@ function getCardIconMarkup(name) {
   const text = String(name || '').trim();
   const lower = text.toLowerCase();
 
+  // ── AI ────────────────────────────────────────────────────────────────────
   if (lower === 'ai or not') return 'AI';
-  if (lower.includes('copyleaks')) return 'C';
-  if (lower.includes('decopy') || lower.includes('image detector')) return '<i data-lucide="image"></i>';
-  if (lower.includes('deepai')) return '<i data-lucide="camera"></i>';
+  if (lower.includes('copyleaks')) return '<i data-lucide="file-search"></i>';
+  if (lower.includes('gptzero')) return '<i data-lucide="file-text"></i>';
+  if (lower.includes('grammarly')) return '<i data-lucide="file-text"></i>';
   if (lower.includes('deepseek')) return '<i data-lucide="fish"></i>';
   if (lower.includes('docmind')) return '<i data-lucide="file-text"></i>';
-  if (lower.includes('duckduckgo')) return '<i data-lucide="message-circle"></i>';
-  if (lower.includes('gptzero')) return 'G';
-  if (lower.includes('grammarly')) return 'G';
+  if (lower.includes('deepai')) return '<i data-lucide="camera"></i>';
+  if (lower.includes('decopy') || lower.includes('image detector')) return '<i data-lucide="image"></i>';
+  if (lower.includes('chatgpt') || lower.includes('openai') || lower.includes('claude') || lower.includes('gemini') || lower.includes('gpt-4') || lower.includes('gpt-3')) return '<i data-lucide="cpu"></i>';
+  if (lower.includes('perplexity')) return '<i data-lucide="search"></i>';
+
+  // ── Social Networks ────────────────────────────────────────────────────────
+  if (lower.includes('facebook') || lower.includes('fb email') || lower.includes('fb lookup')) return '<i data-lucide="facebook"></i>';
+  if (lower.includes('twitter') || lower.includes('twint') || lower.includes('tweeter') || lower.includes('tweetvacuum') || lower.includes('twopcharts') || lower === 'all my tweets') return '<i data-lucide="twitter"></i>';
+  if (lower.includes('instagram') || lower.includes('osintgram') || lower.includes('inflact')) return '<i data-lucide="instagram"></i>';
+  if (lower.includes('linkedin') || lower.includes('linkedint') || lower.includes('scrapedin') || lower.includes('inspy')) return '<i data-lucide="linkedin"></i>';
+  if (lower.includes('youtube') || lower.includes('tubechop') || lower.includes('hooktube')) return '<i data-lucide="youtube"></i>';
+  if (lower.includes('tiktok')) return '<i data-lucide="video"></i>';
+  if (lower.includes('reddit') || lower.includes('subreddit')) return '<i data-lucide="message-square"></i>';
+  if (lower.includes('telegram') || lower.includes('telegago') || lower.includes('tgstat') || lower.includes('tosint')) return '<i data-lucide="send"></i>';
+  if (lower.includes('whatsapp')) return '<i data-lucide="phone-call"></i>';
+  if (lower.includes('discord') || lower.includes('disboard')) return '<i data-lucide="message-circle"></i>';
+  if (lower.includes('slack') || lower.includes('slackpirate')) return '<i data-lucide="hash"></i>';
+  if (lower.includes('mastodon') || lower.includes('fediverse') || lower.includes('masto') || lower.includes('fedifinder')) return '<i data-lucide="share-2"></i>';
+  if (lower.includes('tumblr')) return '<i data-lucide="bookmark"></i>';
+  if (lower.includes('snapchat')) return '<i data-lucide="ghost"></i>';
+  if (lower.includes('myspace')) return '<i data-lucide="music"></i>';
+  if (lower.includes('tinder') || lower.includes('bumble') || lower.includes('hinge') || lower.includes('eharmony') || lower.includes('plenty of fish')) return '<i data-lucide="heart"></i>';
+  if (lower.includes('signal private') || lower.includes('signal messenger')) return '<i data-lucide="lock"></i>';
+
+  // ── Security / Scanning ───────────────────────────────────────────────────
+  if (lower.includes('virustotal')) return '<i data-lucide="shield-check"></i>';
+  if (lower.includes('shodan')) return '<i data-lucide="server"></i>';
+  if (lower.includes('censys')) return '<i data-lucide="search"></i>';
+  if (lower.includes('maltego')) return '<i data-lucide="git-branch"></i>';
+  if (lower.includes('spiderfoot')) return '<i data-lucide="bug"></i>';
+  if (lower.includes('recon-ng') || lower.includes('reconng')) return '<i data-lucide="layers"></i>';
+  if (lower.includes('nmap') || lower.includes('masscan') || lower.includes('port scan')) return '<i data-lucide="scan"></i>';
+  if (lower.includes('wireshark') || lower.includes('networkminer') || lower.includes('packet')) return '<i data-lucide="wifi"></i>';
+  if (lower.includes('burp suite') || lower.includes('burpsuite')) return '<i data-lucide="shield"></i>';
+  if (lower.includes('metasploit')) return '<i data-lucide="terminal"></i>';
+  if (lower.includes('ghidra')) return '<i data-lucide="code-2"></i>';
+  if (lower.includes('any.run') || lower.includes('hybrid analysis') || lower.includes('sandbox')) return '<i data-lucide="play-circle"></i>';
+  if (lower.includes('greynoise') || lower.includes('grey noise')) return '<i data-lucide="radio"></i>';
+  if (lower.includes('binaryedge')) return '<i data-lucide="code-2"></i>';
+  if (lower.includes('zoomeye') || lower.includes('zoom eye')) return '<i data-lucide="zoom-in"></i>';
+  if (lower.includes('netlas')) return '<i data-lucide="network"></i>';
+  if (lower.includes('criminal ip') || lower.includes('criminalip')) return '<i data-lucide="shield-alert"></i>';
+  if (lower.includes('cve ') || lower === 'cve - mitre' || lower.includes('nvd') || lower.includes('vulnerabilit')) return '<i data-lucide="shield-alert"></i>';
+  if (lower.includes('exploit')) return '<i data-lucide="zap"></i>';
+  if (lower.includes('phishtank') || lower.includes('phishstats') || lower.includes('openphish')) return '<i data-lucide="fish"></i>';
+  if (lower.includes('onionscan') || lower.includes('torbot') || lower.includes('onioff')) return '<i data-lucide="eye-off"></i>';
+  if (lower.includes('zeek') || lower.includes('snort') || lower.includes('suricata')) return '<i data-lucide="activity"></i>';
+  if (lower.includes('misp')) return '<i data-lucide="share-2"></i>';
+  if (lower.includes('pulsedive') || lower.includes('otx') || lower.includes('alienvault')) return '<i data-lucide="activity"></i>';
+  if (lower.includes('mitre') || lower.includes('att&ck') || lower.includes('mitre ttp')) return '<i data-lucide="layers"></i>';
+
+  // ── Breach / Leak ─────────────────────────────────────────────────────────
+  if (lower.includes('have i been pwned') || lower.includes('haveibeenpwned') || lower.includes('hibp')) return '<i data-lucide="alert-triangle"></i>';
+  if (lower.includes('dehashed') || lower.includes('leakcheck') || lower.includes('snusbase') || lower.includes('breachsense')) return '<i data-lucide="database-zap"></i>';
+  if (lower.includes('intelligence x') || lower.includes('intelx')) return '<i data-lucide="eye"></i>';
+  if (lower.includes('hudson rock') || lower.includes('cavalier')) return '<i data-lucide="lock"></i>';
+  if (lower.includes('vigilante')) return '<i data-lucide="eye"></i>';
+
+  // ── Email ─────────────────────────────────────────────────────────────────
+  if (lower.includes('hunter') && (lower.includes('email') || lower.includes('.io'))) return '<i data-lucide="mail-search"></i>';
+  if (lower.includes('holehe') || lower.includes('ghunt')) return '<i data-lucide="mail-search"></i>';
+  if (lower.includes('mxtoolbox') || lower.includes('mx tool')) return '<i data-lucide="mail"></i>';
+  if (lower.includes('theharvester') || lower.includes('harvester')) return '<i data-lucide="mail-search"></i>';
+  if (lower.includes('voilanorbert') || lower.includes('skymem') || lower.includes('epieos')) return '<i data-lucide="mail"></i>';
+  if (lower.includes('email') || lower.includes('mailboxvalidator') || lower.includes('mailscrap')) return '<i data-lucide="mail"></i>';
+
+  // ── Geolocation / Maps ────────────────────────────────────────────────────
+  if (lower.includes('google earth')) return '<i data-lucide="globe"></i>';
+  if (lower.includes('street view') || lower.includes('streetview') || lower.includes('hyperlapse')) return '<i data-lucide="navigation"></i>';
+  if (lower.includes('google maps') || lower.includes('geospy') || lower.includes('gpsvisualizer') || lower.includes('batch geocod')) return '<i data-lucide="map-pin"></i>';
+  if (lower.includes('openstreetmap') || lower.includes('overpass turbo') || lower.includes('openinfrastructure')) return '<i data-lucide="map"></i>';
+  if (lower.includes('suncalc')) return '<i data-lucide="sun"></i>';
+  if (lower.includes('satellite') || lower.includes('landsat') || lower.includes('earthexplorer') || lower.includes('skyfi')) return '<i data-lucide="satellite"></i>';
+  if (lower.includes('wigle')) return '<i data-lucide="wifi"></i>';
+  if (lower.includes('opencellid')) return '<i data-lucide="radio"></i>';
+  if (lower.includes('liveuamap') || lower.includes('beholder')) return '<i data-lucide="map"></i>';
+
+  // ── Images / Face Recognition ─────────────────────────────────────────────
+  if (lower.includes('facecheck') || lower.includes('face search') || lower.includes('pimeyes') || lower.includes('faceseek') || lower.includes('search4faces') || lower.includes('surfface')) return '<i data-lucide="scan-face"></i>';
+  if (lower.includes('tineye') || lower.includes('reverse image') || lower.includes('imgops')) return '<i data-lucide="image-search"></i>';
+  if (lower.includes('exiftool') || lower.includes('exif viewer') || lower.includes('exif editor') || lower.includes('metatool') || lower.includes('metadata2go') || lower.includes('search by exif')) return '<i data-lucide="file-search"></i>';
+  if (lower.includes('fotoforensics') || lower.includes('forensically') || lower.includes('jpegsnoop')) return '<i data-lucide="eye"></i>';
+  if (lower.includes('deepfake') || lower.includes('truthscan') || lower.includes('deepsafe')) return '<i data-lucide="badge-check"></i>';
+  if (lower.includes('google lens') || lower.includes('bing images') || lower.includes('yandex images') || lower.includes('baidu images') || lower.includes('google images')) return '<i data-lucide="image"></i>';
+  if (lower.includes('snopes') || lower.includes('factcheck') || lower.includes('politifact') || lower.includes('hoaxy') || lower.includes('stop fake')) return '<i data-lucide="badge-check"></i>';
+  if (lower.includes('google videos') || lower.includes('bing videos') || lower.includes('blinkx') || lower.includes('metatube')) return '<i data-lucide="video"></i>';
+
+  // ── Archives ──────────────────────────────────────────────────────────────
+  if (lower.includes('wayback') || lower.includes('web archive')) return '<i data-lucide="clock"></i>';
+  if (lower.includes('internet archive') || lower.includes('archive.org') || lower === 'archive') return '<i data-lucide="archive"></i>';
+  if (lower.includes('wikileaks') || lower.includes('leaked cables')) return '<i data-lucide="file-text"></i>';
+  if (lower.includes('cryptome')) return '<i data-lucide="lock"></i>';
+
+  // ── Domain / DNS / WHOIS ──────────────────────────────────────────────────
+  if (lower.includes('whois') || lower.includes('domaintools') || lower.includes('who.is')) return '<i data-lucide="info"></i>';
+  if (lower.includes('dns') || lower.includes('robtex') || lower.includes('dnsdumpster')) return '<i data-lucide="globe-2"></i>';
+  if (lower.includes('urlscan') || lower.includes('url scan') || lower.includes('urlquery') || lower.includes('url void')) return '<i data-lucide="scan"></i>';
+  if (lower.includes('sublist3r') || lower.includes('amass') || lower.includes('subfinder') || lower.includes('findsubdomains') || lower.includes('aquatone')) return '<i data-lucide="git-branch"></i>';
+  if (lower.includes('crt.sh') || lower.includes('certificate') || lower.includes('certgraph') || lower.includes('certkit')) return '<i data-lucide="lock"></i>';
+  if (lower.includes('builtwith') || lower.includes('wappalyzer')) return '<i data-lucide="layers"></i>';
+  if (lower.includes('shodan') || lower.includes('zoomeye') || lower.includes('netlas') || lower.includes('censys')) return '<i data-lucide="server"></i>';
+  if (lower.includes('redirect') || lower.includes('url expander') || lower.includes('link expander') || lower.includes('unshorten')) return '<i data-lucide="link"></i>';
+
+  // ── IP / Network ──────────────────────────────────────────────────────────
+  if (lower.includes('ip2location') || lower.includes('maxmind') || lower.includes('db-ip') || lower.includes('ip location') || lower.includes('iplocation')) return '<i data-lucide="map-pin"></i>';
+  if (lower.includes('grabify') || lower.includes('ip logger') || lower.includes('iplogger') || lower.includes('ki.tc')) return '<i data-lucide="link"></i>';
+  if (lower.includes('bgp') || lower.includes('asn') || lower.includes('hurricane electric') || lower.includes('peeringdb') || lower.includes('cidr')) return '<i data-lucide="network"></i>';
+  if (lower.includes('tor ') || lower.includes('exonerator') || lower === 'tor download') return '<i data-lucide="eye-off"></i>';
+  if (lower.includes('onion') || lower.includes('ahmia') || lower.includes('dark web') || lower.includes('tor scan')) return '<i data-lucide="eye-off"></i>';
+  if (lower.includes('nmap') || lower.includes('masscan') || lower.includes('scanless') || lower.includes('port scanner') || lower.includes('online port')) return '<i data-lucide="scan"></i>';
+
+  // ── Blockchain / Crypto ───────────────────────────────────────────────────
+  if (lower.includes('bitcoin') || lower.includes('ethereum') || lower.includes('blockchain') || lower.includes('etherscan') || lower.includes('crypto') || lower.includes('wallet')) return '<i data-lucide="coins"></i>';
+
+  // ── Vehicles / Transport ──────────────────────────────────────────────────
+  if (lower.includes('carfax') || lower.includes('autocheck') || lower.includes('carvertical') || lower.includes('autodna') || lower.includes('carnet') || lower.includes('epicvin') || lower.includes('faxvin') || lower.includes('vindecodr') || lower.includes('vindecoderz') || lower.includes('vinalert') || lower.includes('vincheck') || lower.includes('vehiclehistory') || lower.includes('checkcar') || lower.includes('motorcheck') || lower.includes('mycarcheck') || lower.includes('carhistory') || lower.includes('iseecars')) return '<i data-lucide="car"></i>';
+  if (lower.includes(' vin ') || lower.includes('vin decoder') || lower.includes('vin check') || lower.includes('vin lookup') || lower.includes('nhtsa vehicle') || lower.includes('findbyplate') || lower.includes('plate') || lower.includes('vehicle') || lower.includes('autoref') || lower.includes('finnik') || lower.includes('autodn') || lower.includes('openalpr') || lower.includes('platerecognizer') || lower.includes('dmv')) return '<i data-lucide="car"></i>';
+  if (lower.includes('flight') || lower.includes('flightradar') || lower.includes('aircraft') || lower.includes('aviation') || lower.includes('ads-b') || lower.includes('world aeronautical')) return '<i data-lucide="plane"></i>';
+  if (lower.includes('vessel') || lower.includes('ship ais') || lower.includes('vesseltracker') || lower.includes('seafinder') || lower.includes('nautical') || lower.includes('fishing watch') || lower.includes('openseamap')) return '<i data-lucide="anchor"></i>';
+  if (lower.includes('railway') || lower.includes('openrailway') || lower.includes('deutsche bahn') || lower.includes('train')) return '<i data-lucide="navigation-2"></i>';
+
+  // ── Code / Repositories ───────────────────────────────────────────────────
+  if (lower.includes('github') || lower.includes('gitlab') || lower.includes('gitrob') || lower.includes('gitleaks') || lower.includes('gitfive')) return '<i data-lucide="github"></i>';
+  if (lower.includes('sourcegraph') || lower.includes('grep.app') || lower.includes('searchcode') || lower.includes('nerdydata') || lower.includes('publicwww')) return '<i data-lucide="code-2"></i>';
+
+  // ── People / Identity ─────────────────────────────────────────────────────
+  if (lower.includes('pipl') || lower.includes('spokeo') || lower.includes('intelius') || lower.includes('beenverified') || lower.includes('peekyou') || lower.includes('webmii') || lower.includes('idcrawl') || lower.includes('thatsthem') || lower.includes('whitepages') || lower.includes('anywho') || lower.includes('yasni') || lower.includes('people search')) return '<i data-lucide="users"></i>';
+  if (lower.includes('sherlock') || lower.includes('whatsmyname') || lower.includes('namechk') || lower.includes('namecheckup') || lower.includes('lullar') || lower.includes('footprintiq')) return '<i data-lucide="at-sign"></i>';
+  if (lower.includes('ancestry') || lower.includes('familysearch') || lower.includes('findmypast') || lower.includes('find a grave') || lower.includes('graveinfo')) return '<i data-lucide="git-merge"></i>';
+  if (lower.includes('this person does not exist') || lower.includes('fake name') || lower.includes('fake identity') || lower.includes('fake us') || lower.includes('random user')) return '<i data-lucide="user"></i>';
+
+  // ── Phone ─────────────────────────────────────────────────────────────────
+  if (lower.includes('phone') || lower.includes('truecaller') || lower.includes('numverify') || lower.includes('twilio') || lower.includes('opencnam')) return '<i data-lucide="phone"></i>';
+
+  // ── Public Records / Legal ────────────────────────────────────────────────
+  if (lower.includes('court') || lower.includes('pacer') || lower.includes('caselaw') || lower.includes('judyrecords') || lower.includes('courtlistener') || lower.includes('docket') || lower.includes('unicourt')) return '<i data-lucide="scroll"></i>';
+  if (lower.includes('fbi') || lower.includes('most wanted') || lower.includes('sex offend') || lower.includes('inmate') || lower.includes('mugshot')) return '<i data-lucide="landmark"></i>';
+  if (lower.includes('sanctions') || lower.includes('ofac') || lower.includes('pepcheck') || lower.includes('pep checker') || lower.includes('namescan') || lower.includes('opensanctions')) return '<i data-lucide="shield-check"></i>';
+  if (lower.includes('property') || lower.includes('regrid') || lower.includes('redfin') || lower.includes('netr online')) return '<i data-lucide="building-2"></i>';
+  if (lower.includes('salary') || lower.includes('transparent california') || lower.includes('salary db')) return '<i data-lucide="trending-up"></i>';
+
+  // ── Finance / Business ────────────────────────────────────────────────────
+  if (lower.includes('opencorporates') || lower.includes('companies house') || lower.includes('openownership') || lower.includes('vat number') || lower.includes('icij')) return '<i data-lucide="building-2"></i>';
+  if (lower.includes('bloomberg') || lower.includes('crunchbase') || lower.includes('opensecrets') || lower.includes('fec') || lower.includes('political money')) return '<i data-lucide="trending-up"></i>';
+
+  // ── Encoding / Decoding ───────────────────────────────────────────────────
+  if (lower.includes('cyberchef')) return '<i data-lucide="wrench"></i>';
+  if (lower.includes('xor') || lower.includes('cipher') || lower.includes('base64') || lower.includes('js beautif') || lower.includes('deobfuscat')) return '<i data-lucide="braces"></i>';
+
+  // ── Search Engines ────────────────────────────────────────────────────────
+  if (lower.includes('duckduckgo')) return '<i data-lucide="search"></i>';
+  if (lower.includes('google') && !lower.includes('map') && !lower.includes('image') && !lower.includes('earth') && !lower.includes('lens') && !lower.includes('video') && !lower.includes('news') && !lower.includes('trend') && !lower.includes('patent')) return '<i data-lucide="search"></i>';
+  if (lower.includes('bing') && !lower.includes('image') && !lower.includes('video') && !lower.includes('map') && !lower.includes('ip search')) return '<i data-lucide="search"></i>';
+  if (lower.includes('yandex') && !lower.includes('image') && !lower.includes('map')) return '<i data-lucide="search"></i>';
+  if (lower.includes('baidu') && !lower.includes('image') && !lower.includes('map')) return '<i data-lucide="search"></i>';
 
   if (!text) return '?';
   const first = text.charAt(0).toUpperCase();
