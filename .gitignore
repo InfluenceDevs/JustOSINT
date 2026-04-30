@@ -1,2 +1,6 @@
-.vercel
-.env*.local
+node_modules/
+debug_inspect.js
+inspect.js
+screenshot_debug.png
+package.json
+package-lock.json
